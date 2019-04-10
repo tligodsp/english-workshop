@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '../node_modules/bootswatch/dist/lumen/bootstrap.min.css';
 
-body {
-    background-color: gray;
+html, body {
+  background: red;
+  height: 100%;
 }
