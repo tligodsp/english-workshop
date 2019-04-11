@@ -28,12 +28,30 @@
     </h1>
     <ul *ngFor="let item of difficulties" class="my-options">
       <li>
-        <button class="btn btn-lg btn-outline-light btn-block">
+        <button class="btn btn-lg btn-outline-light btn-block" [class.active]="selectedDifficulty==item" (click)="selectDifficulty(item)">
           <span class="float-left">{{item.name}}</span>
           <span class="float-right">{{item.minutes}} phút mỗi ngày</span>
         </button>
       </li>
     </ul>
-    <button class="btn btn-light btn-lg btn-block mt-5" style="color: #2cb5e8">Đặt mục tiêu</button>
+    <button class="btn btn-light btn-lg btn-block mt-5" style="color: #2cb5e8" (click)="openConfirmModal(confirmModal)">Đặt mục tiêu</button>
   </div>
 </div>
+
+<ng-template #confirmModal>
+  <div class="modal-header">
+    <h4 class="modal-title font-weight-bolder pull-left">Xác Nhận</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="lead">
+      Bạn có muốn xác nhận độ khó <span class="font-weight-bold text-success">{{selectedDifficulty.name}}</span> với mục tiêu <span class="font-weight-bold text-success">{{selectedDifficulty.minutes}} phút</span> mỗi ngày không?
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
+    <button type="button" class="btn btn-success" (click)="confirmDifficulty()">Xác nhận</button>
+  </div>
+</ng-template>
