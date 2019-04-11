@@ -21,7 +21,7 @@
 #showcase {
   position: relative;
   background-image: url('../../assets/night-background.png');
-  min-height: 600px;
+  height: 100vh;
 }
 
 #showcase .primary-overlay {
