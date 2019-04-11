@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { ExercisePageComponent } from './exercise/exercise-page/exercise-page.component';
+import { SentenceCorrectingComponent } from './exercise/sentence-correcting/sentence-correcting.component';
 
 @NgModule({
    declarations: [
@@ -15,6 +16,7 @@ import { ExercisePageComponent } from './exercise/exercise-page/exercise-page.co
       ShowcaseComponent,
       WelcomePageComponent,
       ExercisePageComponent,
+      SentenceCorrectingComponent,
    ],
    imports: [
       BrowserModule,
