@@ -33,13 +33,11 @@ export class VieEngImagePickingExercise extends Exercise {
     getOptions(): Vocabulary[] {
         return this.options;
     }
-    getRequirement(): string {
-        //console.log(this.options);
-        return 'Chọn từ cho "' + this.options[this.correctId].vieMeaning + '"';
-    }
+
     initExercise(vocabData: Vocabulary[]) {
         this.type = "vieengimagepicking";
         this.setOptions(vocabData);
+        this.requirement = 'Chọn từ cho "' + this.options[this.correctId].vieMeaning + '"';
     }
     constructor() {
         super();

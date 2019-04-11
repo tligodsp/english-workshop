@@ -1,11 +1,24 @@
-.imageCard {
+.imageCardsContainer {
+    list-style-type: none;
+    margin: 2rem 0 0 0;
+    padding: 0;
+}
+.imageCardsContainer .imageCard {
     margin: 0 1rem 0 0;
     border-width: 0.25rem;
     border-radius: 1rem;
+    cursor: pointer;
 }
-.imageCard .image {
+.imageCardsContainer .imageCard .image {
     padding: 1rem 0;
+    max-height: 210px;
 }
-.imageCard:hover {
+.imageCardsContainer .imageCard .bodyText {
+    position: absolute; 
+    bottom: 1rem;
+    text-align: center;
+    margin: auto;
+}
+.imageCardsContainer .imageCard:hover {
     opacity: 0.75;
 }
