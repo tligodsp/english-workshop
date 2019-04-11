@@ -14,10 +14,6 @@
   font: white;
 }
 
-.language-text {
-  font-weight: bolder;
-}
-
 #showcase {
   position: relative;
   background-image: url('../../assets/night-background.png');
@@ -35,4 +31,4 @@
 
 #showcase #enroll-button {
   width: 300px;
-} 
+}
