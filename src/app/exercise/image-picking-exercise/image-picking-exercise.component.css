@@ -1,0 +1,11 @@
+.imageCard {
+    margin: 0 1rem 0 0;
+    border-width: 0.25rem;
+    border-radius: 1rem;
+}
+.imageCard .image {
+    padding: 1rem 0;
+}
+.imageCard:hover {
+    opacity: 0.75;
+}
