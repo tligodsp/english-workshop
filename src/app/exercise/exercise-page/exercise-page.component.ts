@@ -9,16 +9,21 @@ import { Exercise } from '../../models/exercise';
 })
 export class ExercisePageComponent implements OnInit {
   exerciseType: string;
+  chosenAnswer: string;
+  correctAnswers: string[];
 
-  checkAnswer($event) {
-    console.log($event);
-    let chosenAnswer = $event.chosenAnswer;
-    let correctAnswers = $event.correctAnswers;
-    if (correctAnswers.includes(chosenAnswer)) {
-      console.log('Correct');
+  saveAnswer($event) {
+    //console.log($event);
+    this.chosenAnswer = $event.chosenAnswer;
+    this.correctAnswers = $event.correctAnswers;
+  }
+
+  checkAnswer() {
+    if (this.correctAnswers.includes(this.chosenAnswer)) {
+      console.log('Correct'); //Temporary
     }
     else {
-      console.log('Incorrect');
+      console.log('Incorrect'); //Temporary
     }
   }
 

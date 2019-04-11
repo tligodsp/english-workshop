@@ -12,11 +12,13 @@ import { Output, EventEmitter } from '@angular/core';
 export class ImagePickingExerciseComponent implements OnInit {
   exercise: VieEngImagePickingExercise = new VieEngImagePickingExercise();
   vocabData: Vocabulary[];
+  chosenId: number;
   @Output() sendAnswerEvent = new EventEmitter<Object>();
 
   constructor(private vocabularyService: VocabularyService) { }
 
-  sendAnswer(option: Vocabulary) {
+  sendAnswer(option: Vocabulary, index: number) {
+    this.chosenId = index;
     this.sendAnswerEvent.emit({ chosenAnswer: option.engWord, correctAnswers: this.exercise.correctAnswers  });
   }
 
@@ -24,6 +26,7 @@ export class ImagePickingExerciseComponent implements OnInit {
     this.vocabularyService.getVocabularies()
         .subscribe(vocabularies => this.vocabData = vocabularies);
     this.exercise.initExercise(this.vocabData);
+    this.chosenId = -1;
   }
 
 }
