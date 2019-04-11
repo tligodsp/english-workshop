@@ -3,6 +3,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { Difficulty } from '../models/difficulty';
 import { DifficultyService } from '../services/difficulty.service';
+import { Router } from '@angular/router';
 
 const DIFFICULTIES = [
   { name: 'Dễ', minutes: 5},
@@ -22,7 +23,11 @@ export class WelcomePageComponent implements OnInit {
 
   modalRef: BsModalRef;
 
-  constructor(private difficultyService: DifficultyService, private modalService: BsModalService) { }
+  constructor(
+    private difficultyService: DifficultyService,
+    private modalService: BsModalService,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     this.getDifficulties();
@@ -30,7 +35,10 @@ export class WelcomePageComponent implements OnInit {
 
   getDifficulties(): void {
     this.difficultyService.getDifficulties()
-      .subscribe(difficulties => this.difficulties = difficulties);
+      .subscribe((difficulties: Difficulty[]) => {
+        this.difficulties = difficulties;
+        this.selectedDifficulty = difficulties[1];
+      });
   }
 
   selectDifficulty(difficulty: Difficulty): void {
@@ -57,5 +65,6 @@ export class WelcomePageComponent implements OnInit {
     localStorage.setItem('difficulty', JSON.stringify(this.selectedDifficulty));
 
     this.modalRef.hide();
+    this.router.navigateByUrl('/exercise');
   }
 }

@@ -28,13 +28,13 @@
     </h1>
     <ul *ngFor="let item of difficulties" class="my-options">
       <li>
-        <button class="btn btn-lg btn-outline-light btn-block" [class.active]="selectedDifficulty==item" (click)="selectDifficulty(item)">
+        <button class="btn btn-lg btn-outline-light btn-block shadow-none" [class.active]="selectedDifficulty==item" (click)="selectDifficulty(item)">
           <span class="float-left">{{item.name}}</span>
           <span class="float-right">{{item.minutes}} phút mỗi ngày</span>
         </button>
       </li>
     </ul>
-    <button class="btn btn-light btn-lg btn-block mt-5" style="color: #2cb5e8" (click)="openConfirmModal(confirmModal)">Đặt mục tiêu</button>
+    <button class="btn btn-light btn-lg btn-block mt-5 shadow-none" style="color: #2cb5e8" (click)="openConfirmModal(confirmModal)">Đặt mục tiêu</button>
   </div>
 </div>
 
