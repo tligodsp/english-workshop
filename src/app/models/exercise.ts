@@ -5,7 +5,7 @@ import { Options } from 'selenium-webdriver/safari';
 export class Exercise {
     requirement: string; //Vd: Viet muc nay bang tieng Viet, Danh dau nghia dung,...
     type: string;
-    correctAnswer: string;
+    correctAnswers: string[] = [];
 }
 
 export class VieEngImagePickingExercise extends Exercise {
@@ -28,7 +28,7 @@ export class VieEngImagePickingExercise extends Exercise {
         //Chọn correctId
         this.correctId = Math.floor(Math.random() * 3);
         //correctAnswer
-        this.correctAnswer = this.options[this.correctId].engWord;
+        this.correctAnswers.push(this.options[this.correctId].engWord);
     }
     getOptions(): Vocabulary[] {
         return this.options;

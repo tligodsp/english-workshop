@@ -2,7 +2,7 @@
   <ul class="row imageCardsContainer">
     <li *ngFor="let option of exercise.options" 
         class="card col imageCard"
-        (click)="sendAnswer()">
+        (click)="sendAnswer(option)">
         <img class="card-img-top image" src="../../../assets/images/image-picking-exercise/{{option.illustration}}" alt="Card image cap">
         <div class="card-body">
           <p class="card-text lead bodyText">{{option.engWord}}</p>
