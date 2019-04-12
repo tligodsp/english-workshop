@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ImagePickingExerciseComponent } from '../image-picking-exercise/image-picking-exercise.component';
+import { Exercise } from '../../models/exercise';
 
 @Component({
   selector: 'app-exercise-page',
@@ -8,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class ExercisePageComponent implements OnInit {
   chosenAnswer: string;
   correctAnswers: string[];
-  
+
   constructor() { }
 
   ngOnInit() {
@@ -20,5 +22,13 @@ export class ExercisePageComponent implements OnInit {
     this.correctAnswers = $event.correctAnswers;
   }
 
+  checkAnswer() {
+    if (this.correctAnswers.includes(this.chosenAnswer)) {
+      console.log('Correct'); //Temporary
+    }
+    else {
+      console.log('Incorrect'); //Temporary
+    }
+  }
 
 }
