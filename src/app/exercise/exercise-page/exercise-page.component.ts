@@ -8,9 +8,13 @@ import { Exercise } from '../../models/exercise';
   styleUrls: ['./exercise-page.component.css']
 })
 export class ExercisePageComponent implements OnInit {
-  exerciseType: string;
   chosenAnswer: string;
   correctAnswers: string[];
+
+  constructor() { }
+
+  ngOnInit() {
+  }
 
   saveAnswer($event) {
     //console.log($event);
@@ -25,11 +29,6 @@ export class ExercisePageComponent implements OnInit {
     else {
       console.log('Incorrect'); //Temporary
     }
-  }
-
-  constructor() { }
-
-  ngOnInit() {
   }
 
 }
