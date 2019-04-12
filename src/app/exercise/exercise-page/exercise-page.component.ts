@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 
-const TYPE_LIST = ['sentence-correcting', 'image-picking'];
+const TYPE_LIST = ['sentence-correcting', 'image-picking', 'picture-translating', 'sentence-translating'];
 
 @Component({
   selector: 'app-exercise-page',
@@ -11,7 +11,7 @@ const TYPE_LIST = ['sentence-correcting', 'image-picking'];
 export class ExercisePageComponent implements OnInit {
   currentExerciseType: string = '';
   currentQuestionNumber: number = 1;
-  maxQuestionNumber: number = 12; // Tạm thời, sau này sẽ sửa thành @Input
+  maxQuestionNumber: number = 8; // Tạm thời, sau này sẽ sửa thành @Input
 
   chosenAnswer: string;
   correctAnswers: string[] = [];
@@ -25,7 +25,7 @@ export class ExercisePageComponent implements OnInit {
   }
 
   getProgressWidth() {
-    return (this.currentQuestionNumber / this.maxQuestionNumber) * 100;
+    return ((this.currentQuestionNumber - 1) / this.maxQuestionNumber) * 100;
   }
 
   generateRandomExerciseType() {
