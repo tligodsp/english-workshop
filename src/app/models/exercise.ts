@@ -78,12 +78,12 @@ export class SentenceCorrectingExercise extends Exercise {
     //** Chọn random 1 Sentence trong Sentence[] và set các thuộc tính liên quan */
     chooseSentence(sentences: Sentence[]) {
         this.chosenSentence = sentences[Math.floor(Math.random() * sentences.length)];
-        this.correctAnswers.push(this.chosenSentence.vie);
+        this.correctAnswers = this.wordsToChoose.concat(this.chosenSentence.vie);
     }
 
     //** Set các lựa chọn words gồm các chữ đúng cộng thêm 4 chữ random */
     setWordsToChoose(): void {
-        const wordsOfChosenSentence = this.chosenSentence.vie.split(" "); // Tách câu ra thành mảng các chữ
+        const wordsOfChosenSentence = this.chosenSentence.vie[0].split(" "); // Tách câu ra thành mảng các chữ
         this.wordsToChoose = this.wordsToChoose.concat(wordsOfChosenSentence);
 
         const numberOfWords = wordsOfChosenSentence.length + 4;

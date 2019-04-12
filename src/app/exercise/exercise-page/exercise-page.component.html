@@ -3,28 +3,28 @@
   <div class="border-bottom d-flex align-items-center" style="background-color: #eee; height: 15vh;">
     <div class="container">
       <div class="progress bg-white">
-        <div class="progress-bar bg-primary" role="progressbar" style="width: 22%"></div>
+        <div class="progress-bar bg-primary" role="progressbar" [ngStyle]="{'width.%': getProgressWidth()}"></div>
       </div>
       <div class="mt-3">
         <div class="float-left">
           <button class="mt-2 close text-dark" tooltip="Đóng bài tập">X</button>
         </div>
-        <div class="text-center font-weight-bolder text-primary" style="font-size: 1.6rem;">Câu hỏi: <span class="badge badge-pill badge-primary">5/12</span></div>
+        <div class="text-center font-weight-bolder text-primary" style="font-size: 1.6rem;">
+          Câu hỏi: <span class="badge badge-pill badge-primary">{{currentQuestionNumber}}/{{maxQuestionNumber}}</span>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="d-flex align-items-center justify-content-center" style="height: 70vh;">
-    <div class="container">
+    <div class="container" [ngSwitch]="currentExerciseType">
       <!-- Chỗ nhét câu hỏi -->
-      <!-- <app-sentence-correcting (sendAnswerEvent)="saveAnswer($event)"></app-sentence-correcting>       -->
-      <!-- <app-image-picking-exercise (sendAnswerEvent)="saveAnswer($event)"></app-image-picking-exercise> -->
-      <!-- <app-picture-translating (sendAnswerEvent)="saveAnswer($event)"></app-picture-translating> -->
-      <app-sentence-translating (sendAnswerEvent)="saveAnswer($event)"></app-sentence-translating>
+      <app-sentence-correcting *ngSwitchCase="'sentence-correcting'" (sendAnswerEvent)="saveAnswer($event)"></app-sentence-correcting>
+      <app-image-picking-exercise *ngSwitchCase="'image-picking'" (sendAnswerEvent)="saveAnswer($event)"></app-image-picking-exercise>
     </div>
   </div>
 
-  <div class="border-top d-flex align-items-center" style="background-color: #eee; height: 15vh;">
+  <div *ngIf="isCorrect === null" class="border-top d-flex align-items-center" style="background-color: #eee; height: 15vh;">
     <div class="container">
       <div class="row justify-content-between">
         <div class="col">
@@ -35,6 +35,47 @@
             class="btn btn-success btn-lg" 
             tooltip="Xác nhận câu trả lời của bạn"
             (click)="checkAnswer()">Xác nhận</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isCorrect === true" class="border-top d-flex align-items-center" style="background-color: #c7fcda; height: 15vh;">
+    <div class="container">
+      <div class="row justify-content-between align-items-center">
+        <div class="col">
+          <div class="d-flex align-items-center text-success">
+            <i class="fas fa-check-circle mr-4 scale-up-center" style="font-size: 4rem;"></i>
+            <h1 class=" font-weight-bolder mb-0">Chính xác.</h1>
+          </div>
+        </div>
+        <div class="col text-right">
+          <button 
+            class="btn btn-success btn-lg"
+            (click)="nextQuestion()"
+          >Tiếp tục</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isCorrect === false" class="border-top d-flex align-items-center" style="background-color: #ffc1cc; height: 15vh;">
+    <div class="container">
+      <div class="row justify-content-between align-items-center">
+        <div class="col">
+          <div class="d-flex align-items-center text-danger">
+            <i class="fas fa-check-circle mr-4 scale-up-center" style="font-size: 4rem;"></i>
+            <div>
+              <h1 class="font-weight-bolder mb-0">Đáp án đúng:</h1>
+              <p class="lead" style="font-size: 1.3rem; margin-bottom: 0;">{{correctAnswers[0]}}.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col text-right">
+          <button 
+            class="btn btn-danger btn-lg"
+            (click)="nextQuestion()"
+          >Tiếp tục</button>
         </div>
       </div>
     </div>

@@ -19,6 +19,8 @@ export class SentenceCorrectingComponent implements OnInit {
   ngOnInit() {
     // TODO: Get sentences bằng http
     this.exercise.initExercise(SENTENCES);
+
+    this.sendAnswer(); // Chủ yếu để send correctAnswers
   }
 
   sendAnswer() {
