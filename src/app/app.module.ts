@@ -12,6 +12,7 @@ import { ExercisePageComponent } from './exercise/exercise-page/exercise-page.co
 import { SentenceCorrectingComponent } from './exercise/sentence-correcting/sentence-correcting.component';
 import { ImagePickingExerciseComponent } from './exercise/image-picking-exercise/image-picking-exercise.component';
 import { PictureTranslatingComponent } from './exercise/picture-translating/picture-translating.component';
+import { SentenceTranslatingComponent } from './exercise/sentence-translating/sentence-translating.component';
 
 @NgModule({
    declarations: [
@@ -22,6 +23,7 @@ import { PictureTranslatingComponent } from './exercise/picture-translating/pict
       SentenceCorrectingComponent,
       ImagePickingExerciseComponent,
       PictureTranslatingComponent,
+      SentenceTranslatingComponent,
    ],
    imports: [
       BrowserModule,
