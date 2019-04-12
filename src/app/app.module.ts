@@ -9,6 +9,7 @@ import { ShowcaseComponent } from './showcase/showcase.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { ExercisePageComponent } from './exercise/exercise-page/exercise-page.component';
 import { ImagePickingExerciseComponent } from './exercise/image-picking-exercise/image-picking-exercise.component';
+import { VocabPickingExerciseComponent } from './exercise/vocab-picking-exercise/vocab-picking-exercise.component';
 
 @NgModule({
    declarations: [
@@ -17,6 +18,7 @@ import { ImagePickingExerciseComponent } from './exercise/image-picking-exercise
       WelcomePageComponent,
       ExercisePageComponent,
       ImagePickingExerciseComponent,
+      VocabPickingExerciseComponent,
    ],
    imports: [
       BrowserModule,
