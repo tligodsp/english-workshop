@@ -1,0 +1,9 @@
+.my-input-container {
+    height: 50%;
+}
+.my-input-container .my-input-field {
+    height: 100%;
+    border-width: 0.15rem;
+    border-radius: 0.75rem;
+    resize: none;
+}

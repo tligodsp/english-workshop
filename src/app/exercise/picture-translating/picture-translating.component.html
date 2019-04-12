@@ -1,4 +1,4 @@
-<div class="container" style="padding: 0 15rem; margin:auto; background-color: white">
+<div class="container" style="padding: 0 15rem; margin:auto">
   <h2 style="margin: 0">{{exercise.requirement}}</h2>
   <div class="form-group row my-form">
     <img class="col-4 rounded float-left image"
@@ -8,7 +8,8 @@
       <input 
         [(ngModel)]="userInput"
         (ngModelChange)="sendAnswer()"
-        class="form-control my-input-field" id="inputEmail3" 
+        type="text"
+        class="form-control my-input-field"
         placeholder="Nhập bằng Tiếng Anh">
     </div>
   </div>

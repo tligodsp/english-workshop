@@ -62,8 +62,6 @@ export class PictureTraslatingExercise extends Exercise {
     }
 }
 
-
-
 import { Sentence } from './sentence'
 import { VIE_WORDS } from '../mock-words';
 import { ArrayHelper } from '../helpers/array-helper';
@@ -107,5 +105,25 @@ export class SentenceCorrectingExercise extends Exercise {
         this.setWordsToChoose();
         this.type = 'engvie-sentencecorrecting';
         this.requirement = `${this.chosenSentence.eng} nghĩa là:`
+    }
+}
+
+export class SentenceTranslatingExercise extends Exercise {
+    chosenSentence: Sentence;
+    
+    constructor() {
+        super();
+    }
+
+    //** Chọn random 1 Sentence trong Sentence[] và set các thuộc tính liên quan */
+    chooseSentence(sentences: Sentence[]) {
+        this.chosenSentence = sentences[Math.floor(Math.random() * sentences.length)];
+        this.correctAnswers.push(this.chosenSentence.vie);
+    }
+
+    initExercise(sentences: Sentence[]) {
+        this.chooseSentence(sentences);
+        this.type = 'engvie-sentencetranslating';
+        this.requirement = 'Viết mục này bằng Tiếng Việt:';
     }
 }

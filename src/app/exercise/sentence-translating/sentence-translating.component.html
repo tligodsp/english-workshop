@@ -1,0 +1,8 @@
+<div class="container" style="padding: 0 15rem; height: 15rem">
+  <h2 style="margin: 0">{{exercise.requirement}}</h2>
+  <h2 class="font-weight-bold" style="margin: 1rem 0"><span class="badge badge-success">{{exercise.chosenSentence.eng}}.</span></h2>
+  <div class="my-input-container">
+    <textarea [(ngModel)]="userInput" (ngModelChange)="sendAnswer()" type="text" class="form-control my-input-field"
+      placeholder="Nhập bằng Tiếng Anh"></textarea>
+  </div>
+</div>

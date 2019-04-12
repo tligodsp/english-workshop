@@ -10,5 +10,6 @@
     position: absolute;
     bottom: 4rem;
     border-width: 0.15rem;
+    border-radius: 0.75rem;
     max-width: 20rem;
 }
