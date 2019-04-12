@@ -1,6 +1,4 @@
 import { Vocabulary } from './vocabulary';
-import { VocabularyService } from '../vocabulary.service';
-import { Options } from 'selenium-webdriver/safari';
 
 export class Exercise {
     requirement: string; //Vd: Viet muc nay bang tieng Viet, Danh dau nghia dung,...
@@ -35,7 +33,7 @@ export class VieEngImagePickingExercise extends Exercise {
     }
 
     initExercise(vocabData: Vocabulary[]) {
-        this.type = "vieengimagepicking";
+        this.type = "vieeng-imagepicking";
         this.setOptions(vocabData);
         this.requirement = 'Chọn từ cho "' + this.options[this.correctId].vieMeaning + '"';
     }
@@ -44,7 +42,25 @@ export class VieEngImagePickingExercise extends Exercise {
     }
 }
 
+export class PictureTraslatingExercise extends Exercise {
+    wordToTranslate: Vocabulary;
+    
+    constructor() {
+        super();
+    }
 
+    setWordToTranslate(vocab: Vocabulary[]) {
+        //Chọn một từ ngẫu nhiên để dịch
+        this.wordToTranslate = vocab[Math.floor(Math.random() * vocab.length)];
+        this.correctAnswers.push(this.wordToTranslate.engWord);
+    }
+
+    initExercise(vocadData: Vocabulary[]) {
+        this.type = "vieeng-picturetranslating";
+        this.setWordToTranslate(vocadData);
+        this.requirement = 'Ghi "' + this.wordToTranslate.vieMeaning + '" bằng Tiếng Anh';
+    }
+}
 
 import { Sentence } from './sentence'
 import { VIE_WORDS } from '../mock-words';
@@ -89,5 +105,25 @@ export class SentenceCorrectingExercise extends Exercise {
         this.setWordsToChoose();
         this.type = 'engvie-sentencecorrecting';
         this.requirement = `${this.chosenSentence.eng} nghĩa là:`
+    }
+}
+
+export class SentenceTranslatingExercise extends Exercise {
+    chosenSentence: Sentence;
+    
+    constructor() {
+        super();
+    }
+
+    //** Chọn random 1 Sentence trong Sentence[] và set các thuộc tính liên quan */
+    chooseSentence(sentences: Sentence[]) {
+        this.chosenSentence = sentences[Math.floor(Math.random() * sentences.length)];
+        this.correctAnswers.push(this.chosenSentence.vie);
+    }
+
+    initExercise(sentences: Sentence[]) {
+        this.chooseSentence(sentences);
+        this.type = 'engvie-sentencetranslating';
+        this.requirement = 'Viết mục này bằng Tiếng Việt:';
     }
 }
