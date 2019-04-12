@@ -3,7 +3,7 @@ import { Vocabulary } from './vocabulary';
 export class Exercise {
     requirement: string; //Vd: Viet muc nay bang tieng Viet, Danh dau nghia dung,...
     type: string;
-    correctAnswer: string[] = [];
+    correctAnswers: string[] = [];
 }
 
 export class VieEngImagePickingExercise extends Exercise {
@@ -42,13 +42,12 @@ export class SentenceCorrectingExercise extends Exercise {
     //** Chọn random 1 Sentence trong Sentence[] và set các thuộc tính liên quan */
     chooseSentence(sentences: Sentence[]) {
         this.chosenSentence = sentences[Math.floor(Math.random() * sentences.length)];
-        this.correctAnswer.push(this.chosenSentence.vie);
+        this.correctAnswers.push(this.chosenSentence.vie);
     }
 
     //** Set các lựa chọn words gồm các chữ đúng cộng thêm 4 chữ random */
     setWordsToChoose(): void {
         const wordsOfChosenSentence = this.chosenSentence.vie.split(" "); // Tách câu ra thành mảng các chữ
-        wordsOfChosenSentence[0] = wordsOfChosenSentence[0].toLowerCase(); // Viết thường chữ cái đầu của chữ đầu
         this.wordsToChoose = this.wordsToChoose.concat(wordsOfChosenSentence);
 
         const numberOfWords = wordsOfChosenSentence.length + 4;
