@@ -17,11 +17,16 @@ export class ExercisePageComponent implements OnInit {
   correctAnswers: string[] = [];
   isCorrect: boolean = null;
 
+  correctSound = new Audio();
+  incorrectSound = new Audio();
+
   constructor() { }
 
   ngOnInit() {
     this.generateRandomExerciseType();
-    console.log(this.getProgressWidth());
+    
+    this.correctSound.src = '../../assets/sounds/correct.mp3';
+    this.incorrectSound.src = '../../assets/sounds/incorrect.mp3';
   }
 
   getProgressWidth() {
@@ -45,9 +50,11 @@ export class ExercisePageComponent implements OnInit {
 
   checkAnswer() {
     if (this.correctAnswers.includes(this.chosenAnswer.toLowerCase())) {
+      this.correctSound.play();
       this.isCorrect = true;
     }
     else {
+      this.incorrectSound.play();
       this.isCorrect = false;
     }
   }
