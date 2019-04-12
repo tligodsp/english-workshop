@@ -1,8 +1,12 @@
 <h1 class="font-weight-bolder">Viết mục này bằng Tiếng Việt:</h1>
 <h1 class="ml-4 font-weight-bold"><span class="badge badge-success">{{exercise.chosenSentence.eng}}.</span></h1>
 <div style="height: 60px; border-bottom: 2px dotted #ccc; margin-top: 5rem;">
-  <!-- <button class="word-card" *ngFor="let item of this.exercise.wordsToChoose">{{item}}</button> -->
+  <button class="word-card" *ngFor="let item of wordsChoosing" (click)="removeWord(item)">{{item}}</button>
 </div>
 <div class="mt-5 text-center">
-  <button class="word-card" *ngFor="let item of this.exercise.wordsToChoose">{{item}}</button>
+  <button
+    class="word-card" *ngFor="let item of exercise.wordsToChoose"
+    (click)="chooseWord(item)"
+    [attr.disabled]="wordsChoosing.includes(item) ? true : null"
+  >{{item}}</button>
 </div>

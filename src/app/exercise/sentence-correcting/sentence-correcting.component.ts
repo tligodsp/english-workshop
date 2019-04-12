@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { SentenceCorrectingExercise } from '../../models/exercise';
 import { SENTENCES } from '../../mock-sentences';
+import { ArrayHelper } from 'src/app/helpers/array-helper';
 
 @Component({
   selector: 'app-sentence-correcting',
@@ -10,6 +11,7 @@ import { SENTENCES } from '../../mock-sentences';
 })
 export class SentenceCorrectingComponent implements OnInit {
   exercise: SentenceCorrectingExercise = new SentenceCorrectingExercise();
+  wordsChoosing: string[] = [];
 
   constructor() { }
 
@@ -18,8 +20,11 @@ export class SentenceCorrectingComponent implements OnInit {
     this.exercise.initExercise(SENTENCES);
   }
 
-  test() {
-    console.log(this.exercise.chosenSentence);
-    console.log(this.exercise.wordsToChoose);
+  chooseWord(word: string) {
+    this.wordsChoosing.push(word);
+  }
+
+  removeWord(word: string) {
+    this.wordsChoosing = ArrayHelper.removeItemByValue(this.wordsChoosing, word);
   }
 }

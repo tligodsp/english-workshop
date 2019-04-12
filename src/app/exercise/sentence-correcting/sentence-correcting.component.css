@@ -2,6 +2,11 @@ button:focus {
   outline: 0;
 }
 
+button:disabled {
+  background: #ccc;
+  color: #ccc;
+}
+
 .word-card {
   padding: 3px 10px;
   margin-right: 15px;

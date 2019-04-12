@@ -28,14 +28,8 @@ export class VieEngImagePickingExercise extends Exercise {
 
 import { Sentence } from './sentence'
 import { VIE_WORDS } from '../mock-words';
+import { ArrayHelper } from '../helpers/array-helper';
 
-const shuffleArray = (a) => {
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-}
 
 export class SentenceCorrectingExercise extends Exercise {
     chosenSentence: Sentence;
@@ -68,7 +62,7 @@ export class SentenceCorrectingExercise extends Exercise {
         }
 
         // Shuffle array lên
-        this.wordsToChoose = shuffleArray(this.wordsToChoose);
+        this.wordsToChoose = ArrayHelper.shuffleArray(this.wordsToChoose);
     }
 
     initExercise(sentences: Sentence[]) {
