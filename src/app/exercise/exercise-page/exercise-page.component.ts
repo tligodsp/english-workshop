@@ -9,7 +9,8 @@ import { Exercise } from '../../models/exercise';
 })
 export class ExercisePageComponent implements OnInit {
   chosenAnswer: string;
-  correctAnswers: string[];
+  correctAnswers: string[] = [];
+  isCorrect: boolean = null;
 
   constructor() { }
 
@@ -24,11 +25,15 @@ export class ExercisePageComponent implements OnInit {
 
   checkAnswer() {
     if (this.correctAnswers.includes(this.chosenAnswer)) {
-      console.log('Correct'); //Temporary
+      this.isCorrect = true;
     }
     else {
-      console.log('Incorrect'); //Temporary
+      this.isCorrect = false;
     }
+  }
+
+  nextQuestion() {
+    
   }
 
 }
