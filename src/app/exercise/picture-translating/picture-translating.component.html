@@ -1,0 +1,15 @@
+<div class="container" style="padding: 0 15rem; margin:auto; background-color: white">
+  <h2 style="margin: 0">{{exercise.requirement}}</h2>
+  <div class="form-group row my-form">
+    <img class="col-4 rounded float-left image"
+      src="../../../assets/images/image-picking-exercise/{{exercise.wordToTranslate.illustration}}"
+      alt="Card image cap">
+    <div class="col-8">
+      <input 
+        [(ngModel)]="userInput"
+        (ngModelChange)="sendAnswer()"
+        class="form-control my-input-field" id="inputEmail3" 
+        placeholder="Nhập bằng Tiếng Anh">
+    </div>
+  </div>
+</div>

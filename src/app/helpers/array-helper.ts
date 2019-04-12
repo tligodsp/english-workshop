@@ -20,4 +20,10 @@ export class ArrayHelper {
 
     return newArr;
   }
+
+  static stringArrayToLowerCase(arr: string[]): string[] { //Convert all elements of a string array to lower case
+    let newArr = arr;
+    newArr.map(x => x.toLowerCase());
+    return newArr;
+  }
 }

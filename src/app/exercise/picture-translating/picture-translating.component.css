@@ -1,0 +1,14 @@
+.my-form {
+    margin: 2rem 2rem 0 -2rem;
+}
+
+.image {
+    max-height: 190px;
+}
+
+.my-input-field {
+    position: absolute;
+    bottom: 4rem;
+    border-width: 0.15rem;
+    max-width: 20rem;
+}
