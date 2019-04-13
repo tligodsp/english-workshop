@@ -1,0 +1,21 @@
+button:focus {
+  outline: 0;
+}
+
+button:disabled {
+  background: #ccc;
+  color: #ccc;
+}
+
+.word-card {
+  padding: 3px 10px;
+  margin-right: 15px;
+  background: white;
+  text-decoration: none;
+  color: #666;
+  font-size: 1.5rem;
+  border: none;
+  border: 2px solid #ccc;
+  border-radius: 20%;
+  border-bottom-width: 4px;
+}

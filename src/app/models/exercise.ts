@@ -1,6 +1,4 @@
 import { Vocabulary } from './vocabulary';
-import { VocabularyService } from '../vocabulary.service';
-import { Options } from 'selenium-webdriver/safari';
 
 export class Exercise {
     requirement: string; //Vd: Viet muc nay bang tieng Viet, Danh dau nghia dung,...
@@ -35,7 +33,7 @@ export class VieEngImagePickingExercise extends Exercise {
     }
 
     initExercise(vocabData: Vocabulary[]) {
-        this.type = "vieengimagepicking";
+        this.type = "vieeng-imagepicking";
         this.setOptions(vocabData);
         this.requirement = 'Chọn từ cho "' + this.options[this.correctId].vieMeaning + '"';
     }
@@ -43,6 +41,7 @@ export class VieEngImagePickingExercise extends Exercise {
         super();
     }
 }
+
 export class VocabPickingExercise extends Exercise
 {
     options: Vocabulary[]=[];
@@ -73,5 +72,91 @@ export class VocabPickingExercise extends Exercise
     }
     constructor() {
         super();
+    }
+}
+
+export class PictureTraslatingExercise extends Exercise {
+    wordToTranslate: Vocabulary;
+    
+    constructor() {
+        super();
+    }
+
+    setWordToTranslate(vocab: Vocabulary[]) {
+        //Chọn một từ ngẫu nhiên để dịch
+        this.wordToTranslate = vocab[Math.floor(Math.random() * vocab.length)];
+        this.correctAnswers.push(this.wordToTranslate.engWord);
+    }
+
+    initExercise(vocadData: Vocabulary[]) {
+        this.type = "vieeng-picturetranslating";
+        this.setWordToTranslate(vocadData);
+        this.requirement = 'Ghi "' + this.wordToTranslate.vieMeaning + '" bằng Tiếng Anh';
+    }
+}
+
+import { Sentence } from './sentence'
+import { VIE_WORDS } from '../mock-words';
+import { ArrayHelper } from '../helpers/array-helper';
+
+
+export class SentenceCorrectingExercise extends Exercise {
+    chosenSentence: Sentence;
+    wordsToChoose: string[] = [];
+
+    constructor() {
+        super();
+    }
+
+    //** Chọn random 1 Sentence trong Sentence[] và set các thuộc tính liên quan */
+    chooseSentence(sentences: Sentence[]) {
+        this.chosenSentence = sentences[Math.floor(Math.random() * sentences.length)];
+        this.correctAnswers = this.correctAnswers.concat(this.chosenSentence.vie);
+    }
+
+    //** Set các lựa chọn words gồm các chữ đúng cộng thêm 4 chữ random */
+    setWordsToChoose(): void {
+        const wordsOfChosenSentence = this.chosenSentence.vie[0].split(" "); // Tách câu ra thành mảng các chữ
+        this.wordsToChoose = this.wordsToChoose.concat(wordsOfChosenSentence);
+
+        const numberOfWords = wordsOfChosenSentence.length + 4;
+        while (this.wordsToChoose.length < numberOfWords) {
+            let fakeWordToPush;
+            do {
+                fakeWordToPush = VIE_WORDS[Math.floor(Math.random() * VIE_WORDS.length)];
+            } while (this.wordsToChoose.includes(fakeWordToPush));
+
+            this.wordsToChoose.push(fakeWordToPush);
+        }
+
+        // Shuffle array lên
+        this.wordsToChoose = ArrayHelper.shuffleArray(this.wordsToChoose);
+    }
+
+    initExercise(sentences: Sentence[]) {
+        this.chooseSentence(sentences);
+        this.setWordsToChoose();
+        this.type = 'engvie-sentencecorrecting';
+        this.requirement = `${this.chosenSentence.eng} nghĩa là:`
+    }
+}
+
+export class SentenceTranslatingExercise extends Exercise {
+    chosenSentence: Sentence;
+    
+    constructor() {
+        super();
+    }
+
+    //** Chọn random 1 Sentence trong Sentence[] và set các thuộc tính liên quan */
+    chooseSentence(sentences: Sentence[]) {
+        this.chosenSentence = sentences[Math.floor(Math.random() * sentences.length)];
+        this.correctAnswers = this.correctAnswers.concat(this.chosenSentence.vie);
+    }
+
+    initExercise(sentences: Sentence[]) {
+        this.chooseSentence(sentences);
+        this.type = 'engvie-sentencetranslating';
+        this.requirement = 'Viết mục này bằng Tiếng Việt:';
     }
 }

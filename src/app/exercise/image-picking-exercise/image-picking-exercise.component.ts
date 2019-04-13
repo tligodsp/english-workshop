@@ -27,6 +27,8 @@ export class ImagePickingExerciseComponent implements OnInit {
         .subscribe(vocabularies => this.vocabData = vocabularies);
     this.exercise.initExercise(this.vocabData);
     this.chosenId = -1;
+
+    this.sendAnswerEvent.emit({ correctAnswers: this.exercise.correctAnswers });
   }
 
 }
