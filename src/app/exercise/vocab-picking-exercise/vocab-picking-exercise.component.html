@@ -1,14 +1,15 @@
-<h2 style="margin: 0">Đánh dấu nghĩa đúng</h2>
-<h5 class="py-3">{{exercise.requirement}}.</h5>
-<ul *ngFor="let item of exercise.options; index as i" style="list-style: none">
+<div class="container" style="padding: 0 15rem">
+  <h2 style="margin: 0">Đánh dấu nghĩa đúng</h2>
+  <h5 class="py-3">{{exercise.requirement}}.</h5>
+  <ul *ngFor="let item of exercise.options; index as i" style="list-style: none">
     <li [ngStyle]="{
         'background-color':chosenId===i ? '#ccffff' : 'white',
         'border-color':chosenId===i ? '#3399ff' : '#ddd' 
       }">
-        <button type="button" class="btn btn-lg btn-outline-dark btn-block shadow-none" (click)="sendAnswer(item, i)">
-            <span class="float-left" style="color: black">{{i+1}}</span>
-            <span class="float-center">{{item.engWord}}</span>
-        </button>
+      <button type="button" class="btn btn-lg btn-outline-dark btn-block shadow-none" (click)="sendAnswer(item, i)">
+        <span class="float-left" style="color: black">{{i+1}}</span>
+        <span class="float-center">{{item.engWord}}</span>
+      </button>
     </li>
   </ul>
-
+</div>
