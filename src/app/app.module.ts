@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { FormsModule } from '@angular/forms';
+import { NgCircleProgressModule } from 'ng-circle-progress';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +14,7 @@ import { SentenceCorrectingComponent } from './exercise/sentence-correcting/sent
 import { ImagePickingExerciseComponent } from './exercise/image-picking-exercise/image-picking-exercise.component';
 import { PictureTranslatingComponent } from './exercise/picture-translating/picture-translating.component';
 import { SentenceTranslatingComponent } from './exercise/sentence-translating/sentence-translating.component';
+import { ExerciseMenuPageComponent } from './exercise-menu-page/exercise-menu-page.component';
 
 @NgModule({
    declarations: [
@@ -24,6 +26,7 @@ import { SentenceTranslatingComponent } from './exercise/sentence-translating/se
       ImagePickingExerciseComponent,
       PictureTranslatingComponent,
       SentenceTranslatingComponent,
+      ExerciseMenuPageComponent,
    ],
    imports: [
       BrowserModule,
@@ -31,6 +34,7 @@ import { SentenceTranslatingComponent } from './exercise/sentence-translating/se
       FormsModule,
       ModalModule.forRoot(),
       TooltipModule.forRoot(),
+      NgCircleProgressModule.forRoot(),
    ],
    providers: [],
    bootstrap: [
