@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { ExercisePageComponent } from './exercise/exercise-page/exercise-page.component';
+import { ResultPageComponent } from './exercise/result-page/result-page.component';
 
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'showcase', component: ShowcaseComponent },
   { path: 'welcome', component: WelcomePageComponent },
   { path: 'exercise', component: ExercisePageComponent },
+  { path: 'exercise/result', component: ResultPageComponent }
 ];
 
 @NgModule({

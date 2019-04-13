@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ImagePickingExerciseComponent } from '../image-picking-exercise/image-picking-exercise.component';
-import { VocabPickingExerciseComponent } from '../vocab-picking-exercise/vocab-picking-exercise.component';
-import { Exercise } from '../../models/exercise';
-
+import { Router } from '@angular/router';
 const TYPE_LIST = ['sentence-correcting', 'image-picking', 'picture-translating', 'sentence-translating'];
 
 @Component({
@@ -22,7 +19,7 @@ export class ExercisePageComponent implements OnInit {
   correctSound = new Audio();
   incorrectSound = new Audio();
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     this.generateRandomExerciseType();
@@ -64,6 +61,7 @@ export class ExercisePageComponent implements OnInit {
   nextQuestion() {
     if (this.currentQuestionNumber >= this.maxQuestionNumber) {
       console.log('Kết thúc bài học. Lưu thông tin vào localStorage và navigate tới trang chọn bài học.');
+      this.router.navigate(['/exercise/result']);
       return;
     }
 
