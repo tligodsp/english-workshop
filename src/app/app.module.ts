@@ -17,6 +17,7 @@ import { SentenceTranslatingComponent } from './exercise/sentence-translating/se
 import { ResultPageComponent } from './exercise/result-page/result-page.component';
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 @NgModule({
    declarations: [
@@ -46,6 +47,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
          innerStrokeColor: "#C7E596",
          animationDuration: 300,
        }),
+      PopoverModule.forRoot(),
    ],
    providers: [],
    bootstrap: [

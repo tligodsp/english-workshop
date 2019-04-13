@@ -18,7 +18,9 @@ export class PictureTranslatingComponent implements OnInit {
   constructor(private vocabularyService: VocabularyService) { }
 
   sendAnswer() {
-    this.sendAnswerEvent.emit({ chosenAnswer: this.userInput, correctAnswers: this.exercise.correctAnswers  });
+    this.sendAnswerEvent.emit({ chosenAnswer: this.userInput, 
+                                correctAnswers: this.exercise.correctAnswers,
+                                exerciseDetail: this.exercise.exerciseDetail  });
   }
 
   ngOnInit() {

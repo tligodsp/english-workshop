@@ -19,7 +19,9 @@ export class ImagePickingExerciseComponent implements OnInit {
 
   sendAnswer(option: Vocabulary, index: number) {
     this.chosenId = index;
-    this.sendAnswerEvent.emit({ chosenAnswer: option.engWord, correctAnswers: this.exercise.correctAnswers  });
+    this.sendAnswerEvent.emit({ chosenAnswer: option.engWord, 
+                                correctAnswers: this.exercise.correctAnswers,
+                                exerciseDetail: this.exercise.exerciseDetail  });
   }
 
   ngOnInit() {
