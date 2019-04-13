@@ -26,7 +26,7 @@ export class SentenceCorrectingComponent implements OnInit {
   sendAnswer() {
     const chosenAnswer = this.wordsChoosing.join(' ');
     const correctAnswers = this.exercise.correctAnswers;
-    this.sendAnswerEvent.emit({ chosenAnswer, correctAnswers });
+    this.sendAnswerEvent.emit({ chosenAnswer, correctAnswers, exerciseDetail: this.exercise.exerciseDetail  });
   }
 
   chooseWord(word: string) {
