@@ -4,6 +4,7 @@ const TYPE_LIST = ['engvie-sentencecorrecting', 'vieeng-imagepicking', 'vieeng-p
 import { Session } from '../../models/session';
 import { SessionService } from '../../session.service';
 
+
 @Component({
   selector: 'app-exercise-page',
   templateUrl: './exercise-page.component.html',
