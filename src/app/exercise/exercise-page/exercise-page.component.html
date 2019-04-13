@@ -19,6 +19,7 @@
   <div class="d-flex align-items-center justify-content-center" style="height: 70vh;">
     <div class="container" [ngSwitch]="currentExerciseType">
       <!-- Chỗ nhét câu hỏi -->
+      <app-vocab-picking-exercise *ngSwitchCase="'vocab-picking'" (sendAnswerEvent)="saveAnswer($event)"></app-vocab-picking-exercise>
       <app-sentence-correcting *ngSwitchCase="'sentence-correcting'" (sendAnswerEvent)="saveAnswer($event)"></app-sentence-correcting>
       <app-image-picking-exercise *ngSwitchCase="'image-picking'" (sendAnswerEvent)="saveAnswer($event)"></app-image-picking-exercise>
       <app-picture-translating *ngSwitchCase="'picture-translating'" (sendAnswerEvent)="saveAnswer($event)"></app-picture-translating>

@@ -11,6 +11,7 @@ import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { ExercisePageComponent } from './exercise/exercise-page/exercise-page.component';
 import { SentenceCorrectingComponent } from './exercise/sentence-correcting/sentence-correcting.component';
 import { ImagePickingExerciseComponent } from './exercise/image-picking-exercise/image-picking-exercise.component';
+import { VocabPickingExerciseComponent } from './exercise/vocab-picking-exercise/vocab-picking-exercise.component';
 import { PictureTranslatingComponent } from './exercise/picture-translating/picture-translating.component';
 import { SentenceTranslatingComponent } from './exercise/sentence-translating/sentence-translating.component';
 
@@ -22,6 +23,7 @@ import { SentenceTranslatingComponent } from './exercise/sentence-translating/se
       ExercisePageComponent,
       SentenceCorrectingComponent,
       ImagePickingExerciseComponent,
+      VocabPickingExerciseComponent,
       PictureTranslatingComponent,
       SentenceTranslatingComponent,
    ],

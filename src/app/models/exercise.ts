@@ -42,6 +42,39 @@ export class VieEngImagePickingExercise extends Exercise {
     }
 }
 
+export class VocabPickingExercise extends Exercise
+{
+    options: Vocabulary[]=[];
+    correctID : number;
+    setOptions(vocab : Vocabulary[])
+        {
+            //Chọn 3 từ từ database cho bài tập (phù hợp với level)
+            while (this.options.length<3) {
+                let id : number;
+                do{
+                    id=Math.floor(Math.random()*vocab.length);
+                } while(this.options.includes(vocab[id]));
+                this.options.push(vocab[id]);
+            }
+            //Chọn correctId
+            this.correctID = Math.floor(Math.random() * 3);
+            //correctAnswer
+            this.correctAnswers.push(this.options[this.correctID].engWord);
+        }
+    getOptions(): Vocabulary[] {
+        return this.options;
+    }
+    
+    initExercise(vocabData: Vocabulary[]) {
+        this.type = "vocabpicking";
+        this.setOptions(vocabData);
+        this.requirement =this.options[this.correctID].vieMeaning;
+    }
+    constructor() {
+        super();
+    }
+}
+
 export class PictureTraslatingExercise extends Exercise {
     wordToTranslate: Vocabulary;
     

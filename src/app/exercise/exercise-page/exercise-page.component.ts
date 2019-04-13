@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ImagePickingExerciseComponent } from '../image-picking-exercise/image-picking-exercise.component';
+import { VocabPickingExerciseComponent } from '../vocab-picking-exercise/vocab-picking-exercise.component';
+import { Exercise } from '../../models/exercise';
 
 const TYPE_LIST = ['sentence-correcting', 'image-picking', 'picture-translating', 'sentence-translating'];
 
