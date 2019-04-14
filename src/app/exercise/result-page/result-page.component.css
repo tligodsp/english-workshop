@@ -1,0 +1,64 @@
+.my-card {
+    border-width: 2px;
+    border-radius: 15px;
+}
+.line {
+    margin: 0 1rem; 
+    border-width: 2px;
+}
+.result-value {
+    font-weight: bold;
+    justify-content: flex-end;
+}
+.points {
+    font-weight: bold;
+    color: blue;
+    justify-content: flex-end;
+}
+.total-points {
+    font-weight: bold;
+    color: blue;
+    justify-content: flex-end;
+    font-size: 1.25rem;
+}
+.answer-card-container {
+    margin: 1rem 0 0 1rem;
+}
+.answer-card-correct {
+    margin: 7.5px;
+    padding: 15px;
+    width: 160px;
+    min-height: 160px;
+    background-color: #b8f28b;
+    border-radius: 10px;
+    color: #58a700;
+    cursor: pointer;
+}
+.answer-card-incorrect {
+    margin: 7.5px;
+    padding: 15px;
+    width: 160px;
+    min-height: 160px;
+    background-color: #ffc1c1;
+    border-radius: 10px;
+    color: #ea2b2b;
+    cursor: pointer;
+}
+.exercise-requirement {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 0.95rem;
+    margin-right: 5px;
+    width: 100px;
+}
+.icon-circle {
+    background-color: #fff;
+    border-radius: 100%;
+    display: inline-block;
+    height: 25px;
+    vertical-align: top;
+    width: 25px;
+}
+.test {
+    border-radius: 50%;
+}

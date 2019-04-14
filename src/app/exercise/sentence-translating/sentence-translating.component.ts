@@ -23,7 +23,9 @@ export class SentenceTranslatingComponent implements OnInit {
   }
 
   sendAnswer() {
-    this.sendAnswerEvent.emit({ chosenAnswer: this.userInput, correctAnswers: this.exercise.correctAnswers  });
+    this.sendAnswerEvent.emit({ chosenAnswer: this.userInput, 
+                                correctAnswers: this.exercise.correctAnswers,
+                                exerciseDetail: this.exercise.exerciseDetail });
   }
 
 }

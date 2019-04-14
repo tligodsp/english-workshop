@@ -4,6 +4,7 @@ export class Exercise {
     requirement: string; //Vd: Viet muc nay bang tieng Viet, Danh dau nghia dung,...
     type: string;
     correctAnswers: string[] = [];
+    exerciseDetail: string; //word or sentence to translate
 }
 
 export class VieEngImagePickingExercise extends Exercise {
@@ -36,6 +37,41 @@ export class VieEngImagePickingExercise extends Exercise {
         this.type = "vieeng-imagepicking";
         this.setOptions(vocabData);
         this.requirement = 'Chọn từ cho "' + this.options[this.correctId].vieMeaning + '"';
+        this.exerciseDetail = this.options[this.correctId].vieMeaning;
+    }
+    constructor() {
+        super();
+    }
+}
+
+export class VocabPickingExercise extends Exercise
+{
+    options: Vocabulary[]=[];
+    correctID : number;
+    setOptions(vocab : Vocabulary[])
+        {
+            //Chọn 3 từ từ database cho bài tập (phù hợp với level)
+            while (this.options.length<3) {
+                let id : number;
+                do{
+                    id=Math.floor(Math.random()*vocab.length);
+                } while(this.options.includes(vocab[id]));
+                this.options.push(vocab[id]);
+            }
+            //Chọn correctId
+            this.correctID = Math.floor(Math.random() * 3);
+            //correctAnswer
+            this.correctAnswers.push(this.options[this.correctID].engWord);
+        }
+    getOptions(): Vocabulary[] {
+        return this.options;
+    }
+    
+    initExercise(vocabData: Vocabulary[]) {
+        this.type = "vocabpicking";
+        this.setOptions(vocabData);
+        this.requirement = this.options[this.correctID].vieMeaning;
+        this.exerciseDetail = this.options[this.correctID].vieMeaning;
     }
     constructor() {
         super();
@@ -59,6 +95,7 @@ export class PictureTraslatingExercise extends Exercise {
         this.type = "vieeng-picturetranslating";
         this.setWordToTranslate(vocadData);
         this.requirement = 'Ghi "' + this.wordToTranslate.vieMeaning + '" bằng Tiếng Anh';
+        this.exerciseDetail = this.wordToTranslate.vieMeaning;
     }
 }
 
@@ -105,6 +142,7 @@ export class SentenceCorrectingExercise extends Exercise {
         this.setWordsToChoose();
         this.type = 'engvie-sentencecorrecting';
         this.requirement = `${this.chosenSentence.eng} nghĩa là:`
+        this.exerciseDetail = this.chosenSentence.eng;
     }
 }
 
@@ -125,5 +163,6 @@ export class SentenceTranslatingExercise extends Exercise {
         this.chooseSentence(sentences);
         this.type = 'engvie-sentencetranslating';
         this.requirement = 'Viết mục này bằng Tiếng Việt:';
+        this.exerciseDetail = this.chosenSentence.eng;
     }
 }

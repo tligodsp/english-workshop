@@ -19,10 +19,11 @@
   <div class="d-flex align-items-center justify-content-center" style="height: 70vh;">
     <div class="container" [ngSwitch]="currentExerciseType">
       <!-- Chỗ nhét câu hỏi -->
-      <app-sentence-correcting *ngSwitchCase="'sentence-correcting'" (sendAnswerEvent)="saveAnswer($event)"></app-sentence-correcting>
-      <app-image-picking-exercise *ngSwitchCase="'image-picking'" (sendAnswerEvent)="saveAnswer($event)"></app-image-picking-exercise>
-      <app-picture-translating *ngSwitchCase="'picture-translating'" (sendAnswerEvent)="saveAnswer($event)"></app-picture-translating>
-      <app-sentence-translating *ngSwitchCase="'sentence-translating'" (sendAnswerEvent)="saveAnswer($event)"></app-sentence-translating>
+      <app-vocab-picking-exercise *ngSwitchCase="'vocabpicking'" (sendAnswerEvent)="saveAnswer($event)"></app-vocab-picking-exercise>
+      <app-sentence-correcting *ngSwitchCase="'engvie-sentencecorrecting'" (sendAnswerEvent)="saveAnswer($event)"></app-sentence-correcting>
+      <app-image-picking-exercise *ngSwitchCase="'vieeng-imagepicking'" (sendAnswerEvent)="saveAnswer($event)"></app-image-picking-exercise>
+      <app-picture-translating *ngSwitchCase="'vieeng-picturetranslating'" (sendAnswerEvent)="saveAnswer($event)"></app-picture-translating>
+      <app-sentence-translating *ngSwitchCase="'engvie-sentencetranslating'" (sendAnswerEvent)="saveAnswer($event)"></app-sentence-translating>
     </div>
   </div>
 

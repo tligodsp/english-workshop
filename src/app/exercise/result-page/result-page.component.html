@@ -1,0 +1,119 @@
+<div class="d-flex flex-column" style="height: 100vh;">
+  <div class="d-flex align-items-center justify-content-center" style="height: 100px; background-color: #2cb5e8">
+    <h1 style="color: white">Hoàn thành bài tập!</h1>
+  </div>
+  <div class="container d-flex flex-row flex-grow-1">
+    <div class="col d-flex align-items-center justify-content-center">
+      <div class="card container my-card">
+        <div class="card-body row d-flex align-items-center">
+          <div class="col-1">
+            <i class="fas fa-check mr-4 scale-up-center" style="font-size: 1rem;"></i>
+          </div>
+          <div class="col-4">
+            Số câu trả lời đúng
+          </div>
+          <div class="col-4 d-flex result-value">
+            {{correctAnswers}}
+          </div>
+          <div class="col-3 d-flex points">{{session.getCorrectAnswersPoint()}} pts</div>
+        </div>
+        <hr class="line">
+        <div class="card-body row d-flex align-items-center">
+          <div class="col-1">
+            <i class="fas fa-clock mr-4 scale-up-center" style="font-size: 1rem;"></i>
+          </div>
+          <div class="col-4">
+            Tốc độ
+          </div>
+          <div class="col-4 d-flex result-value">
+            {{speed}}
+          </div>
+          <div class="col-3 d-flex points">{{session.getSpeedPoint()}} pts</div>
+        </div>
+        <hr class="line">
+        <div class="card-body row d-flex align-items-center">
+          <div class="col-1">
+            <i class="fas fa-bullseye mr-4 scale-up-center" style="font-size: 1rem;"></i>
+          </div>
+          <div class="col-4">
+            Độ chính xác
+          </div>
+          <div class="col-4 d-flex result-value">
+            {{accuracy}}
+          </div>
+          <div class="col-3 d-flex points">{{session.getAccuracyPoint()}} pts</div>
+        </div>
+        <hr class="line">
+        <div class="card-body row d-flex align-items-center">
+          <div class="col" style="font-size: 1.25rem">
+            Tổng điểm
+          </div>
+          <div class="d-flex col total-points">{{totalPoints}} pts</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col d-flex align-items-center justify-content-center">
+      <circle-progress [percent]="75" [radius]="80" [showInnerStroke]="false" [showImage]="false"
+        [outerStrokeWidth]="20" [outerStrokeColor]="'orange'" [animation]="true" [animationDuration]="600"
+        [subtitle]="'To be implemented'" [imageSrc]="'./assets/images/streak.png'"></circle-progress>
+    </div>
+  </div>
+  <div class="border-top d-flex border-2" style="height: 100px;">
+    <div class="container d-flex align-items-center">
+      <div class="col">
+        <button class="btn btn-outline-primary btn-lg" (click)="openConfirmModal(confirmModal)">Xem lại bài học</button>
+      </div>
+      <div class="col d-flex" style="justify-content: flex-end;">
+        <button class="btn btn-success btn-lg">Tiếp tục</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #confirmModal>
+  <div class="container-fluid d-flex flex-column">
+    <div class="d-flex flex-row" style="justify-content: flex-end; padding-top: 10px">
+      <button type="button" class="close pull-right bg-blue" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body d-flex">
+      <div class="container d-flex flex-column align-items-center">
+        <h2>Xem bảng điểm của bạn!</h2>
+        <h3 style="color: #aaa">Nhấp vào ô bên dưới để hiện đáp án</h3>
+
+        <ul class="d-flex flex-wrap pl-0 mt-3 w-100" style="list-style-type: none;">
+          <li *ngFor="let answer of sessionAnswers">
+            <div [class.answer-card-incorrect]="!answer.isCorrect" [class.answer-card-correct]="answer.isCorrect"
+            (click)="setPopoverContext(answer.userAnswer, answer.correctAnswer)"
+            [popover]="popTemplate" placement="bottom" [outsideClick]="true" [popoverContext]="popoverContext">
+              <div class="exercise-requirement">{{answer.exerciseRequirement}}:</div>
+              <div class="icon-circle">
+                <i *ngIf="answer.isCorrect" class="fas fa-check scale-up-center"
+                  style="font-size: 12px; margin: 6.5px 0 0 6.5px; color: #96f150"></i>
+                  <i *ngIf="!answer.isCorrect" class="fas fa-times scale-up-center"
+                  style="font-size: 13.5px; margin: 6.5px 0 0 8px; color: #ff8989"></i>
+              </div>
+              <div style="margin-top: 10px; font-size: 0.925rem">{{answer.exerciseDetail}}</div>
+            </div>
+
+          </li>
+        </ul>
+
+
+      </div>
+
+    </div>
+  </div>
+</ng-template>
+<ng-template #popTemplate let-userAnswer="userAnswer" let-correctAnswer="correctAnswer">
+    <div class="lead" style="font-size: 1rem; font-weight: 600; color: rgb(90, 90, 90); margin-right: 30px">
+      Câu trả lời của bạn:
+    </div>
+    <div style="font-size: 1rem; color: black;">{{userAnswer}}</div>
+    <div class="lead" style="font-size: 1rem; font-weight: 600; color: rgb(90, 90, 90); margin: 10px 30px 0 0">
+        Đáp án đúng:
+      </div>
+    <div style="font-size: 1rem; color: black;">{{correctAnswer}}</div>
+</ng-template>
