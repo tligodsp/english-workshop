@@ -18,6 +18,8 @@ export class SentenceTranslatingComponent implements OnInit {
     // TODO: Get sentences bằng http
     this.exercise.initExercise(SENTENCES);
     this.userInput = '';
+
+    this.sendAnswer(); // Ko sendAnswer ở đây thì nếu để trống mà bấm Xác nhận sẽ bị lỗi
   }
 
   sendAnswer() {

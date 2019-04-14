@@ -28,6 +28,7 @@ export class PictureTranslatingComponent implements OnInit {
         .subscribe(vocabularies => this.vocabData = vocabularies);
     this.exercise.initExercise(this.vocabData);
     this.userInput = '';
+    this.sendAnswer();
   }
 
 }

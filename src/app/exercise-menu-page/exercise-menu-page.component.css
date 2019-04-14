@@ -1,0 +1,29 @@
+.custom-nav-active {
+  border-bottom: #fff solid 3px;
+}
+
+.course-card {
+  transition: all 0.3s ease-in-out;
+}
+
+.course-card.locked {
+  background-color: rgba(245, 245, 245);
+  opacity: .5;
+}
+
+.course-card:hover {
+  border: #ffa138 solid 1px;
+  box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.18)!important;
+  cursor: pointer;
+}
+
+.course-card.locked:hover {
+  border: #ccc solid 1px;
+  cursor: default;
+}
+
+.course-logo {
+  border-radius: 15px;
+  height: 80px;
+  width: auto;
+}

@@ -1,0 +1,199 @@
+<nav class="navbar navbar-expand-lg navbar-primary bg-primary">
+  <div class="container">
+    <a class="navbar-brand text-white" style="font-size: 2rem;" href="#">English Workshop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <ul class="navbar-nav font-weight-bolder" style="font-size: 1rem;">
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/showcase">Trang chủ</a>
+      </li>
+      <li class="nav-item mr-2 custom-nav-active ">
+        <a class="nav-link text-white" href="/exercise-menu">Các bài học</a>
+      </li>
+    </ul>
+
+    <!-- <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item mr-3">
+          <a class="nav-link text-white font-weight-bold" href="#">
+            Ngôn ngữ hiển thị: <span class="font-weight-bolder">Tiếng Việt</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-outline-light btn-lg">Đăng Nhập</button>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="#">Trang chủ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#">Pricing</a>
+        </li>
+      </ul>
+    </div> -->
+  </div>
+</nav>
+
+<!-- <div class="row" style="min-height: 100vh;">
+  <div class="col-5 pt-5" style="background-color: #eee">
+    <div class="row">
+      <div class="col-md"></div>
+      <div class="col">
+        <div class="card bg-white text-dark shadow">
+          <div class="card-body">
+            <h3 class="font-weight-bolder">Mục tiêu mỗi ngày</h3>
+            <circle-progress
+              [percent]="60"
+              [radius]="75"
+              [outerStrokeWidth]="16"
+              [innerStrokeWidth]="8"
+              [outerStrokeColor]="'#78C000'"
+              [innerStrokeColor]="'#C7E596'"
+              [animation]="true"
+              [animationDuration]="300"
+            ></circle-progress>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-7 pt-5" style="background-color: #eee">
+  </div>
+</div> -->
+
+<div style="background-color: #eee; min-height: 100vh; padding-top: 2rem;">
+  <div class="container">
+    <div class="row">
+      <div class="col-5">
+        <div class="card bg-white text-dark shadow">
+          <div class="card-body text-center">
+            <h3 class="font-weight-bolder">Mục tiêu mỗi ngày</h3>
+            <hr>
+            <circle-progress
+              [percent]="getPercent()"
+              [radius]="125"
+              [title]="currentExp + '/' + targetExp"
+              [titleColor]="'#ff8f11'"
+              [titleFontSize]="48"
+              [titleFontWeight]="600"
+              [showUnits]=true
+              [units]="'Exp'"
+              [unitsColor]="'#ff8f11'"
+              [unitsFontSize]="20"
+              [unitsFontWeight]="600"
+              [subtitle]="'Mục tiêu hôm nay'"
+              [subtitleColor]="'#ff8f11'"
+              [subtitleFontSize]="20"
+              [subtitleFontWeight]="400"
+              [outerStrokeWidth]="16"
+              [innerStrokeWidth]="8"
+              [outerStrokeColor]="'#ff8f11'"
+              [innerStrokeColor]="'#ffc77f'"
+              [animation]="true"
+              [animationDuration]="300"
+              [renderOnClick]="false"
+            ></circle-progress>
+            <div class="row">
+              <div class="col">
+                <div class="badge badge-warning" style="font-size: 1.5rem;">1</div>
+                <p class="lead font-weight-bolder" style="font-size: 1.5rem;">ngày streak</p>
+              </div>
+              <div class="col">
+                <div class="badge badge-warning" style="font-size: 1.5rem;">7</div>
+                <p class="lead font-weight-bolder" style="font-size: 1.5rem;">tiếng còn lại</p>
+              </div>
+          </div>
+            <hr>
+            <button class="btn btn-lg btn-block btn-primary">Luyện tập</button>
+          </div>
+        </div>
+
+        <div class="card mt-4 text-dark shadow">
+          <div class="card-body text-center">
+            <h3 class="font-weight-bolder">Tạo tài khoản để lưu lại tiến trình của bạn.</h3>
+            <hr>
+            <button class="btn btn-lg btn-block btn-success">Tạo tài khoản</button>
+            <button class="btn btn-lg btn-block btn-primary">Đăng nhập</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-7">
+        <div class="card course-card text-dark shadow-sm mb-4 w-100" *ngFor="let item of courses">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-2">
+                <img
+                  class="course-logo"
+                  src="{{item.logo}}" alt="course logo"
+                  [ngStyle]="{'background-color': item.backgroundColor}"
+                >
+              </div>
+              <div class="col-9">
+                <h2 class="font-weight-bolder text-left">{{item.title}}</h2>
+                <p class="lead" style="font-size: 1rem;">{{item.description}}</p>
+              </div>
+              <div class="col-1">
+                <div class="badge badge-success" style="font-size: 1.2rem;">{{item.exp}} Exp</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test class locked -->
+        <div class="card course-card text-dark shadow-sm mb-4 w-100 locked">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-2">
+                <img
+                  class="course-logo"
+                  src="https://image.flaticon.com/icons/svg/1591/1591999.svg" alt="course logo"
+                >
+              </div>
+              <div class="col-9">
+                <h2 class="font-weight-bolder text-left">Nâng cao</h2>
+                <p class="lead" style="font-size: 1rem;">Cần 8.0 IELTS để mở khóa</p>
+              </div>
+              <div class="col-1">
+                <div class="badge badge-success" style="font-size: 1.2rem;">900 Exp</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Test class locked -->
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="bar">
+  <input class="bar-input" type="radio" name="input" id="input_0" disabled/>
+  <div class="bar-view">
+    <label class="bar-button" for="input_0"></label>
+  </div>
+  <input class="bar-input" type="radio" name="input" id="input_1" disabled/>
+  <div class="bar-view">
+    <label class="bar-button" for="input_1"></label>
+  </div>
+  <input class="bar-input" type="radio" name="input" id="input_2" disabled checked/>
+  <div class="bar-view">
+    <label class="bar-button" for="input_2"></label>
+  </div>
+  <input class="bar-input" type="radio" name="input" id="input_3" disabled/>
+  <div class="bar-view">
+    <label class="bar-button" for="input_3"></label>
+  </div>
+  <input class="bar-input" type="radio" name="input" id="input_4" disabled/>
+  <div class="bar-view">
+    <label class="bar-button" for="input_4"></label>
+  </div>
+</div> -->

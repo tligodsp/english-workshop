@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { FormsModule } from '@angular/forms';
+import { NgCircleProgressModule } from 'ng-circle-progress';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,10 +16,8 @@ import { ImagePickingExerciseComponent } from './exercise/image-picking-exercise
 import { VocabPickingExerciseComponent } from './exercise/vocab-picking-exercise/vocab-picking-exercise.component';
 import { PictureTranslatingComponent } from './exercise/picture-translating/picture-translating.component';
 import { SentenceTranslatingComponent } from './exercise/sentence-translating/sentence-translating.component';
+import { ExerciseMenuPageComponent } from './exercise-menu-page/exercise-menu-page.component';
 import { ResultPageComponent } from './exercise/result-page/result-page.component';
-
-import { NgCircleProgressModule } from 'ng-circle-progress';
-import { PopoverModule } from 'ngx-bootstrap/popover';
 
 @NgModule({
    declarations: [
@@ -30,6 +30,7 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
       VocabPickingExerciseComponent,
       PictureTranslatingComponent,
       SentenceTranslatingComponent,
+      ExerciseMenuPageComponent,
       ResultPageComponent,
    ],
    imports: [
@@ -38,15 +39,7 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
       FormsModule,
       ModalModule.forRoot(),
       TooltipModule.forRoot(),
-      NgCircleProgressModule.forRoot({
-         // set defaults here
-         radius: 100,
-         outerStrokeWidth: 16,
-         innerStrokeWidth: 8,
-         outerStrokeColor: "#78C000",
-         innerStrokeColor: "#C7E596",
-         animationDuration: 300,
-       }),
+      NgCircleProgressModule.forRoot(),
       PopoverModule.forRoot(),
    ],
    providers: [],
