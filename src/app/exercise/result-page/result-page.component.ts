@@ -70,6 +70,12 @@ export class ResultPageComponent implements OnInit {
     if (this.user.todayExp === this.user.difficulty.minutes) {
       this.user.streak++;
     }
+    
+    this.user.totalPoints += this.totalPoints;
+    this.sharedDataService.selectedCourse = null;
+    this.sessionService.curSession = null;
+
+    localStorage.setItem('user', JSON.stringify(this.user));
   }
 
   getUserFromLocalStorage() {
@@ -92,11 +98,7 @@ export class ResultPageComponent implements OnInit {
   }
 
   finishSession() {
-    this.user.totalPoints += this.totalPoints;
-    this.sharedDataService.selectedCourse = null;
-    this.sessionService.curSession = null;
-
-    localStorage.setItem('user', JSON.stringify(this.user));
+    
     this.router.navigateByUrl('/exercise-menu');
   }
 }

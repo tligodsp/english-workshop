@@ -5,6 +5,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { FormsModule } from '@angular/forms';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { CountdownModule } from 'ngx-countdown';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -41,6 +42,7 @@ import { ResultPageComponent } from './exercise/result-page/result-page.componen
       TooltipModule.forRoot(),
       NgCircleProgressModule.forRoot(),
       PopoverModule.forRoot(),
+      CountdownModule,
    ],
    providers: [],
    bootstrap: [

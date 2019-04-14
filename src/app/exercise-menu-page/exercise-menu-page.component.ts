@@ -4,6 +4,7 @@ import { COURSES } from '../mock-courses';
 import { Course } from '../models/course';
 import { SharedDataService } from '../services/shared-data.service';
 import { Router } from '@angular/router';
+import { TimeHelper } from '../helpers/time-helper';
 
 @Component({
   selector: 'app-exercise-menu-page',
@@ -14,6 +15,7 @@ export class ExerciseMenuPageComponent implements OnInit {
   user: User;
   currentExp: number = 5;
   targetExp: number = 20;
+  timeLeft: number; //in millisecond
 
   courses: Course[];
 
@@ -25,7 +27,10 @@ export class ExerciseMenuPageComponent implements OnInit {
   ngOnInit() {
     this.getUserFromLocalStorage();
     this.getCourses();
+    this.timeLeft = TimeHelper.getTimeTillMidnight();
+    console.log(this.timeLeft);
   }
+  
 
   getCourses() {
     this.courses = COURSES;
@@ -43,6 +48,11 @@ export class ExerciseMenuPageComponent implements OnInit {
   selectCourse(course: Course) {
     this.sharedData.selectedCourse = course;
     this.router.navigateByUrl('/exercise');
+  }
+
+  onDateChange() {
+    //this.router.navigateByUrl('/exercise-menu'); //reload at midnight
+    //console.log('midnight');
   }
 
 }
