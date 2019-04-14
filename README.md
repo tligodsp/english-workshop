@@ -9,15 +9,15 @@ Note: this is small project. Not for sale or commercialization
 
 ### Installing
 
-Install [NodeJS] (https://nodejs.org/en/)
-Open project by Visual Studio Code
-Open terminal
-Run command
+* Install [NodeJS] (https://nodejs.org/en/)
+* Open project by Visual Studio Code
+* Open terminal
+* Run command
 ```
 npm install
 ```
 
-Then run
+* Then run
 ```
 npm start
 ```
