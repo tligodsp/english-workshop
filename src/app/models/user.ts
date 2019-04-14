@@ -5,4 +5,6 @@ export class User {
     todayExp: number;
     streak: number; //days
     difficulty: Difficulty;
+    totalPoints: number;
+    
 }

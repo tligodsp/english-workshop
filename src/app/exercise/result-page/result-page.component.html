@@ -53,10 +53,34 @@
 
       </div>
     </div>
-    <div class="col d-flex align-items-center justify-content-center">
-      <circle-progress [percent]="75" [radius]="80" [showInnerStroke]="false" [showImage]="false"
-        [outerStrokeWidth]="20" [outerStrokeColor]="'orange'" [animation]="true" [animationDuration]="600"
-        [subtitle]="'To be implemented'" [imageSrc]="'./assets/images/streak.png'"></circle-progress>
+    <div class="col d-flex flex-column align-items-center justify-content-center">
+      <h2 style="font-weight: bold; color: rgb(56, 56, 56); position: relative; top: -20px;">
+        Bài học kết thúc! +{{sessionExp}} Điểm KN
+      </h2>
+      <circle-progress
+              [percent]="getPercent()"
+              [radius]="100"
+              [title]="user.todayExp + '/' + user.difficulty.minutes"
+              [titleColor]="'#ff8f11'"
+              [titleFontSize]="32"
+              [titleFontWeight]="600"
+              [showUnits]=true
+              [units]="'Exp'"
+              [unitsColor]="'#ff8f11'"
+              [unitsFontSize]="20"
+              [unitsFontWeight]="600"
+              [subtitle]="'Mục tiêu hôm nay'"
+              [subtitleColor]="'#ff8f11'"
+              [subtitleFontSize]="14"
+              [subtitleFontWeight]="400"
+              [outerStrokeWidth]="16"
+              [innerStrokeWidth]="8"
+              [outerStrokeColor]="'#ff8f11'"
+              [innerStrokeColor]="'#ffc77f'"
+              [animation]="true"
+              [animationDuration]="300"
+              [renderOnClick]="false"
+            ></circle-progress>
     </div>
   </div>
   <div class="border-top d-flex border-2" style="height: 100px;">
@@ -65,7 +89,7 @@
         <button class="btn btn-outline-primary btn-lg" (click)="openConfirmModal(confirmModal)">Xem lại bài học</button>
       </div>
       <div class="col d-flex" style="justify-content: flex-end;">
-        <button class="btn btn-success btn-lg">Tiếp tục</button>
+        <button class="btn btn-success btn-lg" (click)="finishSession()">Kết thúc bài học</button>
       </div>
     </div>
   </div>
