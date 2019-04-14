@@ -107,7 +107,10 @@
                 <p class="lead font-weight-bolder" style="font-size: 1.5rem;">ngày streak</p>
               </div>
               <div class="col">
-                <div class="badge badge-warning" style="font-size: 1.5rem;">7</div>
+                <div class="badge badge-warning" style="font-size: 1.5rem;">
+                  <countdown [config]="{leftTime: timeLeft / 1000}"
+                    (finished)="onDateChange()">$!h!</countdown>
+                </div>
                 <p class="lead font-weight-bolder" style="font-size: 1.5rem;">tiếng còn lại</p>
               </div>
           </div>
