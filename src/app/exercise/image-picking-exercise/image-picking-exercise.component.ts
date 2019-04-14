@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { VieEngImagePickingExercise } from '../../models/exercise';
 import { VocabularyService } from '../../vocabulary.service';
 import { Vocabulary } from '../../models/vocabulary';
@@ -13,6 +13,7 @@ export class ImagePickingExerciseComponent implements OnInit {
   exercise: VieEngImagePickingExercise = new VieEngImagePickingExercise();
   vocabData: Vocabulary[];
   chosenId: number;
+  @Input() courseKey: string;
   @Output() sendAnswerEvent = new EventEmitter<Object>();
 
   constructor(private vocabularyService: VocabularyService) { }
@@ -27,6 +28,9 @@ export class ImagePickingExerciseComponent implements OnInit {
   ngOnInit() {
     this.vocabularyService.getVocabularies()
         .subscribe(vocabularies => this.vocabData = vocabularies);
+
+    this.vocabData = this.vocabData.filter(data => data.courseKey === this.courseKey);
+    
     this.exercise.initExercise(this.vocabData);
     this.chosenId = -1;
 

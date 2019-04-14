@@ -1,6 +1,6 @@
 export class Vocabulary {
+    courseKey: string;
     engWord: string;
     vieMeaning: string;
     illustration: string;
-    level: number; //lowest is 1
 }

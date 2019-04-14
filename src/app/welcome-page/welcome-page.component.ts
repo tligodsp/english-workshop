@@ -4,6 +4,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Difficulty } from '../models/difficulty';
 import { DifficultyService } from '../services/difficulty.service';
 import { Router } from '@angular/router';
+import { User } from '../models/user';
 
 const DIFFICULTIES = [
   { name: 'Dễ', minutes: 5},
@@ -31,6 +32,11 @@ export class WelcomePageComponent implements OnInit {
 
   ngOnInit() {
     this.getDifficulties();
+
+    if (localStorage.getItem('user')) {
+      this.router.navigateByUrl('/exercise-menu');
+    }
+
   }
 
   getDifficulties(): void {
@@ -57,14 +63,19 @@ export class WelcomePageComponent implements OnInit {
 
   confirmDifficulty(): void {
     if (!this.selectedDifficulty) {
-      console.log('Difficulty not seletected');
+      console.log('Difficulty not selected');
       return;
     }
 
-    console.log('Difficulty saved to localStorage');
-    localStorage.setItem('difficulty', JSON.stringify(this.selectedDifficulty));
+    console.log('User saved to localStorage');
+    const user = new User();
+    user.totalExp = 0;
+    user.todayExp = 0;
+    user.streak = 0;
+    user.difficulty = { ...this.selectedDifficulty };
+    localStorage.setItem('user', JSON.stringify(user));
 
     this.modalRef.hide();
-    this.router.navigateByUrl('/exercise');
+    this.router.navigateByUrl('/exercise-menu');
   }
 }

@@ -1,6 +1,8 @@
+import { Difficulty } from './difficulty';
+
 export class User {
-    level: number;
-    exp: number;
+    totalExp: number;
+    todayExp: number;
     streak: number; //days
-    requiredExp: number; //required exp per day for streak
+    difficulty: Difficulty;
 }

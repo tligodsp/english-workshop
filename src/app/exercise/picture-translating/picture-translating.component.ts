@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PictureTraslatingExercise } from '../../models/exercise';
 import { VocabularyService } from '../../vocabulary.service';
 import { Vocabulary } from '../../models/vocabulary';
@@ -13,6 +13,7 @@ export class PictureTranslatingComponent implements OnInit {
   exercise: PictureTraslatingExercise = new PictureTraslatingExercise();
   vocabData: Vocabulary[];
   userInput: string;
+  @Input() courseKey: string;
   @Output() sendAnswerEvent = new EventEmitter<Object>();
 
   constructor(private vocabularyService: VocabularyService) { }
@@ -26,6 +27,9 @@ export class PictureTranslatingComponent implements OnInit {
   ngOnInit() {
     this.vocabularyService.getVocabularies()
         .subscribe(vocabularies => this.vocabData = vocabularies);
+
+    this.vocabData = this.vocabData.filter(data => data.courseKey === this.courseKey);
+
     this.exercise.initExercise(this.vocabData);
     this.userInput = '';
     this.sendAnswer();

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-showcase',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShowcaseComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  getStart() {
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.router.navigateByUrl('/exercise-menu');
+    } else {
+      this.router.navigateByUrl('/welcome');
+    }
   }
 
 }

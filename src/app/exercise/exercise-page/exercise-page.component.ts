@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
-const TYPE_LIST = ['engvie-sentencecorrecting', 'vieeng-imagepicking', 'vieeng-picturetranslating', 'engvie-sentencetranslating', 'vocabpicking'];
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 import { Session } from '../../models/session';
 import { SessionService } from '../../session.service';
+import { SharedDataService } from 'src/app/services/shared-data.service';
 
+const TYPE_LIST = ['engvie-sentencecorrecting', 'vieeng-imagepicking', 'vieeng-picturetranslating', 'engvie-sentencetranslating', 'vocabpicking'];
 
 @Component({
   selector: 'app-exercise-page',
@@ -11,9 +14,13 @@ import { SessionService } from '../../session.service';
   styleUrls: ['./exercise-page.component.css']
 })
 export class ExercisePageComponent implements OnInit {
+  selectedCourseKey: string = '';
   currentExerciseType: string = '';
   currentQuestionNumber: number = 1;
-  maxQuestionNumber: number = 8; // Tạm thời, sau này sẽ sửa thành @Input
+  maxQuestionNumber: number; // Tạm thời, sau này sẽ sửa thành @Input
+
+  modalRef: BsModalRef
+
   session: Session = new Session();
   myTimer;
   elapsedTime: number;
@@ -26,9 +33,23 @@ export class ExercisePageComponent implements OnInit {
   correctSound = new Audio();
   incorrectSound = new Audio();
 
-  constructor(private router: Router, private sessionService: SessionService) { }
+  constructor(
+    private router: Router,
+    private sessionService: SessionService,
+    private sharedDataService: SharedDataService,
+    private modalService: BsModalService,
+  ) { }
 
   ngOnInit() {
+    if (!this.sharedDataService.selectedCourse) {
+      this.router.navigateByUrl('/exercise-menu'); // Chưa chọn course thì trả ra menu
+      return;
+    }
+
+    this.selectedCourseKey = this.sharedDataService.selectedCourse.key;
+
+    this.maxQuestionNumber = this.sharedDataService.selectedCourse.maxQuestionNumber;
+
     this.generateRandomExerciseType();
 
     this.session.initSession(this.maxQuestionNumber);
@@ -37,6 +58,17 @@ export class ExercisePageComponent implements OnInit {
 
     this.elapsedTime = 0;
     this.myTimer = setInterval(() => this.timeTick(), 1000);
+  }
+
+  openClosingModal(template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  confirmClosingModal(): void {
+    this.sharedDataService.selectedCourse = null;
+    this.sessionService.curSession = null;
+    this.modalRef.hide();
+    this.router.navigateByUrl('/exercise-menu');
   }
 
   timeTick() {
@@ -95,6 +127,11 @@ export class ExercisePageComponent implements OnInit {
     this.currentQuestionNumber++;
     this.isCorrect = null;
     this.generateRandomExerciseType();
+  }
+
+  skipQuestion() {
+    this.chosenAnswer = 'skip-question';
+    this.checkAnswer();
   }
 
 }

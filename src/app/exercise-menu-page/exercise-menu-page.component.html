@@ -80,7 +80,7 @@
             <circle-progress
               [percent]="getPercent()"
               [radius]="125"
-              [title]="currentExp + '/' + targetExp"
+              [title]="user.todayExp + '/' + user.difficulty.minutes"
               [titleColor]="'#ff8f11'"
               [titleFontSize]="48"
               [titleFontWeight]="600"
@@ -103,7 +103,7 @@
             ></circle-progress>
             <div class="row">
               <div class="col">
-                <div class="badge badge-warning" style="font-size: 1.5rem;">1</div>
+                <div class="badge badge-warning" style="font-size: 1.5rem;">{{user.streak}}</div>
                 <p class="lead font-weight-bolder" style="font-size: 1.5rem;">ngày streak</p>
               </div>
               <div class="col">
@@ -127,13 +127,13 @@
       </div>
 
       <div class="col-7">
-        <div class="card course-card text-dark shadow-sm mb-4 w-100" *ngFor="let item of courses">
+        <div class="card course-card text-dark shadow-sm mb-4 w-100" *ngFor="let item of courses" (click)="selectCourse(item)">
           <div class="card-body">
             <div class="row">
               <div class="col-2">
                 <img
                   class="course-logo"
-                  src="{{item.logo}}" alt="course logo"
+                  src="{{item.logoUrl}}" alt="course logo"
                   [ngStyle]="{'background-color': item.backgroundColor}"
                 >
               </div>
@@ -149,6 +149,25 @@
         </div>
 
         <!-- Test class locked -->
+        <div class="card course-card text-dark shadow-sm mb-4 w-100 locked">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-2">
+                <img
+                  class="course-logo"
+                  src="https://image.flaticon.com/icons/svg/1592/1592007.svg" alt="course logo"
+                >
+              </div>
+              <div class="col-9">
+                <h2 class="font-weight-bolder text-left">Cụm từ</h2>
+                <p class="lead" style="font-size: 1rem;">Một số câu giao tiếp thường dùng</p>
+              </div>
+              <div class="col-1">
+                <div class="badge badge-success" style="font-size: 1.2rem;">10 Exp</div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="card course-card text-dark shadow-sm mb-4 w-100 locked">
           <div class="card-body">
             <div class="row">
@@ -174,26 +193,3 @@
     </div>
   </div>
 </div>
-
-<!-- <div class="bar">
-  <input class="bar-input" type="radio" name="input" id="input_0" disabled/>
-  <div class="bar-view">
-    <label class="bar-button" for="input_0"></label>
-  </div>
-  <input class="bar-input" type="radio" name="input" id="input_1" disabled/>
-  <div class="bar-view">
-    <label class="bar-button" for="input_1"></label>
-  </div>
-  <input class="bar-input" type="radio" name="input" id="input_2" disabled checked/>
-  <div class="bar-view">
-    <label class="bar-button" for="input_2"></label>
-  </div>
-  <input class="bar-input" type="radio" name="input" id="input_3" disabled/>
-  <div class="bar-view">
-    <label class="bar-button" for="input_3"></label>
-  </div>
-  <input class="bar-input" type="radio" name="input" id="input_4" disabled/>
-  <div class="bar-view">
-    <label class="bar-button" for="input_4"></label>
-  </div>
-</div> -->
