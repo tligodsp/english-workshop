@@ -39,7 +39,7 @@
             Độ chính xác
           </div>
           <div class="col-4 d-flex result-value">
-            {{accuracy}}
+            {{accuracy}}%
           </div>
           <div class="col-3 d-flex points">{{session.getAccuracyPoint()}} pts</div>
         </div>
@@ -55,7 +55,7 @@
     </div>
     <div class="col d-flex flex-column align-items-center justify-content-center">
       <h2 style="font-weight: bold; color: rgb(56, 56, 56); position: relative; top: -20px;">
-        Bài học kết thúc! +{{sessionExp}} Điểm KN
+        Bài học kết thúc! +{{accuracy >= 50 ? sessionExp : 0}} Điểm KN
       </h2>
       <circle-progress
               [percent]="getPercent()"
@@ -78,7 +78,7 @@
               [outerStrokeColor]="'#ff8f11'"
               [innerStrokeColor]="'#ffc77f'"
               [animation]="true"
-              [animationDuration]="300"
+              [animationDuration]="800"
               [renderOnClick]="false"
             ></circle-progress>
     </div>

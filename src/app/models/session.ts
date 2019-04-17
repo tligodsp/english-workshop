@@ -40,7 +40,7 @@ export class Session {
     }
 
     getAccuracy(): number {
-        return Math.round(this.numberOfCorrectAnswers / this.numberOfQuestions);
+        return this.numberOfCorrectAnswers / this.numberOfQuestions;
     }
 
     getAccuracyPoint(): number {

@@ -27,7 +27,7 @@ const MOCKANSWERS: ExerciseAnswer[] = [
 export class ResultPageComponent implements OnInit {
   correctAnswers: number;
   speed: string;
-  accuracy: string;
+  accuracy: number;
   totalPoints: number;
   session: Session;
   sessionAnswers = MOCKANSWERS;
@@ -52,7 +52,8 @@ export class ResultPageComponent implements OnInit {
     this.session = this.sessionService.curSession;
     this.correctAnswers = this.session.numberOfCorrectAnswers;
     this.speed = ExerciseResultHelper.getTimeInMinFromSecond(this.session.speed);
-    this.accuracy = ExerciseResultHelper.getAccuracy(this.correctAnswers, this.session.numberOfQuestions);
+    //this.accuracy = ExerciseResultHelper.getAccuracy(this.correctAnswers, this.session.numberOfQuestions);
+    this.accuracy = Math.round(this.session.getAccuracy() * 100);
     this.totalPoints = this.session.getTotalPoints();
     
     /*
@@ -66,7 +67,10 @@ export class ResultPageComponent implements OnInit {
     this.sessionAnswers = this.session.sessionAnswers;
     this.getUserFromLocalStorage();
     this.sessionExp = this.sharedDataService.selectedCourse.exp;
-    this.user.todayExp += this.sessionExp;
+    //this.user.todayExp += this.sessionExp;
+    if(this.accuracy >= 50) {
+      this.user.todayExp += this.sessionExp;
+    }
     if (this.user.todayExp === this.user.difficulty.minutes) {
       this.user.streak++;
     }
