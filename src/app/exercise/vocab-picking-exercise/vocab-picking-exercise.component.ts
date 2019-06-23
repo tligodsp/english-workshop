@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { VocabularyService } from '../../vocabulary.service';
 import { Vocabulary } from '../../models/vocabulary';
 import {VocabPickingExercise} from '../../models/exercise';
-import { Output, EventEmitter, Input } from '@angular/core'; 
+import { Output, EventEmitter, Input } from '@angular/core';
+import { ExerciseService } from '../../services/exercise.service';
 
 @Component({
   selector: 'app-vocab-picking-exercise',
@@ -16,7 +17,7 @@ export class VocabPickingExerciseComponent implements OnInit {
   @Input() courseKey: string;
   @Output() sendAnswerEvent = new EventEmitter<Object>();
 
-  constructor(private vocabularyService: VocabularyService) { }
+  constructor(private vocabularyService: VocabularyService, private exerciseService: ExerciseService) { }
 
   sendAnswer(option: Vocabulary, index: number) {
     this.chosenId = index;
@@ -31,7 +32,8 @@ export class VocabPickingExerciseComponent implements OnInit {
 
     this.vocabData = this.vocabData.filter(data => data.courseKey === this.courseKey);
 
-    this.exercise.initExercise(this.vocabData);
+    //this.exercise.initExercise(this.vocabData);
+    this.exercise = this.exerciseService.initExerciseVocabPicking(this.vocabData);
     this.chosenId = -1;
 
     this.sendAnswerEvent.emit({ correctAnswers: this.exercise.correctAnswers });

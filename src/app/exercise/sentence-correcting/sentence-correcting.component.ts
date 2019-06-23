@@ -4,6 +4,8 @@ import { SentenceCorrectingExercise } from '../../models/exercise';
 import { SENTENCES } from '../../mock-sentences';
 import { ArrayHelper } from 'src/app/helpers/array-helper';
 
+import { ExerciseService } from '../../services/exercise.service';
+
 @Component({
   selector: 'app-sentence-correcting',
   templateUrl: './sentence-correcting.component.html',
@@ -15,13 +17,14 @@ export class SentenceCorrectingComponent implements OnInit {
   @Input() courseKey: string;
   @Output() sendAnswerEvent = new EventEmitter<Object>();
 
-  constructor() { }
+  constructor(private exerciseService: ExerciseService) { }
 
   ngOnInit() {
     const filteredSentences = SENTENCES.filter(data => data.courseKey === this.courseKey);
 
     // TODO: Get sentences bằng http
-    this.exercise.initExercise(filteredSentences);
+    //this.exercise.initExercise(filteredSentences);
+    this.exercise = this.exerciseService.initExerciseSentenceCorrecting(filteredSentences);
 
     this.sendAnswer(); // Chủ yếu để send correctAnswers
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { SentenceTranslatingExercise } from '../../models/exercise';
 import { SENTENCES } from '../../mock-sentences';
+import { ExerciseService } from '../../services/exercise.service';
 
 @Component({
   selector: 'app-sentence-translating',
@@ -13,13 +14,14 @@ export class SentenceTranslatingComponent implements OnInit {
   @Input() courseKey: string;
   @Output() sendAnswerEvent = new EventEmitter<Object>();
 
-  constructor() { }
+  constructor(private exerciseService: ExerciseService) { }
 
   ngOnInit() {
     const filteredSentences = SENTENCES.filter(data => data.courseKey === this.courseKey);
 
     // TODO: Get sentences bằng http
-    this.exercise.initExercise(filteredSentences);
+    //this.exercise.initExercise(filteredSentences);
+    this.exercise = this.exerciseService.initExerciseSentenceTranslating(filteredSentences);
     this.userInput = '';
 
     this.sendAnswer(); // Ko sendAnswer ở đây thì nếu để trống mà bấm Xác nhận sẽ bị lỗi

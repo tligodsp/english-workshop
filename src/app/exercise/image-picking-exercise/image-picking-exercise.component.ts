@@ -3,6 +3,7 @@ import { VieEngImagePickingExercise } from '../../models/exercise';
 import { VocabularyService } from '../../vocabulary.service';
 import { Vocabulary } from '../../models/vocabulary';
 import { Output, EventEmitter } from '@angular/core'; 
+import { ExerciseService } from '../../services/exercise.service';
 
 @Component({
   selector: 'app-image-picking-exercise',
@@ -16,7 +17,7 @@ export class ImagePickingExerciseComponent implements OnInit {
   @Input() courseKey: string;
   @Output() sendAnswerEvent = new EventEmitter<Object>();
 
-  constructor(private vocabularyService: VocabularyService) { }
+  constructor(private vocabularyService: VocabularyService, private exerciseService: ExerciseService) { }
 
   sendAnswer(option: Vocabulary, index: number) {
     this.chosenId = index;
@@ -31,7 +32,8 @@ export class ImagePickingExerciseComponent implements OnInit {
 
     this.vocabData = this.vocabData.filter(data => data.courseKey === this.courseKey);
     
-    this.exercise.initExercise(this.vocabData);
+    //this.exercise.initExercise(this.vocabData);
+    this.exercise = this.exerciseService.initExerciseVieEngImagePicking(this.vocabData);
     this.chosenId = -1;
 
     this.sendAnswerEvent.emit({ correctAnswers: this.exercise.correctAnswers });

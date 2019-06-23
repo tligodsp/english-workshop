@@ -20,6 +20,10 @@ import { SentenceTranslatingComponent } from './exercise/sentence-translating/se
 import { ExerciseMenuPageComponent } from './exercise-menu-page/exercise-menu-page.component';
 import { ResultPageComponent } from './exercise/result-page/result-page.component';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database'
+import { environment } from 'src/environments/environment';
+
 @NgModule({
    declarations: [
       AppComponent,
@@ -43,6 +47,8 @@ import { ResultPageComponent } from './exercise/result-page/result-page.componen
       NgCircleProgressModule.forRoot(),
       PopoverModule.forRoot(),
       CountdownModule,
+      AngularFireModule.initializeApp(environment.firebase),
+      AngularFireDatabaseModule
    ],
    providers: [],
    bootstrap: [
