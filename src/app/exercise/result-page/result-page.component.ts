@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ExerciseResultHelper } from '../../helpers/exercise-result-helper';
 import { Session } from '../../models/session';
-import { SessionService } from '../../session.service';
+import { SessionService } from '../../services/session.service';
 import { SharedDataService } from '../../services/shared-data.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ExerciseAnswer } from 'src/app/models/exerciseAnswer';
@@ -33,6 +33,9 @@ export class ResultPageComponent implements OnInit {
   sessionAnswers = MOCKANSWERS;
   user: User;
   sessionExp: number;
+  correctAnswerPoint: number;
+  speedPoint: number;
+  accuracyPoint: number;
 
   modalRef: BsModalRef;
   popoverContext = {
@@ -53,9 +56,14 @@ export class ResultPageComponent implements OnInit {
     this.correctAnswers = this.session.numberOfCorrectAnswers;
     this.speed = ExerciseResultHelper.getTimeInMinFromSecond(this.session.speed);
     //this.accuracy = ExerciseResultHelper.getAccuracy(this.correctAnswers, this.session.numberOfQuestions);
-    this.accuracy = Math.round(this.session.getAccuracy() * 100);
-    this.totalPoints = this.session.getTotalPoints();
+    // this.accuracy = Math.round(this.session.getAccuracy() * 100);
+    // this.totalPoints = this.session.getTotalPoints();
+    this.accuracy = Math.round(this.sessionService.getAccuracy(this.session) * 100);
+    this.totalPoints = this.sessionService.getTotalPoints(this.session);
     
+    this.correctAnswerPoint = this.sessionService.getCorrectAnswersPoint(this.session);
+    this.accuracyPoint = this.sessionService.getAccuracyPoint(this.session);
+    this.speedPoint = this.sessionService.getSpeedPoint(this.session);
     /*
     this.correctAnswers = 8;
     this.speed = ExerciseResultHelper.getTimeInMinFromSecond(100);
