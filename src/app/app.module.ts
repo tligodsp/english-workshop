@@ -23,6 +23,7 @@ import { ResultPageComponent } from './exercise/result-page/result-page.componen
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database'
 import { environment } from 'src/environments/environment';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @NgModule({
    declarations: [
@@ -50,7 +51,7 @@ import { environment } from 'src/environments/environment';
       AngularFireModule.initializeApp(environment.firebase),
       AngularFireDatabaseModule
    ],
-   providers: [],
+   providers: [ AngularFirestore ],
    bootstrap: [
       AppComponent
    ]

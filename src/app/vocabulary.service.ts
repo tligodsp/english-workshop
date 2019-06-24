@@ -10,7 +10,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 export class VocabularyService {
   vocabList: any;
   constructor(db: AngularFireDatabase) {
-    console.log('aaaaaaa');
+    //console.log('aaaaaaa');
     db.list('exercise-datas/vocabularies').snapshotChanges()
       .subscribe(vocabList => {
         this.vocabList = vocabList;
