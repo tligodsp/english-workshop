@@ -1,5 +1,5 @@
 export class Difficulty {
-  id: number;
+  id: string;
   name: string;
   minutes: number;
 }

@@ -8,7 +8,7 @@ export class User {
     todayExp: number;
     streak: number; //days
     difficulty: Difficulty;
-    difficultyId: number;
+    difficultyId: string;
     totalPoints: number;
     role: string;
 }

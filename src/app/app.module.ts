@@ -25,6 +25,19 @@ import { AngularFireDatabaseModule } from '@angular/fire/database'
 import { environment } from 'src/environments/environment';
 import { AngularFirestore } from '@angular/fire/firestore';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { MatButtonModule,
+   MatFormFieldModule,
+   MatIconModule,
+   MatInputModule,
+   MatListModule,
+   MatSelectModule,
+   MatSidenavModule,
+   MatCardModule,
+   MatTableModule } from '@angular/material';
+
 @NgModule({
    declarations: [
       AppComponent,
@@ -38,6 +51,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
       SentenceTranslatingComponent,
       ExerciseMenuPageComponent,
       ResultPageComponent,
+      LoginPageComponent,
    ],
    imports: [
       BrowserModule,
@@ -48,8 +62,19 @@ import { AngularFirestore } from '@angular/fire/firestore';
       NgCircleProgressModule.forRoot(),
       PopoverModule.forRoot(),
       CountdownModule,
+      BrowserAnimationsModule,
       AngularFireModule.initializeApp(environment.firebase),
-      AngularFireDatabaseModule
+      AngularFireDatabaseModule,
+      NgxAuthFirebaseUIModule.forRoot(environment.firebase),
+      MatButtonModule,
+      MatFormFieldModule,
+      MatIconModule,
+      MatListModule,
+      MatInputModule,
+      MatSelectModule,
+      MatSidenavModule,
+      MatCardModule,
+      MatTableModule
    ],
    providers: [ AngularFirestore ],
    bootstrap: [

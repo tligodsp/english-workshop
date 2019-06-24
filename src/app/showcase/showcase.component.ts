@@ -22,4 +22,11 @@ export class ShowcaseComponent implements OnInit {
     }
   }
 
+  navigateToLogin() {
+    this.router.navigateByUrl('/login');
+  }
+
+  navigateToWelcome() {
+    this.router.navigateByUrl('/welcome');
+  }
 }

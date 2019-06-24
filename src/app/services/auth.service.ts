@@ -41,15 +41,18 @@ export class AuthService {
     return this.router.navigate(['/']);
   }
 
-  private updateUserData(user) {
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+  public updateUserData(user) {
+    //Set user data to firestore on login
+    //console.log(user.uid);
+    // const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+    const userRef = this.afs.collection('users').doc(user.uid);
 
-    let dif: Difficulty;
-    this.difficultyService.getDifficulty(user.difficultyId)
-      .subscribe((difficulty: Difficulty) => {
-        dif = difficulty;
-      });
-
+    // let dif: Difficulty = { id: 1, name: 'Vừa', minutes: 10};
+    // this.difficultyService.getDifficulty(user.difficultyId)
+    //   .subscribe((difficulty: Difficulty) => {
+    //     dif = difficulty;
+    //   });
+    
     const data = {
       uid: user.uid,
       email: user.email,
@@ -58,7 +61,7 @@ export class AuthService {
       todayExp: user.todayExp,
       streak: user.streak, //days
       difficultyId: user.difficultyId,
-      difficulty: dif,
+      difficulty: user.difficulty,
       totalPoints: user.totalPoints,
       role: user.role,
     }
