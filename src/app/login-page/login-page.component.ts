@@ -17,33 +17,52 @@ export class LoginPageComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+      //console.log(this.user);
+    });
   }
 
-
+  // async updateUser() {
+  //   await this.authService.user$.toPromise().then(user => {
+  //     //this.user = user;
+  //     console.log('a');
+  //     console.log(this.user);
+  //     console.log('b');
+  //   });
+  //   console.log(this.user);
+  // }
 
   onLoginSuccess() {
-    // console.log(event);
-    this.authService.user$.subscribe(user => {
-      //console.log(user);
-      if (user.difficultyId === undefined ) { //first time login
-        user.difficultyId = null;
-        user.role = 'member';
-        user.streak = 0;
-        user.todayExp = 0;
-        user.totalExp = 0;
-        user.totalPoints = 0;
-        user.difficulty = null;
-      }
-      this.authService.updateUserData(user);
-      setTimeout(() => {
-        if (user.difficultyId === null) {
-          this.router.navigateByUrl('/welcome');
+    setTimeout(()=>{
+      this.authService.user$.subscribe(user => {
+        if (user.difficultyId === undefined ) { //first time login
+          user.difficultyId = null;
+          //user.role = 'member';
+          user.streak = 0;
+          user.todayExp = 0;
+          user.totalExp = 0;
+          user.totalPoints = 0;
+          user.difficulty = null;
+          if (!user.email) {
+            user.role = 'guest';
+          }
+          else {
+            user.role = 'member';
+          }
+          //console.log(user);
         }
-        else {
-          this.router.navigateByUrl('/exercise-page');
-        }
-      }, 1000);
-    })
+        this.authService.updateUserData(user);
+        setTimeout(() => {
+          if (user.difficultyId === null) {
+            this.router.navigateByUrl('/welcome');
+          }
+          else {
+            this.router.navigateByUrl('/exercise-menu');
+          }
+        }, 1000);
+      })
+    }, 2000);
   }
 
   printError(event) {

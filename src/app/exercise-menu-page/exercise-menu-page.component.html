@@ -123,11 +123,15 @@
         </div>
 
         <div class="card mt-4 text-dark shadow">
-          <div class="card-body text-center">
+          <div class="card-body text-center" *ngIf="user.role==='guest'">
             <h3 class="font-weight-bolder">Tạo tài khoản để lưu lại tiến trình của bạn.</h3>
             <hr>
-            <button class="btn btn-lg btn-block btn-success">Tạo tài khoản</button>
-            <button class="btn btn-lg btn-block btn-primary">Đăng nhập</button>
+            <button class="btn btn-lg btn-block btn-primary" (click)="navigateToLogin()">Đăng nhập</button>
+          </div>
+          <div class="card-body text-center" *ngIf="user.role!=='guest'">
+            <h3 class="font-weight-bolder">Chào {{user.displayName}}</h3>
+            <hr>
+            <button class="btn btn-lg btn-block btn-primary" (click)="logOut()">Đăng xuất</button>
           </div>
         </div>
       </div>

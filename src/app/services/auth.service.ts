@@ -11,14 +11,16 @@ import { switchMap } from 'rxjs/operators';
 import { User } from '../models/user';
 import { DifficultyService } from './difficulty.service';
 import { Difficulty } from '../models/difficulty';
+import * as firebase from 'firebase/app'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   user$: Observable<User>;
+  //authState: FirebaseAuthState = null
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router, private difficultyService: DifficultyService) {
+  constructor(public afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router, private difficultyService: DifficultyService) {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
@@ -28,6 +30,10 @@ export class AuthService {
           return of(null);
       })
     );
+  }
+
+  async getCurUserData() {
+    //this.afAuth.user.
   }
 
   async googleSignin() {

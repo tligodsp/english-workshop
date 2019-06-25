@@ -7,17 +7,18 @@ import { SharedDataService } from '../../services/shared-data.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ExerciseAnswer } from 'src/app/models/exerciseAnswer';
 import { User } from '../../models/user';
+import { UserService } from '../../services/user.service';
 
-const MOCKANSWERS: ExerciseAnswer[] = [
-  { exerciseRequirement: 'Viết bằng tiếng Anh', exerciseDetail: 'Tôi ăn một quả trứng', userAnswer: 'I eat an egg', correctAnswer: 'I eat an egg', isCorrect: true, initExerciseAnswer: null },
-  { exerciseRequirement: 'Viết bằng tiếng Việt', exerciseDetail: 'The boy drinks water', userAnswer: 'Trứng', correctAnswer: 'Cậu ấy uống ước', isCorrect: true, initExerciseAnswer: null },
-  { exerciseRequirement: 'Chọn hình có nghĩa đúng', exerciseDetail: 'Táo', userAnswer: 'I drink water', correctAnswer: 'apple', isCorrect: false, initExerciseAnswer: null },
-  { exerciseRequirement: 'Viết bằng tiếng Anh', exerciseDetail: 'Cậu ấy ăn cơm', userAnswer: 'Nước', correctAnswer: 'Chingchong eats rice', isCorrect: false, initExerciseAnswer: null },
-  { exerciseRequirement: 'Đánh giấu nghĩa đúng', exerciseDetail: 'Sữa', userAnswer: 'Egg', correctAnswer: 'Milk', isCorrect: true, initExerciseAnswer: null },
-  { exerciseRequirement: 'Viết bằng tiếng Anh', exerciseDetail: 'Tôi ăn táo', userAnswer: 'I eat an egg', correctAnswer: 'I eat an apple', isCorrect: false, initExerciseAnswer: null },
-  { exerciseRequirement: 'Viết bằng tiếng Việt', exerciseDetail: 'She is a girl', userAnswer: 'girl', correctAnswer: 'Cô ấy là một cô gái', isCorrect: true, initExerciseAnswer: null },
-  { exerciseRequirement: 'Viết bằng tiếng Anh', exerciseDetail: 'Tôi uống sữa', userAnswer: 'I eat', correctAnswer: 'I drink milk', isCorrect: true, initExerciseAnswer: null },
-];
+// const MOCKANSWERS: ExerciseAnswer[] = [
+//   { exerciseRequirement: 'Viết bằng tiếng Anh', exerciseDetail: 'Tôi ăn một quả trứng', userAnswer: 'I eat an egg', correctAnswer: 'I eat an egg', isCorrect: true, initExerciseAnswer: null },
+//   { exerciseRequirement: 'Viết bằng tiếng Việt', exerciseDetail: 'The boy drinks water', userAnswer: 'Trứng', correctAnswer: 'Cậu ấy uống ước', isCorrect: true, initExerciseAnswer: null },
+//   { exerciseRequirement: 'Chọn hình có nghĩa đúng', exerciseDetail: 'Táo', userAnswer: 'I drink water', correctAnswer: 'apple', isCorrect: false, initExerciseAnswer: null },
+//   { exerciseRequirement: 'Viết bằng tiếng Anh', exerciseDetail: 'Cậu ấy ăn cơm', userAnswer: 'Nước', correctAnswer: 'Chingchong eats rice', isCorrect: false, initExerciseAnswer: null },
+//   { exerciseRequirement: 'Đánh giấu nghĩa đúng', exerciseDetail: 'Sữa', userAnswer: 'Egg', correctAnswer: 'Milk', isCorrect: true, initExerciseAnswer: null },
+//   { exerciseRequirement: 'Viết bằng tiếng Anh', exerciseDetail: 'Tôi ăn táo', userAnswer: 'I eat an egg', correctAnswer: 'I eat an apple', isCorrect: false, initExerciseAnswer: null },
+//   { exerciseRequirement: 'Viết bằng tiếng Việt', exerciseDetail: 'She is a girl', userAnswer: 'girl', correctAnswer: 'Cô ấy là một cô gái', isCorrect: true, initExerciseAnswer: null },
+//   { exerciseRequirement: 'Viết bằng tiếng Anh', exerciseDetail: 'Tôi uống sữa', userAnswer: 'I eat', correctAnswer: 'I drink milk', isCorrect: true, initExerciseAnswer: null },
+// ];
 
 @Component({
   selector: 'app-result-page',
@@ -30,7 +31,7 @@ export class ResultPageComponent implements OnInit {
   accuracy: number;
   totalPoints: number;
   session: Session;
-  sessionAnswers = MOCKANSWERS;
+  sessionAnswers: ExerciseAnswer[];
   user: User;
   sessionExp: number;
   correctAnswerPoint: number;
@@ -46,11 +47,13 @@ export class ResultPageComponent implements OnInit {
   constructor(private sessionService: SessionService, 
               private modalService: BsModalService,
               private sharedDataService: SharedDataService,
+              private userService: UserService,
               private router: Router) { }
 
   ngOnInit() {
     if (!this.sessionService.curSession) {
       this.router.navigateByUrl('/exercise-menu');
+      //console.log(this.sessionService.curSession);
     }
     this.session = this.sessionService.curSession;
     this.correctAnswers = this.session.numberOfCorrectAnswers;
@@ -73,21 +76,24 @@ export class ResultPageComponent implements OnInit {
     //console.log(this.session.sessionAnswers);
 
     this.sessionAnswers = this.session.sessionAnswers;
-    this.getUserFromLocalStorage();
+    //this.getUserFromLocalStorage();
+    this.user = this.sharedDataService.curUser;
     this.sessionExp = this.sharedDataService.selectedCourse.exp;
     //this.user.todayExp += this.sessionExp;
     if(this.accuracy >= 50) {
       this.user.todayExp += this.sessionExp;
+      this.user.totalExp += this.sessionExp;
     }
     if (this.user.todayExp === this.user.difficulty.minutes) {
       this.user.streak++;
     }
     
     this.user.totalPoints += this.totalPoints;
-    this.sharedDataService.selectedCourse = null;
-    this.sessionService.curSession = null;
+    // this.sharedDataService.selectedCourse = null;
+    // this.sessionService.curSession = null;
 
-    localStorage.setItem('user', JSON.stringify(this.user));
+    //localStorage.setItem('user', JSON.stringify(this.user));
+    this.userService.updateUserData(this.user);
   }
 
   getUserFromLocalStorage() {
@@ -110,7 +116,8 @@ export class ResultPageComponent implements OnInit {
   }
 
   finishSession() {
-    
+    this.sharedDataService.selectedCourse = null;
+    this.sessionService.curSession = null;
     this.router.navigateByUrl('/exercise-menu');
   }
 }

@@ -54,6 +54,7 @@ export class ExercisePageComponent implements OnInit {
 
     //this.session.initSession(this.maxQuestionNumber);
     this.session = this.sessionService.initSession(this.maxQuestionNumber);
+    this.sessionService.curSession = this.session
     this.correctSound.src = '../../assets/sounds/correct.mp3';
     this.incorrectSound.src = '../../assets/sounds/incorrect.mp3';
 
@@ -99,6 +100,7 @@ export class ExercisePageComponent implements OnInit {
 
   checkAnswer() {
     console.log(this.chosenAnswer);
+    console.log(this.sessionService.curSession);
     if(this.chosenAnswer.length < 1)
       return;
     if (this.correctAnswers.includes(this.chosenAnswer.toLowerCase())) {
@@ -118,10 +120,11 @@ export class ExercisePageComponent implements OnInit {
   nextQuestion() {
     if (this.currentQuestionNumber >= this.maxQuestionNumber) {
       console.log('Kết thúc bài học. Lưu thông tin vào localStorage và navigate tới trang chọn bài học.');
+      console.log(this.session);
       clearInterval(this.myTimer);
       //this.session.setSpeed(this.elapsedTime);
       this.sessionService.setSpeed(this.session, this.elapsedTime);
-      this.sessionService.curSession = this.session;
+      //this.sessionService.curSession = this.session;
       this.router.navigate(['/exercise/result']);
       return;
     }

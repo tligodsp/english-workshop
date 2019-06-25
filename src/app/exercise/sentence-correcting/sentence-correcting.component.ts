@@ -5,6 +5,8 @@ import { SENTENCES } from '../../mock-sentences';
 import { ArrayHelper } from 'src/app/helpers/array-helper';
 
 import { ExerciseService } from '../../services/exercise.service';
+import { Sentence } from '../../models/sentence';
+import { SharedDataService } from '../../services/shared-data.service';
 
 @Component({
   selector: 'app-sentence-correcting',
@@ -14,17 +16,23 @@ import { ExerciseService } from '../../services/exercise.service';
 export class SentenceCorrectingComponent implements OnInit {
   exercise: SentenceCorrectingExercise = new SentenceCorrectingExercise();
   wordsChoosing: string[] = [];
+  sentenceList: Sentence[];
+  fakeWords: string[];
   @Input() courseKey: string;
   @Output() sendAnswerEvent = new EventEmitter<Object>();
 
-  constructor(private exerciseService: ExerciseService) { }
+  constructor(private exerciseService: ExerciseService, private sharedDataService: SharedDataService) { }
 
   ngOnInit() {
-    const filteredSentences = SENTENCES.filter(data => data.courseKey === this.courseKey);
+    this.sentenceList = this.sharedDataService.sentenceList;
+    //const filteredSentences = SENTENCES.filter(data => data.courseKey === this.courseKey);
+    this.sentenceList = this.sentenceList.filter(data => data.courseKey === this.courseKey);
+
+    this.fakeWords = this.sharedDataService.vieWords;
 
     // TODO: Get sentences bằng http
     //this.exercise.initExercise(filteredSentences);
-    this.exercise = this.exerciseService.initExerciseSentenceCorrecting(filteredSentences);
+    this.exercise = this.exerciseService.initExerciseSentenceCorrecting(this.sentenceList, this.fakeWords);
 
     this.sendAnswer(); // Chủ yếu để send correctAnswers
   }

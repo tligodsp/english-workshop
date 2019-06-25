@@ -9,14 +9,17 @@ import {
 } from "../models/exercise";
 import { Vocabulary } from "../models/vocabulary";
 import { Sentence } from "../models/sentence";
-import { VIE_WORDS } from "../mock-words";
 import { ArrayHelper } from "../helpers/array-helper";
+import { FirebaseService } from "../services/firebase.service";
+import { VIE_WORDS } from "../mock-words";
 
 @Injectable({
   providedIn: "root"
 })
 export class ExerciseService {
-  constructor() {}
+
+  constructor(private firebaseService: FirebaseService) {
+  }
 
   //IMAGE PICKING
 
@@ -113,11 +116,12 @@ export class ExerciseService {
   //SENTENCE CORRECTING
 
   initExerciseSentenceCorrecting(
-    sentences: Sentence[]
+    sentences: Sentence[],
+    fakeWords: string[]
   ): SentenceCorrectingExercise {
     let ex = new SentenceCorrectingExercise();
     this.chooseSentenceSentenceCorrecting(ex, sentences);
-    this.setWordsToChooseSentenceCorrecting(ex);
+    this.setWordsToChooseSentenceCorrecting(ex, fakeWords);
     ex.type = "engvie-sentencecorrecting";
     ex.requirement = `${ex.chosenSentence.eng} nghĩa là:`;
     ex.exerciseDetail = ex.chosenSentence.eng;
@@ -134,7 +138,7 @@ export class ExerciseService {
   }
 
   //** Set các lựa chọn words gồm các chữ đúng cộng thêm 4 chữ random */
-  setWordsToChooseSentenceCorrecting(exercise: SentenceCorrectingExercise): void {
+  setWordsToChooseSentenceCorrecting(exercise: SentenceCorrectingExercise, fakeWords: string[]): void {
     const wordsOfChosenSentence = exercise.chosenSentence.vie[0].split(" "); // Tách câu ra thành mảng các chữ
     exercise.wordsToChoose = exercise.wordsToChoose.concat(
       wordsOfChosenSentence
@@ -145,7 +149,7 @@ export class ExerciseService {
       let fakeWordToPush;
       do {
         fakeWordToPush =
-          VIE_WORDS[Math.floor(Math.random() * VIE_WORDS.length)];
+          fakeWords[Math.floor(Math.random() * fakeWords.length)];
       } while (exercise.wordsToChoose.includes(fakeWordToPush));
 
       exercise.wordsToChoose.push(fakeWordToPush);

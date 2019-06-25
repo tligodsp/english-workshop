@@ -3,12 +3,30 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { Difficulty } from "../models/difficulty";
 import { User } from "../models/user";
 import { Observable, of } from "rxjs";
+import { COURSES } from '../mock-courses';
+import { SENTENCES } from '../mock-sentences';
+import { VOCABULARIES } from '../mock-vocabularies';
+import { VIE_WORDS } from '../mock-words';
+import { Course } from '../models/course';
+import { Vocabulary } from '../models/vocabulary';
+import { Sentence } from '../models/sentence';
 
 @Injectable({
   providedIn: "root"
 })
 export class FirebaseService {
   constructor(public db: AngularFirestore) {}
+
+  addStuff() {
+    // For migrating mock datas to server
+    COURSES.forEach(item => {
+      console.log(item);
+      this.db.collection("courses").doc(item.key).set(item);
+    });
+    // this.db.collection("exercise-data").doc("0").collection("words").doc("vie-word").set({
+    //   wordList: VIE_WORDS
+    // });
+  }
 
   updateUserData(user: User) {
     const userRef = this.db.collection('users').doc(user.uid);
@@ -29,6 +47,71 @@ export class FirebaseService {
     return userRef.set(data, { merge: true });
   }
 
+  getCourses(): Course[] {
+    let res: Course[] = [];
+    this.db.collection('courses').get().toPromise().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        // res.push({ ...doc.data() });
+        res.push({
+          key: doc.data().key,
+          title: doc.data().title,
+          maxQuestionNumber: doc.data().maxQuestionNumber,
+          description: doc.data().description,
+          logoUrl: doc.data().logoUrl,
+          backgroundColor: doc.data().backgroundColor,
+          exp: doc.data().exp
+        });
+      });
+      //console.log('in');
+    });
+    //console.log('out');
+    return res;
+  }
+
+  getVocabularies(): Vocabulary[] {
+    let res: Vocabulary[] = [];
+    this.db.collection('exercise-data').doc('0').collection('vocabularies').get().toPromise().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        // res.push({ ...doc.data() });
+        res.push({
+          id: doc.data().id,
+          courseKey: doc.data().courseKey,
+          engWord: doc.data().engWord,
+          vieMeaning: doc.data().vieMeaning,
+          illustration: doc.data().illustration
+        });
+      });
+    });
+    return res;
+  }
+
+  getSentences(): Sentence[] {
+    let res: Sentence[] = [];
+    this.db.collection('exercise-data').doc('0').collection('sentences').get().toPromise().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        // res.push({ ...doc.data() });
+        res.push({
+          courseKey: doc.data().courseKey,
+          eng: doc.data().eng,
+          vie: doc.data().vie,
+        });
+      });
+      //console.log('sentence in');
+    });
+    //console.log('sentence out');
+    return res;
+  }
+
+  getVieWordList(): string[] {
+    let res: string[] = [];
+    this.db.collection('exercise-data').doc('0').collection('words').doc('vie-word').get().toPromise().then(doc => {
+      doc.data().wordList.forEach(word => {
+        res.push(word);
+      });
+    });
+    return res;
+  }
+
   getDifficulties(): Difficulty[] {
     let res: Difficulty[] = [];
     this.db.collection('difficulties').get().toPromise().then(querySnapshot => {
@@ -36,10 +119,10 @@ export class FirebaseService {
           // doc.data() is never undefined for query doc snapshots
           //console.log(doc.id, " => ", doc.data());
           //console.log(doc.data().id);
-          res.push({id: doc.data().id, name: doc.data().name, minutes: doc.data().minutes})
+          res.push({ id: doc.data().id, name: doc.data().name, minutes: doc.data().minutes });
       });
     });
-    console.log(res);
+    //console.log(res);
     return res;
   }
 
