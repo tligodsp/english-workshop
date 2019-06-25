@@ -37,6 +37,7 @@ import { MatButtonModule,
    MatSidenavModule,
    MatCardModule,
    MatTableModule } from '@angular/material';
+import { CreateDataPageComponent } from './admin/create-data-page/create-data-page.component';
 
 @NgModule({
    declarations: [
@@ -52,6 +53,7 @@ import { MatButtonModule,
       ExerciseMenuPageComponent,
       ResultPageComponent,
       LoginPageComponent,
+      CreateDataPageComponent,
    ],
    imports: [
       BrowserModule,
