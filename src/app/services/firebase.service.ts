@@ -10,6 +10,8 @@ import { VIE_WORDS } from '../mock-words';
 import { Course } from '../models/course';
 import { Vocabulary } from '../models/vocabulary';
 import { Sentence } from '../models/sentence';
+import { ID } from '../helpers/ultil';
+import * as firebase from 'firebase/app'
 
 @Injectable({
   providedIn: "root"
@@ -45,6 +47,26 @@ export class FirebaseService {
     }
 
     return userRef.set(data, { merge: true });
+  }
+
+  createCourse(course: Course) {
+    this.db.collection('courses').doc(course.key).set({ ...course });
+    // return this.db.collection('courses').doc(course.key).set(course).then(() => console.log("email sent"))
+    // .catch((error) => console.log('error'));
+  }
+
+  createVocabulary(vocab: Vocabulary) {
+    this.db.collection('exercise-data').doc('0').collection('vocabularies').doc(vocab.id).set({ ...vocab });
+  }
+
+  createSentence(sentence: Sentence) {
+    this.db.collection('exercise-data').doc('0').collection('sentences').doc(ID()).set({ ...sentence });
+  }
+
+  createVieWord(word: string) {
+    this.db.collection('exercise-data').doc('0').collection('words').doc('vie-word').update({
+      wordList: firebase.firestore.FieldValue.arrayUnion(word)
+    });
   }
 
   getCourses(): Course[] {

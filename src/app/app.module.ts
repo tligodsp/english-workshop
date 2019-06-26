@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { CountdownModule } from 'ngx-countdown';
@@ -38,6 +38,8 @@ import { MatButtonModule,
    MatCardModule,
    MatTableModule } from '@angular/material';
 import { CreateDataPageComponent } from './admin/create-data-page/create-data-page.component';
+import { ToastrModule } from 'ngx-toastr';
+import { UpdateDataPageComponent } from './admin/update-data-page/update-data-page.component';
 
 @NgModule({
    declarations: [
@@ -54,11 +56,13 @@ import { CreateDataPageComponent } from './admin/create-data-page/create-data-pa
       ResultPageComponent,
       LoginPageComponent,
       CreateDataPageComponent,
+      UpdateDataPageComponent,
    ],
    imports: [
       BrowserModule,
       AppRoutingModule,
       FormsModule,
+      ReactiveFormsModule,
       ModalModule.forRoot(),
       TooltipModule.forRoot(),
       NgCircleProgressModule.forRoot(),
@@ -76,7 +80,8 @@ import { CreateDataPageComponent } from './admin/create-data-page/create-data-pa
       MatSelectModule,
       MatSidenavModule,
       MatCardModule,
-      MatTableModule
+      MatTableModule,
+      ToastrModule.forRoot()
    ],
    providers: [ AngularFirestore ],
    bootstrap: [

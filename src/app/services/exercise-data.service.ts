@@ -23,4 +23,16 @@ export class ExerciseDataService {
   getVieWords(): Observable<string[]> {
     return of(this.firebaseService.getVieWordList());
   }
+
+  createVieWord(word: string) {
+    this.firebaseService.createVieWord(word);
+  }
+
+  createVocabulary(vocab: Vocabulary) {
+    this.firebaseService.createVocabulary(vocab);
+  }
+
+  createSentence(sentence: Sentence) {
+    this.firebaseService.createSentence(sentence);
+  }
 }

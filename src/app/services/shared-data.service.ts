@@ -13,6 +13,7 @@ export class SharedDataService {
   sentenceList: Sentence[];
   vieWords: string[];
   curUser: User;
+  courseList: Course[];
 
   constructor() { }
 
