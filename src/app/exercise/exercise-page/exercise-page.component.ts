@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { Session } from '../../models/session';
-import { SessionService } from '../../session.service';
+import { SessionService } from '../../services/session.service';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 
 const TYPE_LIST = ['engvie-sentencecorrecting', 'vieeng-imagepicking', 'vieeng-picturetranslating', 'engvie-sentencetranslating', 'vocabpicking'];
@@ -52,7 +52,9 @@ export class ExercisePageComponent implements OnInit {
 
     this.generateRandomExerciseType();
 
-    this.session.initSession(this.maxQuestionNumber);
+    //this.session.initSession(this.maxQuestionNumber);
+    this.session = this.sessionService.initSession(this.maxQuestionNumber);
+    this.sessionService.curSession = this.session
     this.correctSound.src = '../../assets/sounds/correct.mp3';
     this.incorrectSound.src = '../../assets/sounds/incorrect.mp3';
 
@@ -98,26 +100,31 @@ export class ExercisePageComponent implements OnInit {
 
   checkAnswer() {
     console.log(this.chosenAnswer);
+    console.log(this.sessionService.curSession);
     if(this.chosenAnswer.length < 1)
       return;
     if (this.correctAnswers.includes(this.chosenAnswer.toLowerCase())) {
       this.correctSound.play();
       this.isCorrect = true;
-      this.session.increaseNumberOfCorrectAnswers();
+      //this.session.increaseNumberOfCorrectAnswers();
+      this.sessionService.increaseNumberOfCorrectAnswers(this.session);
     }
     else {
       this.incorrectSound.play();
       this.isCorrect = false;
     }
-    this.session.pushUserAnswer(this.currentExerciseType, this.chosenAnswer, this.correctAnswers, this.exerciseDetail, this.isCorrect);
+    //this.session.pushUserAnswer(this.currentExerciseType, this.chosenAnswer, this.correctAnswers, this.exerciseDetail, this.isCorrect);
+    this.sessionService.pushUserAnswer(this.session, this.currentExerciseType, this.chosenAnswer, this.correctAnswers, this.exerciseDetail, this.isCorrect);
   }
 
   nextQuestion() {
     if (this.currentQuestionNumber >= this.maxQuestionNumber) {
       console.log('Kết thúc bài học. Lưu thông tin vào localStorage và navigate tới trang chọn bài học.');
+      console.log(this.session);
       clearInterval(this.myTimer);
-      this.session.setSpeed(this.elapsedTime);
-      this.sessionService.curSession = this.session;
+      //this.session.setSpeed(this.elapsedTime);
+      this.sessionService.setSpeed(this.session, this.elapsedTime);
+      //this.sessionService.curSession = this.session;
       this.router.navigate(['/exercise/result']);
       return;
     }

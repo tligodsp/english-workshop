@@ -7,47 +7,47 @@ export class Session {
     speed: number; //in second
     sessionAnswers: ExerciseAnswer[] = [];
 
-    initSession(numOfQuestions: number) {
-        this.numberOfQuestions = numOfQuestions;
-        this.numberOfCorrectAnswers = 0;
-        this.speed = 0;
-        this.sessionAnswers;
-    }
+    // initSession(numOfQuestions: number) {
+    //     this.numberOfQuestions = numOfQuestions;
+    //     this.numberOfCorrectAnswers = 0;
+    //     this.speed = 0;
+    //     this.sessionAnswers;
+    // }
 
-    pushUserAnswer(exerciseType: string, userAnswer: string, correctAnswer: string[], exerciseDetail: string, isCorrect: boolean) {
-        let newAnswer = new ExerciseAnswer();
-        newAnswer.initExerciseAnswer(exerciseType, userAnswer, correctAnswer, exerciseDetail, isCorrect);
-        this.sessionAnswers.push(newAnswer);
-    }
+    // pushUserAnswer(exerciseType: string, userAnswer: string, correctAnswer: string[], exerciseDetail: string, isCorrect: boolean) {
+    //     let newAnswer = new ExerciseAnswer();
+    //     newAnswer.initExerciseAnswer(exerciseType, userAnswer, correctAnswer, exerciseDetail, isCorrect);
+    //     this.sessionAnswers.push(newAnswer);
+    // }
 
-    increaseNumberOfCorrectAnswers() {
-        this.numberOfCorrectAnswers++;
-    }
+    // increaseNumberOfCorrectAnswers() {
+    //     this.numberOfCorrectAnswers++;
+    // }
 
-    setSpeed(speedToSet: number) {
-        this.speed = speedToSet;
-    }
+    // setSpeed(speedToSet: number) {
+    //     this.speed = speedToSet;
+    // }
 
-    getCorrectAnswersPoint(): number {
-        return this.numberOfCorrectAnswers * 15 // 15 điểm cho mỗi câu đúng
-    }
+    // getCorrectAnswersPoint(): number {
+    //     return this.numberOfCorrectAnswers * 15 // 15 điểm cho mỗi câu đúng
+    // }
 
-    getSpeedPoint(): number {
-        if (this.speed > 180)
-            return 0; // nếu làm bài lâu hơn 3 phút thì không được bonus speed points
+    // getSpeedPoint(): number {
+    //     if (this.speed > 180)
+    //         return 0; // nếu làm bài lâu hơn 3 phút thì không được bonus speed points
 
-        return Math.round((Math.abs(this.speed - 180) / 180) * 20 * this.numberOfCorrectAnswers); // tính dựa trên tốc độ và số câu đúng
-    }
+    //     return Math.round((Math.abs(this.speed - 180) / 180) * 20 * this.numberOfCorrectAnswers); // tính dựa trên tốc độ và số câu đúng
+    // }
 
-    getAccuracy(): number {
-        return this.numberOfCorrectAnswers / this.numberOfQuestions;
-    }
+    // getAccuracy(): number {
+    //     return this.numberOfCorrectAnswers / this.numberOfQuestions;
+    // }
 
-    getAccuracyPoint(): number {
-        return this.getAccuracy() * 120; // 100% -> 120pts, 50% -> 60pts, 0% -> 0pts
-    }
+    // getAccuracyPoint(): number {
+    //     return this.getAccuracy() * 120; // 100% -> 120pts, 50% -> 60pts, 0% -> 0pts
+    // }
 
-    getTotalPoints(): number {
-        return this.getAccuracyPoint() + this.getCorrectAnswersPoint() + this.getSpeedPoint(); 
-    }
+    // getTotalPoints(): number {
+    //     return this.getAccuracyPoint() + this.getCorrectAnswersPoint() + this.getSpeedPoint(); 
+    // }
 }

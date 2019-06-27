@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-lg navbar-primary bg-primary">
+          <div class="container">
+            <a class="navbar-brand text-white" style="font-size: 2rem;" href="#">English Workshop</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        
+        
+            <ul class="navbar-nav font-weight-bolder" style="font-size: 1rem;">
+              <li class="nav-item mr-2">
+                <a class="nav-link text-white" href="/showcase">Trang chủ</a>
+              </li>
+              </ul>
+
+          </div>
+</nav>
+<div class="screen-background">
+     <mat-card class="mat-card" fxflex="50" style="margin: auto; flex: 1 1 100%; box-sizing: border-box; max-width: 40%;">
+          <mat-card-content>
+                    <ngx-auth-firebaseui (onSuccess)="onLoginSuccess()" (onError)="printError($event)" [guestEnabled]="true"
+                    [providers]="[providers.Google]" >
+               </ngx-auth-firebaseui>
+          </mat-card-content>
+          
+     </mat-card>
+</div>

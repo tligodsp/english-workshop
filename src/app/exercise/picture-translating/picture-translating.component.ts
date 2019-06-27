@@ -2,7 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { PictureTraslatingExercise } from '../../models/exercise';
 import { VocabularyService } from '../../vocabulary.service';
 import { Vocabulary } from '../../models/vocabulary';
-import { Output, EventEmitter } from '@angular/core'; 
+import { Output, EventEmitter } from '@angular/core';
+import { ExerciseService } from '../../services/exercise.service';
+import { SharedDataService } from '../../services/shared-data.service';
 
 @Component({
   selector: 'app-picture-translating',
@@ -16,7 +18,8 @@ export class PictureTranslatingComponent implements OnInit {
   @Input() courseKey: string;
   @Output() sendAnswerEvent = new EventEmitter<Object>();
 
-  constructor(private vocabularyService: VocabularyService) { }
+  constructor(private vocabularyService: VocabularyService, private exerciseService: ExerciseService,
+    private sharedService: SharedDataService) { }
 
   sendAnswer() {
     this.sendAnswerEvent.emit({ chosenAnswer: this.userInput, 
@@ -25,12 +28,14 @@ export class PictureTranslatingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.vocabularyService.getVocabularies()
-        .subscribe(vocabularies => this.vocabData = vocabularies);
+    // this.vocabularyService.getVocabularies()
+    //     .subscribe(vocabularies => this.vocabData = vocabularies);
+    this.vocabData = this.sharedService.vocabList;
 
     this.vocabData = this.vocabData.filter(data => data.courseKey === this.courseKey);
 
-    this.exercise.initExercise(this.vocabData);
+    //this.exercise.initExercise(this.vocabData);
+    this.exercise = this.exerciseService.initExercisePictureTranslating(this.vocabData);
     this.userInput = '';
     this.sendAnswer();
   }

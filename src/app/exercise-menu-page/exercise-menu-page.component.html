@@ -14,6 +14,12 @@
       <li class="nav-item mr-2 custom-nav-active ">
         <a class="nav-link text-white" href="/exercise-menu">Các bài học</a>
       </li>
+      <li class="nav-item mr-2" *ngIf="user.role==='admin'">
+        <a class="nav-link text-white" href="/admin/create-data">Tạo bài tập</a>
+      </li>
+      <li class="nav-item mr-2" *ngIf="user.role==='admin'">
+        <a class="nav-link text-white" href="/admin/update-data">Sửa bài tập</a>
+      </li>
     </ul>
 
     <!-- <div class="collapse navbar-collapse">
@@ -120,11 +126,15 @@
         </div>
 
         <div class="card mt-4 text-dark shadow">
-          <div class="card-body text-center">
+          <div class="card-body text-center" *ngIf="user.role==='guest'">
             <h3 class="font-weight-bolder">Tạo tài khoản để lưu lại tiến trình của bạn.</h3>
             <hr>
-            <button class="btn btn-lg btn-block btn-success">Tạo tài khoản</button>
-            <button class="btn btn-lg btn-block btn-primary">Đăng nhập</button>
+            <button class="btn btn-lg btn-block btn-primary" (click)="navigateToLogin()">Đăng nhập</button>
+          </div>
+          <div class="card-body text-center" *ngIf="user.role!=='guest'">
+            <h3 class="font-weight-bolder">Chào {{user.displayName}}</h3>
+            <hr>
+            <button class="btn btn-lg btn-block btn-primary" (click)="logOut()">Đăng xuất</button>
           </div>
         </div>
       </div>

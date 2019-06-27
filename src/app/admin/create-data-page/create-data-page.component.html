@@ -1,0 +1,278 @@
+<nav class="navbar navbar-expand-lg navbar-primary bg-primary">
+  <div class="container">
+    <a class="navbar-brand text-white" style="font-size: 2rem;" href="#">English Workshop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <ul class="navbar-nav font-weight-bolder" style="font-size: 1rem;">
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/showcase">Trang chủ</a>
+      </li>
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/exercise-menu">Các bài học</a>
+      </li>
+      <li class="nav-item mr-2" custom-nav-active>
+        <a class="nav-link text-white" href="/admin/create-data">Tạo bài tập</a>
+      </li>
+      <li class="nav-item mr-2">
+          <a class="nav-link text-white" href="/admin/update-data">Sửa bài tập</a>
+        </li>
+    </ul>
+  </div>
+</nav>
+
+<div style="background-color: #eee; min-height: 100vh; padding-top: 2rem;">
+  <div class="container" style="background-color: white; padding: 50px 30px; border-radius: 20px; 
+  border-style: solid;border-width: 2px; border-color: #5bc0de">
+
+    <!-- <h1 class="font-weight-bold text-right" style="margin-right: 50px">COURSE MỚI</h1> -->
+
+
+    <div class="row">
+      <div class="col-4">
+        <div style="padding-top: 10px">
+          <button type="button" class="btn btn-outline-primary btn-lg btn-block"
+            (click)="changeExerciseDataType('course')">Course mới</button>
+        </div>
+        <div style="padding-top: 10px">
+          <button type="button" class="btn btn-outline-primary btn-lg btn-block"
+            (click)="changeExerciseDataType('vocabulary')">Vocabulary mới</button>
+        </div>
+        <div style="padding-top: 10px">
+          <button type="button" class="btn btn-outline-primary btn-lg btn-block"
+            (click)="changeExerciseDataType('sentence')">Sentence mới</button>
+        </div>
+        <div style="padding-top: 10px">
+          <button type="button" class="btn btn-outline-primary btn-lg btn-block"
+            (click)="changeExerciseDataType('word')">Word mới</button>
+        </div>
+      </div>
+
+
+      <div class="col-8">
+        <!-- WORD -->
+        <mat-card *ngIf="exerciseDataType==='word'">
+          <mat-card-title>
+            <h1 class="font-weight-bold text-center">MOCK WORD MỚI</h1>
+          </mat-card-title>
+          <form class="example-container" [formGroup]="wordForm">
+            <mat-form-field appearance="outline">
+              <mat-label>Word</mat-label>
+              <input matInput placeholder="Placeholder" required [(ngModel)]="newWord" formControlName="word">
+              <mat-icon matSuffix>format_quote</mat-icon>
+              <mat-error *ngIf="wordForm.get('word').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Từ</mat-hint>
+            </mat-form-field>
+
+
+          </form>
+        </mat-card>
+
+        <!-- VOCABULARY -->
+        <mat-card *ngIf="exerciseDataType==='vocabulary'">
+          <mat-card-title>
+            <h1 class="font-weight-bold text-center">VOCABULARY MỚI</h1>
+          </mat-card-title>
+          <form class="example-container" [formGroup]="vocabularyForm">
+            <!-- <mat-form-field appearance="outline">
+              <mat-label>Id</mat-label>
+              <input matInput placeholder="Placeholder" [(ngModel)]="newVocabulary.id" formControlName="vocabularyId">
+              <mat-icon matSuffix>vpn_key</mat-icon>
+              <mat-error *ngIf="vocabularyForm.get('vocabularyId').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Mã vocabulary</mat-hint>
+            </mat-form-field> -->
+            <mat-form-field appearance="outline">
+              <mat-label>Course</mat-label>
+              <!-- <input matInput placeholder="Placeholder"> -->
+              <mat-select required formControlName="vocabularyCourse" (selectionChange)="vocabCourseSelected($event)">
+                <mat-option *ngFor="let course of sharedDataService.courseList" [value]="course.key">
+                  {{course.title}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>school</mat-icon>
+              <mat-error *ngIf="vocabularyForm.get('vocabularyCourse').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Course sử dụng vocabulary này</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>English word</mat-label>
+              <input matInput placeholder="Placeholder" required [(ngModel)]="newVocabulary.engWord"
+                formControlName="vocabularyEngWord">
+              <mat-icon matSuffix>language</mat-icon>
+              <mat-error *ngIf="vocabularyForm.get('vocabularyEngWord').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Tiếng Anh</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Vietnamese word</mat-label>
+              <input matInput placeholder="Placeholder" required [(ngModel)]="newVocabulary.vieMeaning"
+                formControlName="vocabularyVieWord">
+              <mat-icon matSuffix>language</mat-icon>
+              <mat-error *ngIf="vocabularyForm.get('vocabularyVieWord').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Tiếng Việt</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Url hình minh họa</mat-label>
+              <input matInput placeholder="Placeholder" required [(ngModel)]="newVocabulary.illustration"
+                formControlName="vocabularyIllust">
+              <mat-icon matSuffix>photo</mat-icon>
+              <mat-error *ngIf="vocabularyForm.get('vocabularyIllust').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Đường dẫn đến hình minh họa</mat-hint>
+            </mat-form-field>
+
+          </form>
+        </mat-card>
+
+        <!-- SENTENCE -->
+        <mat-card *ngIf="exerciseDataType==='sentence'">
+          <mat-card-title>
+            <h1 class="font-weight-bold text-center">SENTENCE MỚI</h1>
+          </mat-card-title>
+          <form class="example-container" [formGroup]="sentenceForm">
+            <mat-form-field appearance="outline">
+              <mat-label>Course</mat-label>
+              <!-- <input matInput placeholder="Placeholder"> -->
+              <mat-select required formControlName="sentenceCourse" (selectionChange)="sentenceCourseSelected($event)">
+                <mat-option *ngFor="let course of sharedDataService.courseList" [value]="course.key">
+                  {{course.title}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>school</mat-icon>
+              <mat-error *ngIf="sentenceForm.get('sentenceCourse').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Course sử dụng sentence này</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>English sentence</mat-label>
+              <input matInput placeholder="Placeholder" required [(ngModel)]="newSentence.eng"
+                formControlName="sentenceEng">
+              <mat-icon matSuffix>language</mat-icon>
+              <mat-error *ngIf="sentenceForm.get('sentenceEng').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Câu bằng tiếng Anh</mat-hint>
+            </mat-form-field>
+
+            <div class="example-container"
+              style="padding: 10px; border-radius: 20px; border-style: solid; border-width: 2px; border-color: #aaa">
+              <mat-list-item *ngFor="let i of sentenceCountArray()">
+                <mat-form-field class="mat-item-style" appearance="outline">
+                  <mat-label>Vietnamese sentence</mat-label>
+                  <input matInput placeholder="Placeholder" required [(ngModel)]="vieSentenceArr[i - 1]"
+                    formControlName="sentenceVie{{i}}">
+                  <mat-icon matSuffix>language</mat-icon>
+                  <mat-error *ngIf="sentenceForm.get('sentenceVie' + i).hasError('required')">
+                    This field is required
+                  </mat-error>
+                  <mat-hint>Câu bằng tiếng Việt</mat-hint>
+                </mat-form-field>
+              </mat-list-item>
+
+              <div class="col d-flex" style="align-content: flex-end; justify-content: flex-end">
+                <button type="button" class="btn btn-primary btn-circle" style="margin: 10px 10px 0 0"
+                  (click)="increaseSentenceCount()"><i class="fa fa-plus"></i></button>
+                <button type="button" class="btn btn-danger btn-circle" style="margin: 10px 0 0 0"
+                  (click)="decreaseSentenceCount()"><i class="fa fa-minus"></i></button>
+              </div>
+
+            </div>
+
+          </form>
+
+        </mat-card>
+
+        <!-- COURSE -->
+        <mat-card *ngIf="exerciseDataType==='course'">
+          <mat-card-title>
+            <h1 class="font-weight-bold text-center">COURSE MỚI</h1>
+          </mat-card-title>
+          <form class="example-container" [formGroup]="courseForm">
+            <mat-form-field appearance="outline">
+              <mat-label>Course key</mat-label>
+              <input matInput placeholder="Placeholder" required [(ngModel)]="newCourse.key"
+                formControlName="courseKey">
+              <mat-icon matSuffix>vpn_key</mat-icon>
+              <mat-error *ngIf="courseForm.get('courseKey').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Mã course</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Course title</mat-label>
+              <input matInput placeholder="Placeholder" required [(ngModel)]="newCourse.title"
+                formControlName="courseTitle">
+              <mat-icon matSuffix>title</mat-icon>
+              <mat-error *ngIf="courseForm.get('courseTitle').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Tiêu đề course</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Course description</mat-label>
+              <input matInput placeholder="Placeholder" [(ngModel)]="newCourse.description"
+                formControlName="courseDescription">
+              <mat-icon matSuffix>description</mat-icon>
+              <mat-hint>Mô tả course</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Question number</mat-label>
+              <input matInput placeholder="Placeholder" type="number" required [(ngModel)]="newCourse.maxQuestionNumber"
+                formControlName="courseQuestionNumber">
+              <mat-icon matSuffix>question_answer </mat-icon>
+              <mat-error *ngIf="courseForm.get('courseQuestionNumber').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Số câu hỏi tối đa</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Logo url</mat-label>
+              <input matInput placeholder="Placeholder" [(ngModel)]="newCourse.logoUrl" formControlName="courseLogoUrl">
+              <mat-icon matSuffix>image</mat-icon>
+              <mat-hint>Đường dẫn đến logo course</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Background color</mat-label>
+              <input matInput placeholder="Placeholder" [(ngModel)]="newCourse.backgroundColor"
+                formControlName="courseBackgroundColor">
+              <mat-icon matSuffix>format_color_fill</mat-icon>
+              <mat-hint>Màu nền</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Exp</mat-label>
+              <input matInput placeholder="Placeholder" type="number" required [(ngModel)]="newCourse.exp"
+                formControlName="courseExp">
+              <mat-icon matSuffix>star</mat-icon>
+              <mat-error *ngIf="courseForm.get('courseExp').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Điểm kinh nghiệm</mat-hint>
+            </mat-form-field>
+
+          </form>
+        </mat-card>
+
+
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-primary btn-lg float-right mt-4" (click)="onCreateClick()">Thêm</button>
+    </div>
+
+
+  </div>
+</div>
