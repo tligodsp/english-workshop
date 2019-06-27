@@ -11,12 +11,24 @@ import { forEach } from '@angular/router/src/utils/collection';
 export class CourseService {
   constructor(private firebaseService: FirebaseService) {}
 
+  getCoursesValueChanges() {
+    return this.firebaseService.getCoursesValueChanges();
+  }
+
   getCourses(): Observable<Course[]> {
     return of(this.firebaseService.getCourses());
   }
 
+  updateCourse(course: Course) {
+    this.firebaseService.updateCourse(course);
+  }
+
   createCourse(course: Course) {
     this.firebaseService.createCourse(course);
+  }
+
+  deleteCourse(courseKey: string) {
+    this.firebaseService.deleteCourse(courseKey);
   }
 
   isNewKey(key: string, courseList: Course[]): Boolean {

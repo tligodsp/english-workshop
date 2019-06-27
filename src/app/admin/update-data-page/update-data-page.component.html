@@ -1,3 +1,550 @@
-<p>
-  update-data-page works!
-</p>
+<nav class="navbar navbar-expand-lg navbar-primary bg-primary">
+  <div class="container">
+    <a class="navbar-brand text-white" style="font-size: 2rem;" href="#">English Workshop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <ul class="navbar-nav font-weight-bolder" style="font-size: 1rem;">
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/showcase">Trang chủ</a>
+      </li>
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/exercise-menu">Các bài học</a>
+      </li>
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/admin/create-data">Tạo bài tập</a>
+      </li>
+      <li class="nav-item mr-2" custom-nav-active>
+          <a class="nav-link text-white" href="/admin/update-data">Sửa bài tập</a>
+        </li>
+    </ul>
+  </div>
+</nav>
+
+
+
+<div style="background-color: #eee; min-height: 100vh; padding-top: 2rem;">
+  <div class="container" style="background-color: white; padding: 50px 30px; border-radius: 20px; 
+      border-style: solid;border-width: 2px; border-color: #5bc0de">
+    <div class="row">
+      <div class="col-4">
+        <div style="padding-top: 10px">
+          <button type="button" class="btn btn-outline-primary btn-lg btn-block"
+            (click)="changeExerciseDataType('course')">Cập nhật Course</button>
+        </div>
+        <div style="padding-top: 10px">
+          <button type="button" class="btn btn-outline-primary btn-lg btn-block"
+            (click)="changeExerciseDataType('vocabulary')">Cập nhật Vocabulary</button>
+        </div>
+        <div style="padding-top: 10px">
+          <button type="button" class="btn btn-outline-primary btn-lg btn-block"
+            (click)="changeExerciseDataType('sentence')">Cập nhật Sentence</button>
+        </div>
+        <div style="padding-top: 10px">
+          <button type="button" class="btn btn-outline-primary btn-lg btn-block"
+            (click)="changeExerciseDataType('word')">Cập nhật Word</button>
+        </div>
+      </div>
+      <div class="col-8">
+
+        <!-- COURSE -->
+        <mat-card *ngIf="exerciseDataType==='course'">
+          <mat-card-title>
+            <h1 class="font-weight-bold text-center">CẬP NHẬT COURSE</h1>
+          </mat-card-title>
+          <div class="example-container">
+            <mat-form-field>
+              <input matInput (keyup)="courseApplyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+            <div class="mat-elevation-z8">
+              <table mat-table [dataSource]="courseDataSource">
+
+                <!-- Key Column -->
+                <ng-container matColumnDef="courseKey">
+                  <th mat-header-cell *matHeaderCellDef> Key </th>
+                  <td mat-cell *matCellDef="let course"> {{course.key}} </td>
+                </ng-container>
+
+                <!-- Title Column -->
+                <ng-container matColumnDef="courseTitle">
+                  <th mat-header-cell *matHeaderCellDef> Title </th>
+                  <td mat-cell *matCellDef="let course"> {{course.title}} </td>
+                </ng-container>
+
+                <!-- Description Column -->
+                <ng-container matColumnDef="courseDesc">
+                  <th mat-header-cell *matHeaderCellDef> Description </th>
+                  <td mat-cell *matCellDef="let course"> {{course.description}} </td>
+                </ng-container>
+
+                <!-- Exp Column -->
+                <ng-container matColumnDef="courseExp">
+                  <th mat-header-cell *matHeaderCellDef> Exp </th>
+                  <td mat-cell *matCellDef="let course"> {{course.exp}} </td>
+                </ng-container>
+
+                <!-- Action -->
+                <ng-container matColumnDef="courseAction">
+                  <th mat-header-cell *matHeaderCellDef> Action </th>
+                  <td mat-cell *matCellDef="let course">
+                    <button mat-icon-button color="accent" (click)="deleteCourse(course.key)">
+                      <mat-icon class="mat-18">delete</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" (click)="onEditCourseClick(courseEditModal, course)">
+                      <mat-icon class="mat-18">create</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="courseDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: courseDisplayedColumns;"></tr>
+
+
+              </table>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+
+
+          </div>
+        </mat-card>
+
+        <!-- VOCABULARY -->
+        <mat-card *ngIf="exerciseDataType==='vocabulary'">
+          <mat-card-title>
+            <h1 class="font-weight-bold text-center">CẬP NHẬT VOCABULARY</h1>
+          </mat-card-title>
+          <div class="example-container">
+            <mat-form-field>
+              <input matInput (keyup)="vocabApplyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+            <div class="mat-elevation-z8">
+              <table mat-table [dataSource]="vocabDataSource">
+
+                <!-- Course Key Column -->
+                <ng-container matColumnDef="vocabCourse">
+                  <th mat-header-cell *matHeaderCellDef> Course key </th>
+                  <td mat-cell *matCellDef="let vocab"> {{vocab.courseKey}} </td>
+                </ng-container>
+
+                <!-- Eng Column -->
+                <ng-container matColumnDef="vocabEng">
+                  <th mat-header-cell *matHeaderCellDef> English </th>
+                  <td mat-cell *matCellDef="let vocab"> {{vocab.engWord}} </td>
+                </ng-container>
+
+                <!-- Vie Column -->
+                <ng-container matColumnDef="vocabVie">
+                  <th mat-header-cell *matHeaderCellDef> Vietnamese </th>
+                  <td mat-cell *matCellDef="let vocab"> {{vocab.vieMeaning}} </td>
+                </ng-container>
+
+                <!-- Action -->
+                <ng-container matColumnDef="vocabAction">
+                  <th mat-header-cell *matHeaderCellDef> Action </th>
+                  <td mat-cell *matCellDef="let vocab">
+                    <button mat-icon-button color="accent" (click)="deleteVocabulary(vocab.id)">
+                      <mat-icon class="mat-18">delete</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" (click)="onEditVocabClick(vocabEditModal, vocab)">
+                      <mat-icon class="mat-18">create</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="vocabDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: vocabDisplayedColumns;"></tr>
+
+
+              </table>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+
+
+          </div>
+        </mat-card>
+
+        <!-- SENTENCE -->
+        <mat-card *ngIf="exerciseDataType==='sentence'">
+          <mat-card-title>
+            <h1 class="font-weight-bold text-center">CẬP NHẬT SENTENCE</h1>
+          </mat-card-title>
+          <div class="example-container">
+            <mat-form-field>
+              <input matInput (keyup)="sentenceApplyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+            <div class="mat-elevation-z8">
+              <table mat-table [dataSource]="sentenceDataSource">
+
+                <!-- Course Key Column -->
+                <ng-container matColumnDef="sentenceCourse">
+                  <th mat-header-cell *matHeaderCellDef> Course key </th>
+                  <td mat-cell *matCellDef="let sentence"> {{sentence.courseKey}} </td>
+                </ng-container>
+
+                <!-- Eng Column -->
+                <ng-container matColumnDef="sentenceEng">
+                  <th mat-header-cell *matHeaderCellDef> English </th>
+                  <td mat-cell *matCellDef="let sentence"> {{sentence.eng}} </td>
+                </ng-container>
+
+                <!-- Vie Column -->
+                <ng-container matColumnDef="sentenceVie">
+                  <th mat-header-cell *matHeaderCellDef> Vietnamese </th>
+                  <td mat-cell *matCellDef="let sentence"> {{sentence.vie[0]}} </td>
+                </ng-container>
+
+                <!-- Action -->
+                <ng-container matColumnDef="sentenceAction">
+                  <th mat-header-cell *matHeaderCellDef> Action </th>
+                  <td mat-cell *matCellDef="let sentence">
+                    <button mat-icon-button color="accent" (click)="deleteSentence(sentence.id)">
+                      <mat-icon class="mat-18">delete</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" (click)="onEditSetenceClick(sentenceEditModal, sentence)">
+                      <mat-icon class="mat-18">create</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="sentenceDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: sentenceDisplayedColumns;"></tr>
+
+
+              </table>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+
+
+          </div>
+        </mat-card>
+
+        <!-- WORD -->
+        <mat-card *ngIf="exerciseDataType==='word'">
+          <mat-card-title>
+            <h1 class="font-weight-bold text-center">CẬP NHẬT WORD</h1>
+          </mat-card-title>
+          <div class="example-container">
+            <mat-form-field>
+              <input matInput (keyup)="wordApplyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+            <div class="mat-elevation-z8">
+              <table mat-table [dataSource]="wordDataSource">
+
+                <!-- Word Column -->
+                <ng-container matColumnDef="word">
+                  <th mat-header-cell *matHeaderCellDef> Course key </th>
+                  <td mat-cell *matCellDef="let word"> {{word}} </td>
+                </ng-container>
+
+                <!-- Action -->
+                <ng-container matColumnDef="wordAction">
+                  <th mat-header-cell *matHeaderCellDef> Action </th>
+                  <td mat-cell *matCellDef="let word">
+                    <button mat-icon-button color="accent" (click)="deleteWord(word)">
+                      <mat-icon class="mat-18">delete</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" (click)="onEditWordClick(wordEditModal, word)">
+                      <mat-icon class="mat-18">create</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="wordDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: wordDisplayedColumns;"></tr>
+
+
+              </table>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+
+
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SENTENCE MODAL -->
+<ng-template #sentenceEditModal>
+  <div class="container-fluid d-flex flex-column pb-4">
+    <div class="d-flex flex-row" style="justify-content: flex-end; padding-top: 10px">
+      <button type="button" class="close pull-right bg-blue" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body d-flex row">
+      <div class="col">
+        <!--  -->
+        <div *ngIf="exerciseDataType==='sentence'">
+          <mat-card-title>
+            <h1 class="font-weight-bold text-center">CẬP NHẬT SENTENCE</h1>
+          </mat-card-title>
+          <form class="example-container" [formGroup]="sentenceForm">
+            <mat-form-field appearance="outline">
+              <mat-label>Course</mat-label>
+              <!-- <input matInput placeholder="Placeholder"> -->
+              <mat-select required formControlName="sentenceCourse" (selectionChange)="sentenceCourseSelected($event)"
+                [(ngModel)]="openedSentence.courseKey">
+                <mat-option *ngFor="let course of courseDataSource.data" [value]="course.key">
+                  {{course.title}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>school</mat-icon>
+              <mat-error *ngIf="sentenceForm.get('sentenceCourse').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Course sử dụng sentence này</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>English sentence</mat-label>
+              <input matInput placeholder="Placeholder" required [(ngModel)]="openedSentence.eng"
+                formControlName="sentenceEng">
+              <mat-icon matSuffix>language</mat-icon>
+              <mat-error *ngIf="sentenceForm.get('sentenceEng').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Câu bằng tiếng Anh</mat-hint>
+            </mat-form-field>
+
+            <div class="example-container"
+              style="padding: 10px; border-radius: 20px; border-style: solid; border-width: 2px; border-color: #aaa">
+              <mat-list-item *ngFor="let i of sentenceCountArray()">
+                <mat-form-field class="mat-item-style" appearance="outline">
+                  <mat-label>Vietnamese sentence</mat-label>
+                  <input matInput placeholder="Placeholder" required [(ngModel)]="vieSentenceArr[i - 1]"
+                    formControlName="sentenceVie{{i}}">
+                  <mat-icon matSuffix>language</mat-icon>
+                  <mat-error *ngIf="sentenceForm.get('sentenceVie' + i).hasError('required')">
+                    This field is required
+                  </mat-error>
+                  <mat-hint>Câu bằng tiếng Việt</mat-hint>
+                </mat-form-field>
+              </mat-list-item>
+
+              <div class="col d-flex" style="align-content: flex-end; justify-content: flex-end">
+                <button type="button" class="btn btn-primary btn-circle" style="margin: 10px 10px 0 0"
+                  (click)="increaseSentenceCount()"><i class="fa fa-plus"></i></button>
+                <button type="button" class="btn btn-danger btn-circle" style="margin: 10px 0 0 0"
+                  (click)="decreaseSentenceCount()"><i class="fa fa-minus"></i></button>
+              </div>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-primary btn-lg float-right mr-3" (click)="onUpdateSentenceClick()">Cập
+        nhật</button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- WORD MODAL -->
+<ng-template #wordEditModal>
+  <div class="container-fluid d-flex flex-column pb-4">
+    <div class="d-flex flex-row" style="justify-content: flex-end; padding-top: 10px">
+      <button type="button" class="close pull-right bg-blue" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body d-flex row">
+      <div class="col">
+        <!--  -->
+        <div *ngIf="exerciseDataType==='word'">
+            <mat-card-title>
+              <h1 class="font-weight-bold text-center">CẬP NHẬT MOCK WORD</h1>
+            </mat-card-title>
+            <form class="example-container" [formGroup]="wordForm">
+              <mat-form-field appearance="outline">
+                <mat-label>Word</mat-label>
+                <input matInput placeholder="Placeholder" required [(ngModel)]="openedWord" formControlName="word">
+                <mat-icon matSuffix>format_quote</mat-icon>
+                <mat-error *ngIf="wordForm.get('word').hasError('required')">
+                  This field is required
+                </mat-error>
+                <mat-hint>Từ</mat-hint>
+              </mat-form-field>
+            </form>
+          </div>
+
+      </div>
+
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-primary btn-lg float-right mr-3" (click)="onUpdateWordClick()">Cập
+        nhật</button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- COURSE MODAL -->
+<ng-template #courseEditModal>
+  <div class="container-fluid d-flex flex-column pb-4">
+    <div class="d-flex flex-row" style="justify-content: flex-end; padding-top: 10px">
+      <button type="button" class="close pull-right bg-blue" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body d-flex row">
+      <div class="col">
+        <!--  -->
+        <div *ngIf="exerciseDataType==='course'">
+          <mat-card-title>
+            <h2 class="font-weight-bold text-center">CẬP NHẬT COURSE</h2>
+          </mat-card-title>
+          <form class="example-container" [formGroup]="courseForm">
+            <mat-form-field appearance="outline">
+              <mat-label>Course key</mat-label>
+              <input matInput placeholder="Placeholder" disabled required value="{{openedCourse.key}}">
+              <mat-icon matSuffix>vpn_key</mat-icon>
+              <mat-hint>Mã course (disabled)</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Course title</mat-label>
+              <input matInput placeholder="Placeholder" required [(ngModel)]="openedCourse.title"
+                formControlName="courseTitle">
+              <mat-icon matSuffix>title</mat-icon>
+              <mat-error *ngIf="courseForm.get('courseTitle').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Tiêu đề course</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Course description</mat-label>
+              <input matInput placeholder="Placeholder" [(ngModel)]="openedCourse.description"
+                formControlName="courseDescription">
+              <mat-icon matSuffix>description</mat-icon>
+              <mat-hint>Mô tả course</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Question number</mat-label>
+              <input matInput placeholder="Placeholder" type="number" required
+                [(ngModel)]="openedCourse.maxQuestionNumber" formControlName="courseQuestionNumber">
+              <mat-icon matSuffix>question_answer </mat-icon>
+              <mat-error *ngIf="courseForm.get('courseQuestionNumber').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Số câu hỏi tối đa</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Logo url</mat-label>
+              <input matInput placeholder="Placeholder" [(ngModel)]="openedCourse.logoUrl"
+                formControlName="courseLogoUrl">
+              <mat-icon matSuffix>image</mat-icon>
+              <mat-hint>Đường dẫn đến logo course</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Background color</mat-label>
+              <input matInput placeholder="Placeholder" [(ngModel)]="openedCourse.backgroundColor"
+                formControlName="courseBackgroundColor">
+              <mat-icon matSuffix>format_color_fill</mat-icon>
+              <mat-hint>Màu nền</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Exp</mat-label>
+              <input matInput placeholder="Placeholder" type="number" required [(ngModel)]="openedCourse.exp"
+                formControlName="courseExp">
+              <mat-icon matSuffix>star</mat-icon>
+              <mat-error *ngIf="courseForm.get('courseExp').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Điểm kinh nghiệm</mat-hint>
+            </mat-form-field>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-primary btn-lg float-right mr-3" (click)="onUpdateCourseClick()">Cập
+        nhật</button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- VOCAB MODAL -->
+<ng-template #vocabEditModal>
+  <div class="container-fluid d-flex flex-column pb-4">
+    <div class="d-flex flex-row" style="justify-content: flex-end; padding-top: 10px">
+      <button type="button" class="close pull-right bg-blue" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body d-flex row">
+      <div class="col">
+        <!--  -->
+        <div *ngIf="exerciseDataType==='vocabulary'">
+          <mat-card-title>
+            <h1 class="font-weight-bold text-center">CẬP NHẬT VOCABULARY</h1>
+          </mat-card-title>
+          <form class="example-container" [formGroup]="vocabularyForm">
+            <mat-form-field appearance="outline">
+              <mat-label>Course</mat-label>
+              <!-- <input matInput placeholder="Placeholder"> -->
+              <mat-select required formControlName="vocabularyCourse" (selectionChange)="vocabCourseSelected($event)"
+                [(ngModel)]="openedVocab.courseKey">
+                <mat-option *ngFor="let course of courseDataSource.data" [value]="course.key">
+                  {{course.title}}
+                </mat-option>
+
+              </mat-select>
+              <mat-icon matSuffix>school</mat-icon>
+              <mat-error *ngIf="vocabularyForm.get('vocabularyCourse').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Course sử dụng vocabulary này</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>English word</mat-label>
+              <input matInput placeholder="Placeholder" required [(ngModel)]="openedVocab.engWord"
+                formControlName="vocabularyEngWord">
+              <mat-icon matSuffix>language</mat-icon>
+              <mat-error *ngIf="vocabularyForm.get('vocabularyEngWord').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Tiếng Anh</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Vietnamese word</mat-label>
+              <input matInput placeholder="Placeholder" required [(ngModel)]="openedVocab.vieMeaning"
+                formControlName="vocabularyVieWord">
+              <mat-icon matSuffix>language</mat-icon>
+              <mat-error *ngIf="vocabularyForm.get('vocabularyVieWord').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Tiếng Việt</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Url hình minh họa</mat-label>
+              <input matInput placeholder="Placeholder" required [(ngModel)]="openedVocab.illustration"
+                formControlName="vocabularyIllust">
+              <mat-icon matSuffix>photo</mat-icon>
+              <mat-error *ngIf="vocabularyForm.get('vocabularyIllust').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Đường dẫn đến hình minh họa</mat-hint>
+            </mat-form-field>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-primary btn-lg float-right mr-3" (click)="onUpdateVocabClick()">Cập
+        nhật</button>
+    </div>
+  </div>
+</ng-template>

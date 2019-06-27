@@ -36,6 +36,8 @@ import { MatButtonModule,
    MatSelectModule,
    MatSidenavModule,
    MatCardModule,
+   MatTabsModule,
+   MatPaginatorModule,
    MatTableModule } from '@angular/material';
 import { CreateDataPageComponent } from './admin/create-data-page/create-data-page.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -81,6 +83,8 @@ import { UpdateDataPageComponent } from './admin/update-data-page/update-data-pa
       MatSidenavModule,
       MatCardModule,
       MatTableModule,
+      MatTabsModule,
+      MatPaginatorModule,
       ToastrModule.forRoot()
    ],
    providers: [ AngularFirestore ],

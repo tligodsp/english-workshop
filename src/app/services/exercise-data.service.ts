@@ -12,16 +12,52 @@ import { FirebaseService } from '../services/firebase.service';
 export class ExerciseDataService {
   constructor(private firebaseService: FirebaseService) {}
 
+  updateVocabulary(vocab: Vocabulary) {
+    this.firebaseService.updateVocabulary(vocab);
+  }
+
+  updateSentence(sentence: Sentence) {
+    this.firebaseService.updateSentence(sentence);
+  }
+
+  updateVieWord(wordList: string[]) {
+    this.firebaseService.updateVieWord(wordList);
+  }
+
+  deleteVocabulary(vocabId: string) {
+    this.firebaseService.deleteVocavulary(vocabId);
+  }
+
+  deleteSentence(sentenceId: string) {
+    this.firebaseService.deleteSentence(sentenceId);
+  }
+
+  deleteVieWord(word: string) {
+    this.firebaseService.deleteVieWord(word);
+  }
+
   getVocabularies(): Observable<Vocabulary[]> {
     return of(this.firebaseService.getVocabularies());
+  }
+
+  getVocabulariesValueChanges() {
+    return this.firebaseService.getVocabulariesValueChanges();
   }
 
   getSentences(): Observable<Sentence[]> {
     return of(this.firebaseService.getSentences());
   }
 
+  getSentencesValueChanges() {
+    return this.firebaseService.getSentencesValueChanges();
+  }
+
   getVieWords(): Observable<string[]> {
     return of(this.firebaseService.getVieWordList());
+  }
+
+  getVieWordsValueChanges() {
+    return this.firebaseService.getVieWordsValueChanges();
   }
 
   createVieWord(word: string) {

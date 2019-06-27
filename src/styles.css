@@ -31,3 +31,5 @@ body {
 .bg-yellow {
   background-color: yellow;
 }
+
+.cdk-global-overlay-wrapper, .cdk-overlay-container { z-index: 9999!important; } 

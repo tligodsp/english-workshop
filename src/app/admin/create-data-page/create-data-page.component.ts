@@ -268,6 +268,15 @@ export class CreateDataPageComponent implements OnInit {
 
   createCourse() {
     console.log(this.newCourse);
+    if (!this.newCourse.description) {
+      this.newCourse.description = "";
+    }
+    if (!this.newCourse.logoUrl) {
+      this.newCourse.logoUrl = "";
+    }
+    if (!this.newCourse.backgroundColor) {
+      this.newCourse.backgroundColor = "";
+    }
     if (
       !this.newCourse.key ||
       this.newCourse.key.length < 1 ||

@@ -21,13 +21,18 @@ export class FirebaseService {
 
   addStuff() {
     // For migrating mock datas to server
-    COURSES.forEach(item => {
-      console.log(item);
-      this.db.collection("courses").doc(item.key).set(item);
-    });
+    // COURSES.forEach(item => {
+    //   console.log(item);
+    //   this.db.collection("courses").doc(item.key).set(item);
+    // });
     // this.db.collection("exercise-data").doc("0").collection("words").doc("vie-word").set({
     //   wordList: VIE_WORDS
     // });
+    SENTENCES.forEach(item => {
+      console.log(item);
+      let newId = ID();
+      this.db.collection('exercise-data').doc('0').collection('sentences').doc(newId).set({ ...item, id: newId });
+    });
   }
 
   updateUserData(user: User) {
@@ -49,6 +54,24 @@ export class FirebaseService {
     return userRef.set(data, { merge: true });
   }
 
+  updateCourse(course: Course) {
+    this.db.collection('courses').doc(course.key).set({ ...course }, { merge: true });
+  }
+
+  updateVocabulary(vocab: Vocabulary) {
+    this.db.collection('exercise-data').doc('0').collection('vocabularies').doc(vocab.id).set({ ...vocab }, { merge: true });
+  }
+
+  updateSentence(sentence: Sentence) {
+    this.db.collection('exercise-data').doc('0').collection('sentences').doc(sentence.id).set({ ...sentence }, { merge: true });
+  }
+
+  updateVieWord(newWordList: string[]) {
+    this.db.collection('exercise-data').doc('0').collection('words').doc('vie-word').update({
+      wordList: newWordList
+    });
+  }
+
   createCourse(course: Course) {
     this.db.collection('courses').doc(course.key).set({ ...course });
     // return this.db.collection('courses').doc(course.key).set(course).then(() => console.log("email sent"))
@@ -60,13 +83,48 @@ export class FirebaseService {
   }
 
   createSentence(sentence: Sentence) {
-    this.db.collection('exercise-data').doc('0').collection('sentences').doc(ID()).set({ ...sentence });
+    let newId = ID();
+    this.db.collection('exercise-data').doc('0').collection('sentences').doc(newId).set({ ...sentence, id: newId });
   }
 
   createVieWord(word: string) {
     this.db.collection('exercise-data').doc('0').collection('words').doc('vie-word').update({
       wordList: firebase.firestore.FieldValue.arrayUnion(word)
     });
+  }
+
+  deleteCourse(courseKey: string) {
+    this.db.collection('courses').doc(courseKey).delete();
+  }
+
+  deleteVocavulary(vocabId: string) {
+    this.db.collection('exercise-data').doc('0').collection('vocabularies').doc(vocabId).delete();
+  }
+
+  deleteSentence(sentenceId: string) {
+    this.db.collection('exercise-data').doc('0').collection('sentences').doc(sentenceId).delete();
+  }
+
+  deleteVieWord(word: string) {
+    this.db.collection('exercise-data').doc('0').collection('words').doc('vie-word').update({
+      wordList: firebase.firestore.FieldValue.arrayRemove(word)
+    });
+  }
+
+  getCoursesValueChanges() {
+    return this.db.collection('courses').valueChanges();
+  }
+
+  getVocabulariesValueChanges() {
+    return this.db.collection('exercise-data').doc('0').collection('vocabularies').valueChanges();
+  }
+
+  getSentencesValueChanges() {
+    return this.db.collection('exercise-data').doc('0').collection('sentences').valueChanges();
+  }
+
+  getVieWordsValueChanges() {
+    return this.db.collection('exercise-data').doc('0').collection('words').doc('vie-word').valueChanges();
   }
 
   getCourses(): Course[] {
@@ -116,6 +174,7 @@ export class FirebaseService {
           courseKey: doc.data().courseKey,
           eng: doc.data().eng,
           vie: doc.data().vie,
+          id: doc.data().id
         });
       });
       //console.log('sentence in');

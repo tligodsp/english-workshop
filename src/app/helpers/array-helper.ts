@@ -25,4 +25,13 @@ export class ArrayHelper {
     let newArr = arr.map(x => x.toLowerCase());
     return newArr;
   }
+
+  static replaceStr(arr: string[], strA: string, strB) {
+    //arr.forEach((item, i) => { if (item == strA) arr[i] = strB; });
+    var index = arr.indexOf(strA);
+
+    if (index !== -1) {
+        arr[index] = strB;
+    }
+  }
 }
