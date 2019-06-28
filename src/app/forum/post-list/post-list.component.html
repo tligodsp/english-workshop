@@ -1,0 +1,139 @@
+<nav class="navbar navbar-expand-lg navbar-primary bg-primary">
+  <div class="container">
+    <a class="navbar-brand text-white" style="font-size: 2rem;" href="#">English Workshop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <ul class="navbar-nav font-weight-bolder" style="font-size: 1rem;">
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/showcase">Trang chủ</a>
+      </li>
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/exercise-menu">Các bài học</a>
+      </li>
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/admin/create-data">Tạo bài tập</a>
+      </li>
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/admin/update-data">Sửa bài tập</a>
+      </li>
+      <li class="nav-item mr-2" custom-nav-active>
+        <a class="nav-link text-white" href="/post">Thảo luận</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div style="background-color: white; min-height: 100vh; padding-top: 2rem;">
+  <div class="container">
+    <div class="row">
+
+      <!-- POSTS -->
+      <div class="col-8" *ngIf="!isWritingPost">
+        <div class="row align-items-center justify-content-between">
+          <h2 class="ml-4" style="font-weight: 700">Thảo luận</h2>
+          <button type="button" class="btn btn-primary btn-lg mr-3" (click)="onNewPostClick()">Post mới</button>
+          <!-- <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-primary btn-lg float-right mr-3">Cập
+                  nhật</button>
+              </div> -->
+        </div>
+
+        <hr style="border-width: 2px; color: #bbb">
+        <div *ngFor="let post of filteredPosts">
+          <div class="m-4 row">
+            <div class="col-2 pr-0">
+              <img class="profile-pic"
+                src="{{getPostAuthor(post).photoURL}}"
+                alt="Profile pic">
+            </div>
+            <div class="col-10 pl-0">
+              <div style="display: inline-block; float: right; height: 30px; padding-right: 5px; color: #aaa">
+                <div class="row">
+                  <mat-icon class="mat-18" style="font-size: 20px;">comment</mat-icon>
+                  <div>15</div>
+                </div>
+
+              </div>
+
+              <div class="post-title" style="margin-right: 50px"><a href="/forum/post/{{post.id}}" style="color: #4b4b4b; text-decoration: none;">{{post.title}}</a>
+              </div>
+              <div>
+                <span class="post-sub" style="font-size: 16px; font-weight: 600;">{{post.upvote}}</span>
+                <span>
+                  <button mat-icon-button style="width: 30px; height: 32px; color: #aaa" (click)="onUpvote(post)">
+                    <mat-icon class="mat-18" style="font-size: 20px">thumb_up</mat-icon>
+                  </button>
+                </span>
+                <span>
+                  <button mat-icon-button style="width: 30px; height: 32px; color: #aaa" (click)="onDownvote(post)">
+                    <mat-icon class="mat-18" style="font-size: 20px">thumb_down</mat-icon>
+                  </button>
+                </span>
+                <span class="post-sub">
+                  bởi {{getPostAuthor(post).displayName}}
+                </span>
+                <span *ngIf="post.categoryId" class="post-sub">
+                  trong {{getPostCategory(post).title}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <hr style="border-width: 2px; color: #bbb">
+        </div>
+      </div>
+
+      <!-- WRITING POST -->
+      <div class="col-8" *ngIf="isWritingPost">
+        <div class="row align-items-center justify-content-between">
+          <!-- <h2 class="ml-4">POST</h2> -->
+          <!-- <mat-select required formControlName="vocabularyCourse" (selectionChange)="newPostCategorySelected($event)">
+            <mat-option *ngFor="let course of courses" [value]="course.key">
+              {{course.title}}
+            </mat-option>
+          </mat-select> -->
+          <mat-form-field class="ml-4" style="font-size: 20px; font-family: 'Varela Round';">
+            <mat-label>Category</mat-label>
+            <mat-select (selectionChange)="newPostCategorySelected($event)">
+              <mat-option *ngFor="let course of courses" [value]="course.key">
+                {{course.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div>
+            <button type="button" class="btn btn-secondary btn-lg mr-3" (click)="onCancelNewPostClick()">Thoát</button>
+            <button type="button" class="btn btn-primary btn-lg mr-3" (click)="onPostClick()">Post</button>
+          </div>
+        </div>
+        <textarea [(ngModel)]="newPostTitle" type="text" class="form-control my-input-field new-post"
+          placeholder="Tiêu đề post" style="height: 80px;"></textarea>
+          <textarea [(ngModel)]="newPostContent" type="text" class="form-control my-input-field new-post"
+          placeholder="Nội dung post" style="height: 400px;"></textarea>
+      </div>
+
+      <div class="col-4">
+        <div class="categories bg-white">
+          <h3 class="font-weight-bolder ml-3">Category:</h3>
+          <mat-action-list>
+            <!-- <mat-list-item *ngFor="let course of courses"> -->
+            <button class="category-button" mat-list-item (click)="applyFilter('')">
+              <img class="course-logo" src="https://image.flaticon.com/icons/svg/1055/1055645.svg" alt="Course logo">
+              <p class="font-weight-bolder text-left category-button-text">Tất cả</p>
+            </button>
+            <button class="category-button" mat-list-item *ngFor="let course of courses"
+              (click)="applyFilter(course.key)">
+              <img class="course-logo" src="{{course.logoUrl}}" alt="Course logo">
+              <p class="font-weight-bolder text-left category-button-text">{{course.title}}</p>
+              <p class="text-left category-button-text" style="color: #bbb">
+                {{arrHelper.sliceStr(course.description, 15)}}</p>
+            </button>
+            <!-- </mat-list-item> -->
+          </mat-action-list>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

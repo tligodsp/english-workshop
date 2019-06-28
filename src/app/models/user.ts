@@ -11,4 +11,5 @@ export class User {
     difficultyId: string;
     totalPoints: number;
     role: string;
+    photoURL: string; //url
 }

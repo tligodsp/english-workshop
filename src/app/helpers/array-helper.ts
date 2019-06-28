@@ -34,4 +34,15 @@ export class ArrayHelper {
         arr[index] = strB;
     }
   }
+
+  static sliceStr(str: string, maxLen: number): string {
+    let res = '';
+    if (str.length > maxLen) {
+      res = str.slice(0, maxLen) + '...';
+      return res;
+    }
+    else {
+      return str;
+    }
+  }
 }

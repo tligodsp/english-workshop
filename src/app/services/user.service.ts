@@ -18,4 +18,8 @@ export class UserService {
   updateUserData(user: User) {
     return of(this.firebaseService.updateUserData(user));
   }
+
+  getUsersValueChanges() {
+    return this.firebaseService.getUsersValueChanges();
+  }
 }
