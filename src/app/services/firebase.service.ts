@@ -117,16 +117,34 @@ export class FirebaseService {
     });
   }
 
-  updatePostUpvote(postId: string, newUpvote: number) {
+  updatePostUpvote(postId: string, upvoteUserId: string, upvoteValue: number, newUpvote: number) {
     this.db.collection('posts').doc(postId).update({
       upvote: newUpvote
     });
+    if (upvoteValue === 0) {
+      this.db.collection('posts').doc(postId).collection('upvoteUsers').doc(upvoteUserId).delete();
+    }
+    else {
+      this.db.collection('posts').doc(postId).collection('upvoteUsers').doc(upvoteUserId).set({ 
+        uid: upvoteUserId,
+        upvote: upvoteValue
+      }, { merge: true });
+    }
   }
 
-  updateCommentUpvote(postId:string, commentId: string, newUpvote: number) {
+  updateCommentUpvote(postId:string, commentId: string, upvoteUserId: string, upvoteValue: number, newUpvote: number) {
     this.db.collection('posts').doc(postId).collection('comments').doc(commentId).update({
       upvote: newUpvote
     });
+    if (upvoteValue === 0) {
+      this.db.collection('posts').doc(postId).collection('comments').doc(commentId).collection('upvoteUsers').doc(upvoteUserId).delete();
+    }
+    else {
+      this.db.collection('posts').doc(postId).collection('comments').doc(commentId).collection('upvoteUsers').doc(upvoteUserId).set({ 
+        uid: upvoteUserId,
+        upvote: upvoteValue
+      }, { merge: true });
+    }
   }
 
   deleteCourse(courseKey: string) {
@@ -171,8 +189,16 @@ export class FirebaseService {
     return this.db.collection('users').valueChanges();
   }
 
+  getPostUpvoteUsersValueChanges(postId: string) {
+    return this.db.collection('posts').doc(postId).collection('upvoteUsers').valueChanges();
+  }
+
   getPostValueChanges(id: string) {
     return this.db.collection('posts').doc(id).valueChanges();
+  }
+
+  getCommentUpvoteUsersValueChanges(postId: string, commentId: string) {
+    return this.db.collection('posts').doc(postId).collection('comments').doc(commentId).collection('upvoteUsers').valueChanges();
   }
 
   getPostCommentsValueChanges(postId: string) {

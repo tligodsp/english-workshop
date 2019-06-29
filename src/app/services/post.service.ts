@@ -19,12 +19,12 @@ export class PostService {
     this.firebaseService.createComment(postId, comment);
   }
 
-  updatePostUpvote(postId: string, newUpvote: number) {
-    this.firebaseService.updatePostUpvote(postId, newUpvote);
+  updatePostUpvote(postId: string, upvoteUserId: string, upvoteValue: number, newUpvote: number) {
+    this.firebaseService.updatePostUpvote(postId, upvoteUserId, upvoteValue, newUpvote);
   }
 
-  updateCommentUpvote(postId: string, commentId: string, newUpvote: number) {
-    this.firebaseService.updateCommentUpvote(postId, commentId, newUpvote);
+  updateCommentUpvote(postId: string, commentId: string, upvoteUserId: string, upvoteValue: number, newUpvote: number) {
+    this.firebaseService.updateCommentUpvote(postId, commentId, upvoteUserId, upvoteValue, newUpvote);
   }
 
   getPosts(): Observable<Post[]> {
@@ -34,6 +34,14 @@ export class PostService {
 
   getPostValueChanges(id: string) {
     return this.firebaseService.getPostValueChanges(id);
+  }
+
+  getPostUpvoteUsersValueChanges(postId: string) {
+    return this.firebaseService.getPostUpvoteUsersValueChanges(postId);
+  }
+
+  getCommentUpvoteUsersValueChanges(postId: string, commentId: string) {
+    return this.firebaseService.getCommentUpvoteUsersValueChanges(postId, commentId);
   }
 
   getPostCommentValueChanges(postId: string) {

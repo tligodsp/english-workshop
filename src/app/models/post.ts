@@ -1,4 +1,4 @@
-import { Comment } from './comment';
+import { Comment, UpvoteUser } from './comment';
 import { User } from './user';
 import { firestore } from 'firebase/app';
 import Timestamp = firestore.Timestamp;
@@ -14,4 +14,5 @@ export interface Post {
     commentList: Comment[];
     timeDate?: Date;
     time: Timestamp;
+    upvoteUsers?: UpvoteUser[]
 }

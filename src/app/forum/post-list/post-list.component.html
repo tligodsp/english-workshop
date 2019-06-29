@@ -64,12 +64,14 @@
               <div>
                 <span class="post-sub" style="font-size: 16px; font-weight: 600;">{{post.upvote}}</span>
                 <span>
-                  <button mat-icon-button style="width: 30px; height: 32px; color: #aaa" (click)="onUpvote(post)">
+                  <button mat-icon-button style="width: 30px; height: 32px; color: #aaa" (click)="onUpvote(post)"
+                  *ngIf="post.upvoteUsers" [ngStyle]="{'color': isPostUpvoted(post) ? '#1cb0f6' : '#aaa' }">
                     <mat-icon class="mat-18" style="font-size: 20px">thumb_up</mat-icon>
                   </button>
                 </span>
                 <span>
-                  <button mat-icon-button style="width: 30px; height: 32px; color: #aaa" (click)="onDownvote(post)">
+                  <button mat-icon-button style="width: 30px; height: 32px; color: #aaa" (click)="onDownvote(post)"
+                  *ngIf="post.upvoteUsers" [ngStyle]="{'color': isPostDownvoted(post) ? 'tomato' : '#aaa' }">
                     <mat-icon class="mat-18" style="font-size: 20px">thumb_down</mat-icon>
                   </button>
                 </span>
