@@ -44,6 +44,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { UpdateDataPageComponent } from './admin/update-data-page/update-data-page.component';
 import { PostListComponent } from './forum/post-list/post-list.component';
 import { PostPageComponent } from './forum/post-page/post-page.component';
+import { TestStuffComponent } from './test-stuff/test-stuff.component';
 
 @NgModule({
    declarations: [
@@ -63,6 +64,7 @@ import { PostPageComponent } from './forum/post-page/post-page.component';
       UpdateDataPageComponent,
       PostListComponent,
       PostPageComponent,
+      TestStuffComponent,
    ],
    imports: [
       BrowserModule,

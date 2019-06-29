@@ -51,7 +51,7 @@ export class LoginPageComponent implements OnInit {
           else {
             user.role = 'member';
           }
-          //console.log(user);
+          console.log('first');
         }
         this.authService.updateUserData(user);
         setTimeout(() => {

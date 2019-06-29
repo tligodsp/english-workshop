@@ -51,6 +51,7 @@ export class FirebaseService {
       difficulty: user.difficulty,
       totalPoints: user.totalPoints,
       role: user.role,
+      lastDidExercise: user.lastDidExercise ? user.lastDidExercise: null,
     }
 
     return userRef.set(data, { merge: true });
