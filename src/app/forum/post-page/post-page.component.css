@@ -1,0 +1,70 @@
+.related-posts {
+    border-radius: 20px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #bbb;
+    padding: 10px;
+}
+
+.related-post {
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0px;
+}
+
+.related-post-text {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
+    font-size: 1rem; 
+    font-family: 'Varela Round';
+    font-weight: 500;
+    color: #1cb0f6;
+}
+
+.course-logo {
+    border-radius: 15px;
+    height: 30px;
+    width: auto;
+  }
+
+.profile-pic {
+    border-radius: 15px;
+    height: 70px;
+    width: auto;
+    margin: auto;
+    float: right;
+}
+
+.post-title {
+    /* color: #4c4c4c; */
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 26px;
+    margin: 15px 0 10px;
+}
+
+.post-content {
+    font-size: 17px;
+    line-height: 27px;
+}
+
+.post-sub {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.mat-select {
+    font-family: 'Varela Round';
+    font-weight: 700;
+}
+
+.new-post {
+    box-shadow: inset 0 0px 0 rgba(0,0,0,0.075);
+    border-width: 2px; 
+    font-size: 1rem; 
+    margin-top: 10px;
+    padding-top: 10px;
+}
