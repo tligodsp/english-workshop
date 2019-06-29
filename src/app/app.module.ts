@@ -42,6 +42,8 @@ import { MatButtonModule,
 import { CreateDataPageComponent } from './admin/create-data-page/create-data-page.component';
 import { ToastrModule } from 'ngx-toastr';
 import { UpdateDataPageComponent } from './admin/update-data-page/update-data-page.component';
+import { PostListComponent } from './forum/post-list/post-list.component';
+import { PostPageComponent } from './forum/post-page/post-page.component';
 
 @NgModule({
    declarations: [
@@ -59,6 +61,8 @@ import { UpdateDataPageComponent } from './admin/update-data-page/update-data-pa
       LoginPageComponent,
       CreateDataPageComponent,
       UpdateDataPageComponent,
+      PostListComponent,
+      PostPageComponent,
    ],
    imports: [
       BrowserModule,

@@ -10,6 +10,7 @@ import { VIE_WORDS } from '../mock-words';
 import { Course } from '../models/course';
 import { Vocabulary } from '../models/vocabulary';
 import { Sentence } from '../models/sentence';
+import { Post } from '../models/post';
 import { ID } from '../helpers/ultil';
 import * as firebase from 'firebase/app'
 
@@ -93,6 +94,24 @@ export class FirebaseService {
     });
   }
 
+  createPost(post: Post) {
+    this.db.collection('posts').doc(post.id).set({ 
+      authorId: post.authorId,
+      categoryId: post.categoryId,
+      content: post.content,
+      id: post.id,
+      time: post.time,
+      title: post.title,
+      upvote: post.upvote
+    });
+  }
+
+  updatePostUpvote(postId: string, newUpvote: number) {
+    this.db.collection('posts').doc(postId).update({
+      upvote: newUpvote
+    });
+  }
+
   deleteCourse(courseKey: string) {
     this.db.collection('courses').doc(courseKey).delete();
   }
@@ -125,6 +144,14 @@ export class FirebaseService {
 
   getVieWordsValueChanges() {
     return this.db.collection('exercise-data').doc('0').collection('words').doc('vie-word').valueChanges();
+  }
+
+  getPostsValueChanges() {
+    return this.db.collection('posts').valueChanges();
+  }
+
+  getUsersValueChanges() {
+    return this.db.collection('users').valueChanges();
   }
 
   getCourses(): Course[] {
@@ -190,6 +217,30 @@ export class FirebaseService {
         res.push(word);
       });
     });
+    return res;
+  }
+
+  getPosts(): Post[] {
+    let res: Post[] = [];
+    this.db.collection('posts').get().toPromise().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        // res.push({ ...doc.data() });
+        // console.log(doc);
+        res.push({
+          id: doc.data().id,
+          title: doc.data().title,
+          authorId: doc.data().authorId,
+          categoryId: doc.data().categoryId,
+          content: doc.data().content,
+          upvote: doc.data().upvote,
+          commentList: doc.data().commentList,
+          time: doc.data().time.toDate()
+        });
+
+      });
+      //console.log('sentence in');
+    });
+    //console.log('sentence out');
     return res;
   }
 

@@ -9,6 +9,8 @@ import { ResultPageComponent } from './exercise/result-page/result-page.componen
 import { LoginPageComponent } from './login-page/login-page.component';
 import { CreateDataPageComponent } from './admin/create-data-page/create-data-page.component';
 import { UpdateDataPageComponent } from './admin/update-data-page/update-data-page.component';
+import { PostListComponent } from './forum/post-list/post-list.component';
+import { PostPageComponent } from './forum/post-page/post-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/showcase', pathMatch: 'full' },
@@ -19,7 +21,9 @@ const routes: Routes = [
   { path: 'exercise/result', component: ResultPageComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'admin/create-data', component: CreateDataPageComponent },
-  { path: 'admin/update-data', component: UpdateDataPageComponent }
+  { path: 'admin/update-data', component: UpdateDataPageComponent },
+  { path: 'forum', component: PostListComponent },
+  { path: 'forum/post/:id', component: PostPageComponent }
 ];
 
 @NgModule({
