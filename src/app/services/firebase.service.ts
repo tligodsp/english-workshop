@@ -13,6 +13,7 @@ import { Sentence } from '../models/sentence';
 import { Post } from '../models/post';
 import { ID } from '../helpers/ultil';
 import * as firebase from 'firebase/app'
+import { Comment } from '../models/comment';
 
 @Injectable({
   providedIn: "root"
@@ -106,8 +107,24 @@ export class FirebaseService {
     });
   }
 
+  createComment(postId: string, comment: Comment) {
+    this.db.collection('posts').doc(postId).collection('comments').doc(comment.id).set({
+      authorId: comment.authorId,
+      content: comment.content,
+      id: comment.id,
+      time: comment.time,
+      upvote: comment.upvote
+    });
+  }
+
   updatePostUpvote(postId: string, newUpvote: number) {
     this.db.collection('posts').doc(postId).update({
+      upvote: newUpvote
+    });
+  }
+
+  updateCommentUpvote(postId:string, commentId: string, newUpvote: number) {
+    this.db.collection('posts').doc(postId).collection('comments').doc(commentId).update({
       upvote: newUpvote
     });
   }
@@ -152,6 +169,14 @@ export class FirebaseService {
 
   getUsersValueChanges() {
     return this.db.collection('users').valueChanges();
+  }
+
+  getPostValueChanges(id: string) {
+    return this.db.collection('posts').doc(id).valueChanges();
+  }
+
+  getPostCommentsValueChanges(postId: string) {
+    return this.db.collection('posts').doc(postId).collection('comments').valueChanges();
   }
 
   getCourses(): Course[] {

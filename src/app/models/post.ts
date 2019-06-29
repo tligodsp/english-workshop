@@ -1,6 +1,6 @@
 import { Comment } from './comment';
 import { User } from './user';
-import {firestore} from 'firebase/app';
+import { firestore } from 'firebase/app';
 import Timestamp = firestore.Timestamp;
 
 export interface Post {

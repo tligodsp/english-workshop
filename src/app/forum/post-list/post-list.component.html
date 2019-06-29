@@ -21,7 +21,7 @@
         <a class="nav-link text-white" href="/admin/update-data">Sửa bài tập</a>
       </li>
       <li class="nav-item mr-2" custom-nav-active>
-        <a class="nav-link text-white" href="/post">Thảo luận</a>
+        <a class="nav-link text-white" href="/forum">Thảo luận</a>
       </li>
     </ul>
   </div>
@@ -53,7 +53,7 @@
               <div style="display: inline-block; float: right; height: 30px; padding-right: 5px; color: #aaa">
                 <div class="row">
                   <mat-icon class="mat-18" style="font-size: 20px;">comment</mat-icon>
-                  <div>15</div>
+                  <div *ngIf="post.commentList">{{post.commentList.length}}</div>
                 </div>
 
               </div>

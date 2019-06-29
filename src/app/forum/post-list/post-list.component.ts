@@ -10,8 +10,9 @@ import { ID } from '../../helpers/ultil';
 import { SharedDataService } from '../../services/shared-data.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from "ngx-toastr";
-import {firestore} from 'firebase/app';
+import { firestore } from 'firebase/app';
 import Timestamp = firestore.Timestamp;
+import { Comment } from '../../models/comment';
 
 @Component({
   selector: 'app-post-list',
@@ -23,7 +24,8 @@ export class PostListComponent implements OnInit {
   filteredPosts: Post[];
   courses: Course[];
   users: User[];
-  isWritingPost: Boolean
+  isWritingPost: Boolean;
+  comments: Comment[];
 
   newPostTitle: string;
   newPostContent: string;
@@ -136,6 +138,13 @@ export class PostListComponent implements OnInit {
       }
     }
   }
+  
+  getPostNumComments(post: Post): number {
+    if (post.commentList) {
+      return post.commentList.length;
+    }
+    return 0;
+  }
 
   getPostCategory(post: Post): Course {
     for (let course of this.courses) {
@@ -150,6 +159,10 @@ export class PostListComponent implements OnInit {
     //console.log(this.posts);
     if (categoryId === '') {
       this.filteredPosts = this.posts;
+      //sort by new
+      this.filteredPosts.sort((val1, val2)=> {
+        return new Date(val2.time.toDate()).getTime() - new Date(val1.time.toDate()).getTime()
+      })
       //console.log(this.filteredPosts);
       return;
     }
@@ -188,9 +201,18 @@ export class PostListComponent implements OnInit {
     setTimeout(()=> {
       this.postService.getPostsValueChanges().subscribe((posts: Post[]) => {
         this.posts = posts;
+        this.posts.forEach(post => {
+          this.postService.getPostCommentValueChanges(post.id).subscribe((comments: Comment[]) => {
+            post.commentList = comments;
+            if (!post.commentList) {
+              post.commentList = [];
+            }
+          });
+        });
         this.applyFilter('');
         //console.log(this.posts);
       });
+      
     },1000)
   }
 
