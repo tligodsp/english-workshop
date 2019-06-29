@@ -1,0 +1,153 @@
+<nav class="navbar navbar-expand-lg navbar-primary bg-primary">
+  <div class="container">
+    <a class="navbar-brand text-white" style="font-size: 2rem;" href="#">English Workshop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <ul class="navbar-nav font-weight-bolder" style="font-size: 1rem;">
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/showcase">Trang chủ</a>
+      </li>
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/exercise-menu">Các bài học</a>
+      </li>
+      <li class="nav-item mr-2" *ngIf="user.role==='admin'">
+        <a class="nav-link text-white" href="/admin/create-data">Tạo bài tập</a>
+      </li>
+      <li class="nav-item mr-4" *ngIf="user.role==='admin'">
+        <a class="nav-link text-white" href="/admin/update-data">Sửa bài tập</a>
+      </li>
+      <li class="nav-item dropdown mr-2" style="margin-top: -3px;" *ngIf="true">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="{{user.photoURL}}" class="navbar-my-user-photo" alt="Ảnh đại diện" *ngIf="user.photoURL">
+          <img src="https://britz.mcmaster.ca/images/nouserimage.gif/image" class="navbar-my-user-photo" alt="Ảnh đại diện" *ngIf="!user.photoURL">
+        </a>
+        <div class="dropdown-menu" style="left: -120px;" aria-labelledby="navbarDropdownMenuLink">
+          <h4 style="color: #666; text-align: center; padding-bottom: 5px; border-bottom: 1px solid #ccc; margin: 0 25px;">Tài khoản</h4>
+          <a class="dropdown-item" href="/edit-profile">Chỉnh sửa hồ sơ</a>
+          <button class="dropdown-item">Trợ giúp</button>
+          <button class="dropdown-item">Đăng xuất</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div style="background-color: #eee; min-height: 100vh; padding-top: 2rem;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card mt-4 text-dark shadow">
+          <div class="card-body text-center">
+
+            <div style="display: flex; flex-wrap: nowrap; margin-bottom: 50px; padding: 10px 15px; justify-content: space-between;">
+              <h2 style="font-weight: bolder;">{{cardTitle}}</h2>
+              <button class="btn btn-lg btn-success" (click)="saveChanges()">Lưu thay đổi</button>
+            </div>
+
+            <div *ngIf="activeTab === 'account'">
+              <div class="row mb-5">
+                <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
+                  <h5 class="font-weight-bolder">Tên hiển thị</h5>
+                </div>
+                <div class="col-sm-8">
+                  <input type="text" class="my-duolingo-input" [(ngModel)]="user.displayName" name="displayName">
+                </div>
+              </div>
+
+              <div class="row mb-5">
+                <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
+                  <h5 class="font-weight-bolder">Email</h5>
+                </div>
+                <div class="col-sm-8">
+                  <input type="text" class="my-duolingo-input" [(ngModel)]="user.email" name="email" readonly>
+                </div>
+              </div>
+
+              <div class="row mb-5">
+                <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
+                  <h5 class="font-weight-bolder">Hiệu ứng âm thanh</h5>
+                </div>
+                <div class="col-sm-8" style="display: flex;">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
+                  <h5 class="font-weight-bolder">Ảnh hồ sơ</h5>
+                </div>
+                <div class="col-sm-8" style="display: flex;">
+                  <label for="upload-photo" class="btn btn-info btn-lg">
+                    Chọn tập tin
+                  </label>
+                  <input type="file" id="upload-photo" name="pic" accept="image/*" (change)="photoUploaded($event)">
+                  <p class="lead ml-3" style="word-break: break-all;">{{imageName}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="activeTab === 'password'">
+              <div class="row mb-5">
+                <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
+                  <h5 class="font-weight-bolder">Mật khẩu hiện tại</h5>
+                </div>
+                <div class="col-sm-8">
+                  <input type="password" class="my-duolingo-input">
+                </div>
+              </div>
+
+              <div class="row mb-5">
+                <div class="col-sm-4" style="display: flex; justify-content: center; align-items: center;">
+                  <h5 class="font-weight-bolder">Mật khẩu mới</h5>
+                </div>
+                <div class="col-sm-8">
+                  <input type="password" class="my-duolingo-input">
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="activeTab === 'difficulty'">
+              <p style="color: #999; margin-bottom: 50px; margin-top: -30px; font-size: 17px;">Chào mừng bạn đến với chế độ Huấn luyện! Chọn một mục tiêu mỗi ngày sẽ giúp bạn luôn có động lực khi học tập một ngôn ngữ. Nhưng đừng lo, bạn có thể thay đổi mục tiêu luyện tập bất cứ lúc nào.</p>
+              <div class="row">
+                <div class="col-md-5">
+                  <img src="https://ih1.redbubble.net/image.686871229.3288/ap,550x550,12x16,1,transparent,t.u1.png" style="width: 100%; height: auto;">
+                </div>
+                <div class="col-md-7">
+                  <ul *ngFor="let item of difficulties" class="my-options">
+                    <li>
+                      <button class="btn btn-lg btn-outline-dark btn-block shadow-none" [class.active]="user.difficulty.id==item.id" (click)="selectDifficulty(item)">
+                        <span class="float-left">{{item.name}}</span>
+                        <span class="float-right">{{item.minutes}} phút mỗi ngày</span>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card mt-4 text-dark shadow">
+          <div class="card-body">
+            <img src="{{user.photoURL}}" class="navbar-my-user-photo" alt="Ảnh đại diện" *ngIf="user.photoURL">
+            <img src="https://britz.mcmaster.ca/images/nouserimage.gif/image" class="navbar-my-user-photo" alt="Ảnh đại diện" *ngIf="!user.photoURL">
+            <span class="ml-3 font-weight-bolder" style="font-size: 24px; color: #333">{{user.email}}</span>
+            <hr>
+            <button class="my-tab-button" [ngClass]="{'active': activeTab === 'account'}" (click)="changeActiveTab('account')">Tài khoản</button>
+            <button class="my-tab-button" [ngClass]="{'active': activeTab === 'password'}" (click)="changeActiveTab('password')">Mật khẩu</button>
+            <button class="my-tab-button" [ngClass]="{'active': activeTab === 'difficulty'}" (click)="changeActiveTab('difficulty')">Chế độ huấn luyện</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

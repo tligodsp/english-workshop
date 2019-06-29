@@ -9,6 +9,7 @@ import { ResultPageComponent } from './exercise/result-page/result-page.componen
 import { LoginPageComponent } from './login-page/login-page.component';
 import { CreateDataPageComponent } from './admin/create-data-page/create-data-page.component';
 import { UpdateDataPageComponent } from './admin/update-data-page/update-data-page.component';
+import { EditProfilePageComponent } from './edit-profile-page/edit-profile-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/showcase', pathMatch: 'full' },
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'exercise/result', component: ResultPageComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'admin/create-data', component: CreateDataPageComponent },
-  { path: 'admin/update-data', component: UpdateDataPageComponent }
+  { path: 'admin/update-data', component: UpdateDataPageComponent },
+  { path: 'edit-profile', component: EditProfilePageComponent },
 ];
 
 @NgModule({

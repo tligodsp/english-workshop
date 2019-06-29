@@ -70,6 +70,7 @@ export class AuthService {
       difficulty: user.difficulty,
       totalPoints: user.totalPoints,
       role: user.role,
+      photoURL: user.photoUrl
     }
 
     return userRef.set(data, { merge: true });

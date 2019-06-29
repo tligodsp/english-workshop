@@ -49,6 +49,8 @@ export class FirebaseService {
       difficulty: user.difficulty,
       totalPoints: user.totalPoints,
       role: user.role,
+      photoURL: user.photoURL,
+      
     }
 
     return userRef.set(data, { merge: true });
