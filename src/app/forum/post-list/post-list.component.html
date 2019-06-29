@@ -34,7 +34,8 @@
       <div class="col-8" *ngIf="!isWritingPost">
         <div class="row align-items-center justify-content-between">
           <h2 class="ml-4" style="font-weight: 700">Thảo luận</h2>
-          <button type="button" class="btn btn-primary btn-lg mr-3" (click)="onNewPostClick()">Post mới</button>
+          <button type="button" class="btn btn-primary btn-lg mr-3" (click)="onNewPostClick()"
+          *ngIf="curUserLoaded && (shareDataService.curUser.role === 'admin' || shareDataService.curUser.role === 'member')">Post mới</button>
           <!-- <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-primary btn-lg float-right mr-3">Cập
                   nhật</button>
@@ -86,7 +87,7 @@
       </div>
 
       <!-- WRITING POST -->
-      <div class="col-8" *ngIf="isWritingPost">
+      <div class="col-8" *ngIf="isWritingPost && (shareDataService.curUser.role === 'admin' || shareDataService.curUser.role === 'member')">
         <div class="row align-items-center justify-content-between">
           <!-- <h2 class="ml-4">POST</h2> -->
           <!-- <mat-select required formControlName="vocabularyCourse" (selectionChange)="newPostCategorySelected($event)">

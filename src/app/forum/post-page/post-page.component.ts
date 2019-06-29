@@ -34,6 +34,7 @@ export class PostPageComponent implements OnInit {
   relatedPosts: Post[] = [];
   postAuthor: User;
 
+  curUserLoaded = false;
 
   newComment: string;
 
@@ -153,6 +154,7 @@ export class PostPageComponent implements OnInit {
     });
     this.authService.user$.subscribe(user => {
       this.shareDataService.curUser = user;
+      this.curUserLoaded = true;
     });
     setTimeout(()=> {
       this.postService.getPostsValueChanges().subscribe((posts: Post[]) => {

@@ -33,6 +33,8 @@ export class PostListComponent implements OnInit {
 
   arrHelper = ArrayHelper;
 
+  curUserLoaded = false;
+
   setPostsAuthors() {
     this.posts.forEach(post => {
       for (let user of this.users) {
@@ -62,10 +64,14 @@ export class PostListComponent implements OnInit {
   }
 
   onUpvote(post: Post) {
+    if (!(this.shareDataService.curUser.role === 'admin' || this.shareDataService.curUser.role === 'member'))
+      return;
     this.postService.updatePostUpvote(post.id, post.upvote + 1);
   } 
 
   onDownvote(post: Post) {
+    if (!(this.shareDataService.curUser.role === 'admin' || this.shareDataService.curUser.role === 'member'))
+      return;
     this.postService.updatePostUpvote(post.id, post.upvote - 1);
   }
 
@@ -177,7 +183,7 @@ export class PostListComponent implements OnInit {
   }
 
   constructor(private postService: PostService, private courseService: CourseService, 
-    private userService: UserService, private shareDataService: SharedDataService,
+    private userService: UserService, public shareDataService: SharedDataService,
     private authService: AuthService, private toastrService: ToastrService) {
     this.isWritingPost = false;
   }
@@ -197,6 +203,7 @@ export class PostListComponent implements OnInit {
     });
     this.authService.user$.subscribe(user => {
       this.shareDataService.curUser = user;
+      this.curUserLoaded = true;
     });
     setTimeout(()=> {
       this.postService.getPostsValueChanges().subscribe((posts: Post[]) => {

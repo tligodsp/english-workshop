@@ -91,7 +91,7 @@
         </div>
 
         <!-- NEW COMMENT -->
-        <div class="row" style="margin-top: 20px">
+        <div class="row" style="margin-top: 20px" *ngIf="curUserLoaded && !(shareDataService.curUser.role === 'admin' || shareDataService.curUser.role === 'member')">
           <div class="col-2">
             <img class="profile-pic" src="{{shareDataService.curUser.photoURL}}" alt="Profile pic">
           </div>

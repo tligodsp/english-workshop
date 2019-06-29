@@ -14,12 +14,16 @@
       <li class="nav-item mr-2 custom-nav-active ">
         <a class="nav-link text-white" href="/exercise-menu">Các bài học</a>
       </li>
+      <li class="nav-item mr-2" custom-nav-active>
+        <a class="nav-link text-white" href="/forum">Thảo luận</a>
+      </li>
       <li class="nav-item mr-2" *ngIf="user.role==='admin'">
         <a class="nav-link text-white" href="/admin/create-data">Tạo bài tập</a>
       </li>
       <li class="nav-item mr-2" *ngIf="user.role==='admin'">
         <a class="nav-link text-white" href="/admin/update-data">Sửa bài tập</a>
       </li>
+
     </ul>
 
     <!-- <div class="collapse navbar-collapse">
@@ -83,30 +87,13 @@
           <div class="card-body text-center">
             <h3 class="font-weight-bolder">Mục tiêu mỗi ngày</h3>
             <hr>
-            <circle-progress
-              [percent]="getPercent()"
-              [radius]="125"
-              [title]="user.todayExp + '/' + user.difficulty.minutes"
-              [titleColor]="'#ff8f11'"
-              [titleFontSize]="48"
-              [titleFontWeight]="600"
-              [showUnits]=true
-              [units]="'Exp'"
-              [unitsColor]="'#ff8f11'"
-              [unitsFontSize]="20"
-              [unitsFontWeight]="600"
-              [subtitle]="'Mục tiêu hôm nay'"
-              [subtitleColor]="'#ff8f11'"
-              [subtitleFontSize]="20"
-              [subtitleFontWeight]="400"
-              [outerStrokeWidth]="16"
-              [innerStrokeWidth]="8"
-              [outerStrokeColor]="'#ff8f11'"
-              [innerStrokeColor]="'#ffc77f'"
-              [animation]="true"
-              [animationDuration]="600"
-              [renderOnClick]="false"
-            ></circle-progress>
+            <circle-progress [percent]="getPercent()" [radius]="125"
+              [title]="user.todayExp + '/' + user.difficulty.minutes" [titleColor]="'#ff8f11'" [titleFontSize]="48"
+              [titleFontWeight]="600" [showUnits]=true [units]="'Exp'" [unitsColor]="'#ff8f11'" [unitsFontSize]="20"
+              [unitsFontWeight]="600" [subtitle]="'Mục tiêu hôm nay'" [subtitleColor]="'#ff8f11'"
+              [subtitleFontSize]="20" [subtitleFontWeight]="400" [outerStrokeWidth]="16" [innerStrokeWidth]="8"
+              [outerStrokeColor]="'#ff8f11'" [innerStrokeColor]="'#ffc77f'" [animation]="true" [animationDuration]="600"
+              [renderOnClick]="false"></circle-progress>
             <div class="row">
               <div class="col">
                 <div class="badge badge-warning" style="font-size: 1.5rem;">{{user.streak}}</div>
@@ -114,12 +101,11 @@
               </div>
               <div class="col">
                 <div class="badge badge-warning" style="font-size: 1.5rem;">
-                  <countdown [config]="{leftTime: timeLeft / 1000}"
-                    (finished)="onDateChange()">$!h!</countdown>
+                  <countdown [config]="{leftTime: timeLeft / 1000}" (finished)="onDateChange()">$!h!</countdown>
                 </div>
                 <p class="lead font-weight-bolder" style="font-size: 1.5rem;">tiếng còn lại</p>
               </div>
-          </div>
+            </div>
             <hr>
             <button class="btn btn-lg btn-block btn-primary">Luyện tập</button>
           </div>
@@ -140,15 +126,13 @@
       </div>
 
       <div class="col-7">
-        <div class="card course-card text-dark shadow-sm mb-4 w-100" *ngFor="let item of courses" (click)="selectCourse(item)">
+        <div class="card course-card text-dark shadow-sm mb-4 w-100" *ngFor="let item of courses"
+          (click)="selectCourse(item)">
           <div class="card-body">
             <div class="row">
               <div class="col-2">
-                <img
-                  class="course-logo"
-                  src="{{item.logoUrl}}" alt="course logo"
-                  [ngStyle]="{'background-color': item.backgroundColor}"
-                >
+                <img class="course-logo" src="{{item.logoUrl}}" alt="course logo"
+                  [ngStyle]="{'background-color': item.backgroundColor}">
               </div>
               <div class="col-9">
                 <h2 class="font-weight-bolder text-left">{{item.title}}</h2>
@@ -166,10 +150,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-2">
-                <img
-                  class="course-logo"
-                  src="https://image.flaticon.com/icons/svg/1592/1592007.svg" alt="course logo"
-                >
+                <img class="course-logo" src="https://image.flaticon.com/icons/svg/1592/1592007.svg" alt="course logo">
               </div>
               <div class="col-9">
                 <h2 class="font-weight-bolder text-left">Cụm từ</h2>
@@ -185,10 +166,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-2">
-                <img
-                  class="course-logo"
-                  src="https://image.flaticon.com/icons/svg/1591/1591999.svg" alt="course logo"
-                >
+                <img class="course-logo" src="https://image.flaticon.com/icons/svg/1591/1591999.svg" alt="course logo">
               </div>
               <div class="col-9">
                 <h2 class="font-weight-bolder text-left">Nâng cao</h2>
