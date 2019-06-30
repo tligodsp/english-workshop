@@ -10,8 +10,10 @@ import { VIE_WORDS } from '../mock-words';
 import { Course } from '../models/course';
 import { Vocabulary } from '../models/vocabulary';
 import { Sentence } from '../models/sentence';
+import { Post } from '../models/post';
 import { ID } from '../helpers/ultil';
 import * as firebase from 'firebase/app'
+import { Comment } from '../models/comment';
 
 @Injectable({
   providedIn: "root"
@@ -50,7 +52,8 @@ export class FirebaseService {
       totalPoints: user.totalPoints,
       role: user.role,
       photoURL: user.photoURL,
-      
+      lastDidExercise: user.lastDidExercise ? user.lastDidExercise: null,
+
     }
 
     return userRef.set(data, { merge: true });
@@ -95,6 +98,58 @@ export class FirebaseService {
     });
   }
 
+  createPost(post: Post) {
+    this.db.collection('posts').doc(post.id).set({ 
+      authorId: post.authorId,
+      categoryId: post.categoryId,
+      content: post.content,
+      id: post.id,
+      time: post.time,
+      title: post.title,
+      upvote: post.upvote
+    });
+  }
+
+  createComment(postId: string, comment: Comment) {
+    this.db.collection('posts').doc(postId).collection('comments').doc(comment.id).set({
+      authorId: comment.authorId,
+      content: comment.content,
+      id: comment.id,
+      time: comment.time,
+      upvote: comment.upvote
+    });
+  }
+
+  updatePostUpvote(postId: string, upvoteUserId: string, upvoteValue: number, newUpvote: number) {
+    this.db.collection('posts').doc(postId).update({
+      upvote: newUpvote
+    });
+    if (upvoteValue === 0) {
+      this.db.collection('posts').doc(postId).collection('upvoteUsers').doc(upvoteUserId).delete();
+    }
+    else {
+      this.db.collection('posts').doc(postId).collection('upvoteUsers').doc(upvoteUserId).set({ 
+        uid: upvoteUserId,
+        upvote: upvoteValue
+      }, { merge: true });
+    }
+  }
+
+  updateCommentUpvote(postId:string, commentId: string, upvoteUserId: string, upvoteValue: number, newUpvote: number) {
+    this.db.collection('posts').doc(postId).collection('comments').doc(commentId).update({
+      upvote: newUpvote
+    });
+    if (upvoteValue === 0) {
+      this.db.collection('posts').doc(postId).collection('comments').doc(commentId).collection('upvoteUsers').doc(upvoteUserId).delete();
+    }
+    else {
+      this.db.collection('posts').doc(postId).collection('comments').doc(commentId).collection('upvoteUsers').doc(upvoteUserId).set({ 
+        uid: upvoteUserId,
+        upvote: upvoteValue
+      }, { merge: true });
+    }
+  }
+
   deleteCourse(courseKey: string) {
     this.db.collection('courses').doc(courseKey).delete();
   }
@@ -127,6 +182,30 @@ export class FirebaseService {
 
   getVieWordsValueChanges() {
     return this.db.collection('exercise-data').doc('0').collection('words').doc('vie-word').valueChanges();
+  }
+
+  getPostsValueChanges() {
+    return this.db.collection('posts').valueChanges();
+  }
+
+  getUsersValueChanges() {
+    return this.db.collection('users').valueChanges();
+  }
+
+  getPostUpvoteUsersValueChanges(postId: string) {
+    return this.db.collection('posts').doc(postId).collection('upvoteUsers').valueChanges();
+  }
+
+  getPostValueChanges(id: string) {
+    return this.db.collection('posts').doc(id).valueChanges();
+  }
+
+  getCommentUpvoteUsersValueChanges(postId: string, commentId: string) {
+    return this.db.collection('posts').doc(postId).collection('comments').doc(commentId).collection('upvoteUsers').valueChanges();
+  }
+
+  getPostCommentsValueChanges(postId: string) {
+    return this.db.collection('posts').doc(postId).collection('comments').valueChanges();
   }
 
   getCourses(): Course[] {
@@ -192,6 +271,30 @@ export class FirebaseService {
         res.push(word);
       });
     });
+    return res;
+  }
+
+  getPosts(): Post[] {
+    let res: Post[] = [];
+    this.db.collection('posts').get().toPromise().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        // res.push({ ...doc.data() });
+        // console.log(doc);
+        res.push({
+          id: doc.data().id,
+          title: doc.data().title,
+          authorId: doc.data().authorId,
+          categoryId: doc.data().categoryId,
+          content: doc.data().content,
+          upvote: doc.data().upvote,
+          commentList: doc.data().commentList,
+          time: doc.data().time.toDate()
+        });
+
+      });
+      //console.log('sentence in');
+    });
+    //console.log('sentence out');
     return res;
   }
 

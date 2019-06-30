@@ -43,6 +43,9 @@ import { CreateDataPageComponent } from './admin/create-data-page/create-data-pa
 import { ToastrModule } from 'ngx-toastr';
 import { UpdateDataPageComponent } from './admin/update-data-page/update-data-page.component';
 import { EditProfilePageComponent } from './edit-profile-page/edit-profile-page.component';
+import { PostListComponent } from './forum/post-list/post-list.component';
+import { PostPageComponent } from './forum/post-page/post-page.component';
+import { TestStuffComponent } from './test-stuff/test-stuff.component';
 
 @NgModule({
    declarations: [
@@ -61,6 +64,9 @@ import { EditProfilePageComponent } from './edit-profile-page/edit-profile-page.
       CreateDataPageComponent,
       UpdateDataPageComponent,
       EditProfilePageComponent
+      PostListComponent,
+      PostPageComponent,
+      TestStuffComponent,
    ],
    imports: [
       BrowserModule,

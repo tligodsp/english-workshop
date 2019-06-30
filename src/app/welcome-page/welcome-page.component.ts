@@ -6,6 +6,7 @@ import { DifficultyService } from '../services/difficulty.service';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
 import { UserService } from '../services/user.service';
+import { SharedDataService } from '../services/shared-data.service';
 
 const DIFFICULTIES = [
   { name: 'Dễ', minutes: 5},
@@ -30,11 +31,16 @@ export class WelcomePageComponent implements OnInit {
     private difficultyService: DifficultyService,
     private userService: UserService,
     private modalService: BsModalService,
+    private sharedDateService:SharedDataService,
     private router: Router,
   ) { }
 
   ngOnInit() {
     this.getDifficulties();
+
+    if (this.sharedDateService.curUser && this.sharedDateService.curUser.difficultyId) {
+      this.router.navigateByUrl('/exercise-menu');
+    }
 
     this.userService.getCurrentUser().subscribe(user => {
       this.user = user;

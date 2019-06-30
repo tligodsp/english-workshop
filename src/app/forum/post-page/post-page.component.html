@@ -1,0 +1,184 @@
+<nav class="navbar navbar-expand-lg navbar-primary bg-primary">
+  <div class="container">
+    <a class="navbar-brand text-white" style="font-size: 2rem;" href="#">English Workshop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <ul class="navbar-nav font-weight-bolder" style="font-size: 1rem;">
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/showcase">Trang chủ</a>
+      </li>
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/exercise-menu">Các bài học</a>
+      </li>
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/admin/create-data">Tạo bài tập</a>
+      </li>
+      <li class="nav-item mr-2">
+        <a class="nav-link text-white" href="/admin/update-data">Sửa bài tập</a>
+      </li>
+      <li class="nav-item mr-2" custom-nav-active>
+        <a class="nav-link text-white" href="/forum">Thảo luận</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!-- <div>{{post.title}}</div>
+<div *ngFor="let comment of comments">{{comment.content}}</div> -->
+
+<div style="background-color: white; min-height: 100vh; padding-top: 2rem;">
+  <div class="container">
+    <div class="row" *ngIf="post">
+      <div class="col-8">
+
+        <!-- POST -->
+        <div class="row align-items-center justify-content-between">
+          <h2 class="ml-4" style="font-weight: 700">Chủ đề: {{getCategory(post.categoryId).title}}</h2>
+          <!-- <button type="button" class="btn btn-primary btn-lg mr-3">Post mới</button> -->
+          <!-- <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-primary btn-lg float-right mr-3">Cập
+                  nhật</button>
+              </div> -->
+        </div>
+        <hr style="border-width: 2px; color: #bbb">
+
+        <div class="row">
+          <div class="col-2">
+            <img class="profile-pic" src="{{postAuthor.photoURL}}" alt="Profile pic" style="width: 90px; height: 90px">
+          </div>
+
+          <div class="col-10" style="padding-right: 40px">
+            <h2 class="post-title">{{post.title}}</h2>
+            <div class="d-flex align-items-end" style="margin-bottom: 15px">
+              <span class="post-sub" style="color: #1cb0f6; margin-right: 5px">
+                {{postAuthor.displayName}}
+              </span>
+              <!-- <span class="post-sub">
+                {{postAuthor.role}}
+              </span> -->
+              <span>
+                <img src="//duolingo-forum-web.duolingo.com/images/juicy-streak.svg" style="height: 30px;"></span>
+              <span class="post-sub" style="color: #afafaf;">{{postAuthor.streak}}</span>
+            </div>
+
+            <p class="post-content">{{post.content}}</p>
+
+            <div class="d-flex align-items-end">
+              <span class="post-sub"
+                style="font-size: 16px; font-weight: 700; color: #afafaf; margin-right: 3px">{{post.upvote}}</span>
+              <span style="padding-bottom: 3px;">
+                <button mat-icon-button style="width: 30px; height: 32px; color: #aaa"
+                (click)="onPostUpvote(post)" [ngStyle]="{'color': isPostUpvoted(post) ? '#1cb0f6' : '#aaa' }">
+                  <mat-icon class="mat-18" style="font-size: 20px">thumb_up</mat-icon>
+                </button>
+              </span>
+              <span style="padding-bottom: 3px;">
+                <button mat-icon-button style="width: 30px; height: 32px; color: #aaa"
+                (click)="onPostDownvote(post)" [ngStyle]="{'color': isPostDownvoted(post) ? 'tomato' : '#aaa' }">
+                  <mat-icon class="mat-18" style="font-size: 20px">thumb_down</mat-icon>
+                </button>
+              </span>
+              <span class="post-sub"
+                  style="font-size: 15px; font-weight: 500; color: #afafaf; margin: 0 10px">•</span>
+                <span class="post-sub"
+                  style="font-size: 15px; font-weight: 500; color: #afafaf; padding-bottom: 1px">{{getDisplayDate(post.time)}}</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- NEW COMMENT -->
+        <div class="row" style="margin-top: 20px" *ngIf="curUserLoaded && (shareDataService.curUser.role === 'admin' || shareDataService.curUser.role === 'member')">
+          <div class="col-2">
+            <img class="profile-pic" src="{{shareDataService.curUser.photoURL}}" alt="Profile pic">
+          </div>
+          <div class="col-10">
+            <textarea [(ngModel)]="newComment" type="text" class="form-control my-input-field new-post"
+              placeholder="Nội dung post" style="height: 100px;"></textarea>
+            <div>
+              <button type="button" class="btn btn-primary mr-2 mt-3" (click)="onPostClick()">Post</button>
+              <button type="button" class="btn btn-secondary mr-2 mt-3" (click)="onCancelCommentClick()"
+                style="color: #fff; background-color: #6c757d; border-color: #5f666d;">Thoát</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMMENT SECTION -->
+        <div>
+          <div class="row align-items-center justify-content-between" style="margin-top: 30px">
+            <h2 class="ml-4" style="font-weight: 700">{{comments.length}} bình luận</h2>
+          </div>
+          <hr style="border-width: 2px; color: #bbb">
+
+          <div class="row" *ngFor="let comment of comments">
+            <div class="col-2">
+              <img class="profile-pic" src="{{getCommentAuthor(comment).photoURL}}" alt="Profile pic">
+            </div>
+
+            <div class="col-10" style="padding-right: 40px">
+              <div class="d-flex align-items-end" style="margin-bottom: 15px">
+                <span class="post-sub" style="color: #1cb0f6; margin-right: 5px">
+                  {{getCommentAuthor(comment).displayName}}
+                </span>
+                <!-- <span class="post-sub">
+                      {{postAuthor.role}}
+                    </span> -->
+                <span>
+                  <img src="//duolingo-forum-web.duolingo.com/images/juicy-streak.svg" style="height: 30px;"></span>
+                <span class="post-sub" style="color: #afafaf;">{{getCommentAuthor(comment).streak}}</span>
+              </div>
+
+              <p class="post-content">{{comment.content}}</p>
+
+              <div class="d-flex align-items-end">
+                <span class="post-sub"
+                  style="font-size: 16px; font-weight: 700; color: #afafaf; margin-right: 3px">{{comment.upvote}}</span>
+                <span style="padding-bottom: 3px;">
+                  <button mat-icon-button style="width: 30px; height: 32px; color: #aaa"
+                    (click)="onCommentUpvote(comment)" [ngStyle]="{'color': isCommentUpvoted(comment) ? '#1cb0f6' : '#aaa' }">
+                    <mat-icon class="mat-18" style="font-size: 20px">thumb_up</mat-icon>
+                  </button>
+                </span>
+                <span style="padding-bottom: 3px;">
+                  <button mat-icon-button style="width: 30px; height: 32px; color: #aaa"
+                    (click)="onCommentDownvote(comment)" [ngStyle]="{'color': isCommentDownvoted(comment) ? 'tomato' : '#aaa' }">
+                    <mat-icon class="mat-18" style="font-size: 20px">thumb_down</mat-icon>
+                  </button>
+                </span>
+                <span class="post-sub"
+                  style="font-size: 15px; font-weight: 500; color: #afafaf; margin: 0 10px">•</span>
+                <span class="post-sub"
+                  style="font-size: 15px; font-weight: 500; color: #afafaf; padding-bottom: 1px">{{getDisplayDate(comment.time)}}</span>
+              </div>
+              <hr style="border-width: 2px; color: #bbb">
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- CATEGORY -->
+      <div class="col-4">
+        <div class="related-posts bg-white">
+          <h3 class="font-weight-bolder ml-3">Cùng chủ đề:</h3>
+          <mat-action-list>
+            <!-- <mat-list-item *ngFor="let course of courses"> -->
+            <div class="related-post col" *ngFor="let post of relatedPosts">
+              <div class="font-weight-bolder text-left related-post-text">
+                <a href="/forum/post/{{post.id}}" style="text-decoration: none">{{arrHelper.sliceStr(post.title, 35)}}</a>
+              </div>
+              <p class="related-post-text" style="color: #bbb">
+                {{arrHelper.sliceStr(post.content, 35)}}</p>
+            </div>
+            <!-- </mat-list-item> -->
+          </mat-action-list>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
