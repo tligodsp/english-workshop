@@ -44,7 +44,8 @@ export class CreateDataPageComponent implements OnInit {
     courseQuestionNumber: ["", Validators.required],
     courseLogoUrl: [""],
     courseBackgroundColor: [""],
-    courseExp: ["", Validators.required]
+    courseExp: ["", Validators.required],
+    courseRequirement: ["", Validators.required]
   });
   vocabularyForm = this.formBuilder.group({
     // vocabularyId: ['', Validators.required],
@@ -78,7 +79,7 @@ export class CreateDataPageComponent implements OnInit {
       hideRequired: false,
       floatLabel: "auto"
     });
-    this.exerciseDataType = "word";
+    this.exerciseDataType = "course";
     this.sentenceCount = 1;
   }
 
@@ -282,7 +283,8 @@ export class CreateDataPageComponent implements OnInit {
       this.newCourse.key.length < 1 ||
       (!this.newCourse.title || this.newCourse.title.length < 1) ||
       this.newCourse.maxQuestionNumber === undefined ||
-      this.newCourse.exp === undefined
+      this.newCourse.exp === undefined ||
+      this.newCourse.requirement === undefined
     ) {
       this.toastrService.error("Hãy nhập đầy đủ các trường bắt buộc", "Error", {
         timeOut: 2000,
@@ -300,7 +302,7 @@ export class CreateDataPageComponent implements OnInit {
       });
     } else if (this.newCourse.maxQuestionNumber < 1 || this.newCourse.exp < 1) {
       this.toastrService.error(
-        "Question number và Exp phải lớn hơn 0",
+        "Question number, Exp và Requirement phải lớn hơn 0",
         "Error",
         {
           timeOut: 2000,

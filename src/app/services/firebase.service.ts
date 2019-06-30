@@ -220,7 +220,8 @@ export class FirebaseService {
           description: doc.data().description,
           logoUrl: doc.data().logoUrl,
           backgroundColor: doc.data().backgroundColor,
-          exp: doc.data().exp
+          exp: doc.data().exp,
+          requirement: doc.data().requirement,
         });
       });
       //console.log('in');

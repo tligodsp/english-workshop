@@ -138,7 +138,7 @@
       </div>
 
       <div class="col-7">
-        <div class="card course-card text-dark shadow-sm mb-4 w-100" *ngFor="let item of courses"
+        <div class="card course-card text-dark shadow-sm mb-4 w-100" *ngFor="let item of unlockedCourses"
           (click)="selectCourse(item)">
           <div class="card-body">
             <div class="row">
@@ -155,9 +155,26 @@
               </div>
             </div>
           </div>
+          
         </div>
 
         <!-- Test class locked -->
+        <div class="card course-card text-dark shadow-sm mb-4 w-100 locked" *ngFor="let item of lockedCourses">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-2">
+                <img class="course-logo" src="{{item.logoUrl}}" alt="course logo">
+              </div>
+              <div class="col-9">
+                <h2 class="font-weight-bolder text-left">{{item.title}}</h2>
+                <p class="lead" style="font-size: 1rem;">Cần {{item.requirement}} total exp để mở khóa</p>
+              </div>
+              <div class="col-1">
+                <div class="badge badge-success" style="font-size: 1.2rem;">{{item.exp}} Exp</div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="card course-card text-dark shadow-sm mb-4 w-100 locked">
           <div class="card-body">
             <div class="row">

@@ -6,4 +6,5 @@ export class Course {
   logoUrl: string;
   backgroundColor: string; // Ko biết có nên để đây ko
   exp: number;
+  requirement: number; //required exp
 }

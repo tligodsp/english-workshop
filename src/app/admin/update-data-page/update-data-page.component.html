@@ -461,7 +461,16 @@
               </mat-error>
               <mat-hint>Điểm kinh nghiệm</mat-hint>
             </mat-form-field>
-
+            <mat-form-field appearance="outline">
+              <mat-label>Exp</mat-label>
+              <input matInput placeholder="Placeholder" type="number" required [(ngModel)]="openedCourse.requirement"
+                formControlName="courseRequirement">
+              <mat-icon matSuffix>star</mat-icon>
+              <mat-error *ngIf="courseForm.get('courseRequirement').hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-hint>Điểm kinh nghiệm cần thiết để mở khóa</mat-hint>
+            </mat-form-field>
           </form>
         </div>
       </div>

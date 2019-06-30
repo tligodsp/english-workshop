@@ -24,6 +24,15 @@ export class ExerciseMenuPageComponent implements OnInit {
 
   courses: Course[];
 
+  unlockedCourses: Course[];
+  lockedCourses: Course[];
+
+  sortCourseList(courseList: Course[]) {
+    courseList.sort((a, b) => {   
+      return a.requirement - b.requirement || a.key.localeCompare(b.key);
+    });
+  }
+
   constructor(
     private sharedDataService: SharedDataService,
     private router: Router,
@@ -51,10 +60,27 @@ export class ExerciseMenuPageComponent implements OnInit {
       this.sharedDataService.sentenceList = sentences;
       //console.log(sentences);
     });
-    this.courseService.getCourses().subscribe(courses => {
-      this.courses = courses;
-      //console.log(courses);
-    });
+    setTimeout(() => {
+      this.courseService.getCoursesValueChanges().subscribe((courses: Course[]) => {
+        this.courses = courses;
+        this.unlockedCourses = [];
+        this.lockedCourses = [];
+        for (let course of this.courses) {
+          // console.log(course.requirement);
+          if (this.user && this.user.totalExp >= course.requirement) {
+            // console.log('un');
+            this.unlockedCourses.push(course);
+          }
+          else if (this.user) {
+            this.lockedCourses.push(course);
+            // console.log('lo');
+          }
+        }
+        this.sortCourseList(this.unlockedCourses);
+        this.sortCourseList(this.lockedCourses);
+      });
+    }, 1000);
+    
   }
 
   ngOnInit() {

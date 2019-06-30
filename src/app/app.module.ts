@@ -63,7 +63,7 @@ import { TestStuffComponent } from './test-stuff/test-stuff.component';
       LoginPageComponent,
       CreateDataPageComponent,
       UpdateDataPageComponent,
-      EditProfilePageComponent
+      EditProfilePageComponent,
       PostListComponent,
       PostPageComponent,
       TestStuffComponent,
