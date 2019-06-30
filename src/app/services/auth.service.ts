@@ -12,6 +12,7 @@ import { User } from '../models/user';
 import { DifficultyService } from './difficulty.service';
 import { Difficulty } from '../models/difficulty';
 import * as firebase from 'firebase/app'
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class AuthService {
   user$: Observable<User>;
   //authState: FirebaseAuthState = null
 
-  constructor(public afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router, private difficultyService: DifficultyService) {
+  constructor(public afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router, private difficultyService: DifficultyService, private toastrService: ToastrService) {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
@@ -75,5 +76,30 @@ export class AuthService {
     }
 
     return userRef.set(data, { merge: true });
+  }
+
+  updateUserPassword(oldPassword: string, newPassword: string) {
+    const currentUser = this.afAuth.auth.currentUser;
+
+    const credential = auth.EmailAuthProvider.credential(currentUser.email, oldPassword);
+    currentUser.reauthenticateWithCredential(credential).then(
+      success => {
+        if (newPassword.length < 6) {
+          this.toastrService.error('Mật khẩu phải có ít nhất 6 ký tự', 'Thất bại', { timeOut: 2000, positionClass: 'toast-bottom-center' });
+          return;
+        }
+
+        this.afAuth.auth.currentUser.updatePassword(newPassword)
+          .then(() => this.toastrService.success('Đổi mật khẩu thành công', 'Thành công', { timeOut: 2000, positionClass: 'toast-bottom-center' }))
+          .catch((err) => this.toastrService.error(err, 'Thất bại', { timeOut: 2000, positionClass: 'toast-bottom-center' }));
+      },
+      error => {
+        console.log(error);
+        if(error.code === "auth/wrong-password"){
+          this.toastrService.error('Mật khẩu cũ không đúng', 'Thất bại', { timeOut: 2000, positionClass: 'toast-bottom-center' });
+        }
+
+      }
+    )
   }
 }

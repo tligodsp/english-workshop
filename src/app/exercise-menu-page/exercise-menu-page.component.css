@@ -1,3 +1,13 @@
+a.dropdown-toggle::after {
+  display: none !important;
+}
+
+.navbar-my-user-photo {
+  height: 30px;
+  width: 30px;
+  border-radius: 10px;
+}
+
 .custom-nav-active {
   border-bottom: #fff solid 3px;
 }

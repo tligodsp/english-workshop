@@ -20,8 +20,20 @@
       <li class="nav-item mr-2" *ngIf="user.role==='admin'">
         <a class="nav-link text-white" href="/admin/create-data">Tạo bài tập</a>
       </li>
-      <li class="nav-item mr-2" *ngIf="user.role==='admin'">
+      <li class="nav-item mr-4" *ngIf="user.role==='admin'">
         <a class="nav-link text-white" href="/admin/update-data">Sửa bài tập</a>
+      </li>
+      <li class="nav-item dropdown mr-2" style="margin-top: -3px;" *ngIf="true">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="{{user.photoURL}}" class="navbar-my-user-photo" alt="Ảnh đại diện" *ngIf="user.photoURL">
+          <img src="https://britz.mcmaster.ca/images/nouserimage.gif/image" class="navbar-my-user-photo" alt="Ảnh đại diện" *ngIf="!user.photoURL">
+        </a>
+        <div class="dropdown-menu" style="left: -120px;" aria-labelledby="navbarDropdownMenuLink">
+          <h4 style="color: #666; text-align: center; padding-bottom: 5px; border-bottom: 1px solid #ccc; margin: 0 25px;">Tài khoản</h4>
+          <a class="dropdown-item" href="/edit-profile">Chỉnh sửa hồ sơ</a>
+          <button class="dropdown-item">Trợ giúp</button>
+          <button class="dropdown-item" (click)="logOut()">Đăng xuất</button>
+        </div>
       </li>
 
     </ul>
@@ -120,7 +132,7 @@
           <div class="card-body text-center" *ngIf="user.role!=='guest'">
             <h3 class="font-weight-bolder">Chào {{user.displayName}}</h3>
             <hr>
-            <button class="btn btn-lg btn-block btn-primary" (click)="logOut()">Đăng xuất</button>
+            <button class="btn btn-lg btn-block btn-danger" (click)="logOut()">Đăng xuất</button>
           </div>
         </div>
       </div>
