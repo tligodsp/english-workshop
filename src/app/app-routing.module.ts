@@ -26,8 +26,7 @@ const routes: Routes = [
   { path: 'admin/update-data', component: UpdateDataPageComponent },
   { path: 'edit-profile', component: EditProfilePageComponent },
   { path: 'forum', component: PostListComponent },
-  { path: 'forum/post/:id', component: PostPageComponent },
-  { path: 'test', component: TestStuffComponent }
+  { path: 'forum/post/:id', component: PostPageComponent }
 ];
 
 @NgModule({
