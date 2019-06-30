@@ -25,7 +25,7 @@ export class ExerciseMenuPageComponent implements OnInit {
   courses: Course[];
 
   constructor(
-    private sharedData: SharedDataService,
+    private sharedDataService: SharedDataService,
     private router: Router,
     private userService: UserService,
     private firebaseService: FirebaseService,
@@ -35,20 +35,20 @@ export class ExerciseMenuPageComponent implements OnInit {
   ) { 
     this.userService.getCurrentUser().subscribe(user => {
       this.user = user;
-      this.sharedData.curUser = user;
+      this.sharedDataService.curUser = user;
     });
-    //this.firebaseService.addStuff();
+    this.firebaseService.addStuff();
     
     this.exerciseDataService.getVieWords().subscribe(vieWords => {
-      this.sharedData.vieWords = vieWords;
+      this.sharedDataService.vieWords = vieWords;
       //console.log(vieWords);
     });
     this.exerciseDataService.getVocabularies().subscribe(vocabularies => {
-      this.sharedData.vocabList = vocabularies;
+      this.sharedDataService.vocabList = vocabularies;
       //console.log(vocabularies);
     });
     this.exerciseDataService.getSentences().subscribe(sentences => {
-      this.sharedData.sentenceList = sentences;
+      this.sharedDataService.sentenceList = sentences;
       //console.log(sentences);
     });
     this.courseService.getCourses().subscribe(courses => {
@@ -62,6 +62,29 @@ export class ExerciseMenuPageComponent implements OnInit {
     //this.getCourses();
     this.timeLeft = TimeHelper.getTimeTillMidnight();
     console.log(this.timeLeft);
+    // this.authService.user$.subscribe(user => {
+    //   this.sharedDataService.curUser = user;
+    //   console.log(this.sharedDataService.curUser);
+    //   if (!this.sharedDataService.curUser.lastDidExercise) {
+    //     this.sharedDataService.curUser.todayExp = 0;
+    //     this.sharedDataService.curUser.streak = 0;
+    //     this.userService.updateUserData(this.sharedDataService.curUser);
+    //   }
+    //   else if (this.sharedDataService.curUser.lastDidExercise) {
+    //     let d = new Date();
+    //     let userLastDidExercise = this.sharedDataService.curUser.lastDidExercise.toDate();
+    //     if (TimeHelper.getDaysBetween(d, userLastDidExercise) > 1.5) {
+    //       this.sharedDataService.curUser.todayExp = 0;
+    //       this.sharedDataService.curUser.streak = 0;
+    //       this.userService.updateUserData(this.sharedDataService.curUser);
+    //     } 
+    //     if (d > userLastDidExercise && d.getDate() !== userLastDidExercise.getDate()) {
+    //       this.sharedDataService.curUser.todayExp = 0;
+    //     }
+    //     //console.log(TimeHelper.getDaysBetween((new Date()), this.sharedDataService.curUser.lastDidExercise.toDate()))
+    //     this.userService.updateUserData(this.sharedDataService.curUser);
+    //   }
+    // });
   }
   
 
@@ -80,7 +103,7 @@ export class ExerciseMenuPageComponent implements OnInit {
   }
 
   selectCourse(course: Course) {
-    this.sharedData.selectedCourse = course;
+    this.sharedDataService.selectedCourse = course;
     //console.log(this.sharedData.vieWords);
     this.router.navigateByUrl('/exercise');
   }

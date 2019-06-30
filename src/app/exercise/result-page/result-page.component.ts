@@ -8,6 +8,8 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ExerciseAnswer } from 'src/app/models/exerciseAnswer';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
+import { firestore } from 'firebase/app';
+import Timestamp = firestore.Timestamp;
 
 // const MOCKANSWERS: ExerciseAnswer[] = [
 //   { exerciseRequirement: 'Viết bằng tiếng Anh', exerciseDetail: 'Tôi ăn một quả trứng', userAnswer: 'I eat an egg', correctAnswer: 'I eat an egg', isCorrect: true, initExerciseAnswer: null },
@@ -91,9 +93,10 @@ export class ResultPageComponent implements OnInit {
     this.user.totalPoints += this.totalPoints;
     // this.sharedDataService.selectedCourse = null;
     // this.sessionService.curSession = null;
+    this.user.lastDidExercise = Timestamp.fromDate(new Date());
 
     //localStorage.setItem('user', JSON.stringify(this.user));
-    this.userService.updateUserData(this.user);
+    // this.userService.updateUserData(this.user);
   }
 
   getUserFromLocalStorage() {
@@ -116,8 +119,10 @@ export class ResultPageComponent implements OnInit {
   }
 
   finishSession() {
+    this.userService.updateUserData(this.user);
     this.sharedDataService.selectedCourse = null;
     this.sessionService.curSession = null;
+    console.log('redirect');
     this.router.navigateByUrl('/exercise-menu');
   }
 }

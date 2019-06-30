@@ -68,8 +68,10 @@ export class AuthService {
       streak: user.streak, //days
       difficultyId: user.difficultyId,
       difficulty: user.difficulty,
+      photoURL: user.photoURL,
       totalPoints: user.totalPoints,
       role: user.role,
+      lastDidExercise: user.lastDidExercise ? user.lastDidExercise: null,
     }
 
     return userRef.set(data, { merge: true });

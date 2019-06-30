@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
 import { ToastrService } from "ngx-toastr";
 import { firestore } from 'firebase/app';
 import Timestamp = firestore.Timestamp;
-import { Comment } from '../../models/comment';
+import { Comment, UpvoteUser } from '../../models/comment';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -33,7 +33,9 @@ export class PostPageComponent implements OnInit {
   users: User[];
   relatedPosts: Post[] = [];
   postAuthor: User;
+  // upvoteUsers: UpvoteUser[];
 
+  curUserLoaded = false;
 
   newComment: string;
 
@@ -45,19 +47,123 @@ export class PostPageComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   onPostUpvote(post: Post) {
-    this.postService.updatePostUpvote(this.postId, post.upvote + 1);
+    if (!(this.shareDataService.curUser.role === 'admin' || this.shareDataService.curUser.role === 'member')) {
+      return;
+    }
+
+    for (let upvoteUser of post.upvoteUsers) {
+      if (upvoteUser.uid === this.shareDataService.curUser.uid) {
+        if (upvoteUser.upvote > 0) {
+          return; //only upvote once
+        }
+        else if (upvoteUser.upvote < 0) {
+          this.postService.updatePostUpvote(post.id, this.shareDataService.curUser.uid, 0, post.upvote + 1);
+          return;
+        }
+      }
+    }
+
+    this.postService.updatePostUpvote(post.id, this.shareDataService.curUser.uid, 1, post.upvote + 1);
   } 
 
   onPostDownvote(post: Post) {
-    this.postService.updatePostUpvote(this.postId, post.upvote - 1);
+    if (!(this.shareDataService.curUser.role === 'admin' || this.shareDataService.curUser.role === 'member')) {
+      return;
+    }
+
+    for (let upvoteUser of post.upvoteUsers) {
+      if (upvoteUser.uid === this.shareDataService.curUser.uid) {
+        if (upvoteUser.upvote < 0) {
+          return; //only downvote once
+        }
+        else if (upvoteUser.upvote > 0) {
+          this.postService.updatePostUpvote(post.id, this.shareDataService.curUser.uid, 0, post.upvote - 1);
+          return;
+        }
+      }
+    }
+    
+    this.postService.updatePostUpvote(post.id, this.shareDataService.curUser.uid, -1, post.upvote - 1);
+  }
+
+  isPostUpvoted(post: Post): Boolean {
+    for (let upvoteUser of post.upvoteUsers) {
+      if (upvoteUser.uid === this.shareDataService.curUser.uid) {
+        if (upvoteUser.upvote > 0) {
+          return true;
+        }
+      }
+    }
+  }
+
+  isPostDownvoted(post: Post): Boolean {
+    for (let upvoteUser of post.upvoteUsers) {
+      if (upvoteUser.uid === this.shareDataService.curUser.uid) {
+        if (upvoteUser.upvote < 0) {
+          return true;
+        }
+      }
+    }
+  }
+
+  isCommentUpvoted(comment: Comment): Boolean {
+    for (let upvoteUser of comment.upvoteUsers) {
+      if (upvoteUser.uid === this.shareDataService.curUser.uid) {
+        if (upvoteUser.upvote > 0) {
+          return true;
+        }
+      }
+    }
+  }
+
+  isCommentDownvoted(comment: Comment): Boolean {
+    for (let upvoteUser of comment.upvoteUsers) {
+      if (upvoteUser.uid === this.shareDataService.curUser.uid) {
+        if (upvoteUser.upvote < 0) {
+          return true;
+        }
+      }
+    }
   }
 
   onCommentUpvote(comment: Comment) {
-    this.postService.updateCommentUpvote(this.postId, comment.id, comment.upvote + 1);
+    if (!(this.shareDataService.curUser.role === 'admin' || this.shareDataService.curUser.role === 'member')) {
+      return;
+    }
+
+    for (let upvoteUser of comment.upvoteUsers) {
+      if (upvoteUser.uid === this.shareDataService.curUser.uid) {
+        if (upvoteUser.upvote > 0) {
+          return; //only upvote once
+        }
+        else if (upvoteUser.upvote < 0) {
+          this.postService.updateCommentUpvote(this.postId, comment.id, this.shareDataService.curUser.uid, 0, comment.upvote + 1);
+          return;
+        }
+      }
+    }
+
+    this.postService.updateCommentUpvote(this.postId, comment.id, this.shareDataService.curUser.uid, 1, comment.upvote + 1);
   } 
   
   onCommentDownvote(comment: Comment) {
-    this.postService.updateCommentUpvote(this.postId, comment.id, comment.upvote - 1);
+    if (!(this.shareDataService.curUser.role === 'admin' || this.shareDataService.curUser.role === 'member')) {
+      return;
+    }
+
+    for (let upvoteUser of comment.upvoteUsers) {
+      if (upvoteUser.uid === this.shareDataService.curUser.uid) {
+        if (upvoteUser.upvote < 0) {
+          return; //only downvote once
+        }
+        else if (upvoteUser.upvote > 0) {
+          this.postService.updateCommentUpvote(this.postId, comment.id, this.shareDataService.curUser.uid, 0, comment.upvote - 1);
+          return;
+        }
+      }
+    }
+
+    this.postService.updateCommentUpvote(this.postId, comment.id, this.shareDataService.curUser.uid, - 1, comment.upvote - 1);
   }
 
   onCancelCommentClick() {
@@ -153,6 +259,7 @@ export class PostPageComponent implements OnInit {
     });
     this.authService.user$.subscribe(user => {
       this.shareDataService.curUser = user;
+      this.curUserLoaded = true;
     });
     setTimeout(()=> {
       this.postService.getPostsValueChanges().subscribe((posts: Post[]) => {
@@ -175,9 +282,27 @@ export class PostPageComponent implements OnInit {
         if (!this.comments) {
           this.comments = [];
         }
+        this.comments.forEach(comment => {
+          this.postService.getCommentUpvoteUsersValueChanges(this.postId, comment.id).subscribe((upvoteUsers: UpvoteUser[]) => {
+            comment.upvoteUsers = upvoteUsers;
+            if (!comment.upvoteUsers) {
+              comment.upvoteUsers = [];
+            }
+          });
+        });
+        
         this.comments.sort((val1, val2)=> {
           return new Date(val2.time.toDate()).getTime() - new Date(val1.time.toDate()).getTime()
         })
+      });
+      this.postService.getPostUpvoteUsersValueChanges(this.postId).subscribe((upvoteUsers: UpvoteUser[]) => {
+        this.post.upvoteUsers = upvoteUsers;
+        // this.upvoteUsers = upvoteUsers;
+        //this.upvoteLoaded = true;
+        if (!this.post.upvoteUsers) {
+          // this.upvoteUsers = [];
+          this.post.upvoteUsers = [];
+        }
       });
     },1000)
   }

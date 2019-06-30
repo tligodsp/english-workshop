@@ -1,4 +1,6 @@
 import { Difficulty } from './difficulty';
+import { firestore } from 'firebase/app';
+import Timestamp = firestore.Timestamp;
 
 export class User {
     uid: string;
@@ -12,4 +14,5 @@ export class User {
     totalPoints: number;
     role: string;
     photoURL: string; //url
+    lastDidExercise: Timestamp;
 }

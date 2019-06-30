@@ -1,6 +1,11 @@
 import { firestore } from 'firebase/app';
 import Timestamp = firestore.Timestamp;
 
+export interface UpvoteUser {
+    uid: string;
+    upvote: number;
+}
+
 export interface Comment {
     id: string;
     authorId: string;
@@ -8,4 +13,5 @@ export interface Comment {
     upvote: number;
     timeDate?: Date;
     time: Timestamp;
+    upvoteUsers?: UpvoteUser[];
 }

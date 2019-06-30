@@ -44,17 +44,19 @@ export class LoginPageComponent implements OnInit {
           user.totalExp = 0;
           user.totalPoints = 0;
           user.difficulty = null;
+          user.photoURL = 'https://secure.gravatar.com/avatar/422cc9aff6a6b347433ee23d19638245?s=150&d=mm&r=g';
           if (!user.email) {
             user.role = 'guest';
           }
           else {
             user.role = 'member';
           }
-          //console.log(user);
+          
         }
         this.authService.updateUserData(user);
         setTimeout(() => {
           if (user.difficultyId === null) {
+            console.log(user);
             this.router.navigateByUrl('/welcome');
           }
           else {

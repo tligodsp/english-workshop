@@ -15,8 +15,8 @@
           </a>
         </li>
         <li class="nav-item">
-          <button class="btn btn-light btn-lg" (click)="navigateToLogin()" *ngIf="!isLoggedIn">Đăng Nhập</button>
-          <button class="btn btn-light btn-lg" (click)="logOut()" *ngIf="isLoggedIn">Đăng Xuất</button>
+          <button class="btn btn-light btn-lg" (click)="navigateToLogin()" *ngIf="userLoaded &&!isLoggedIn">Đăng Nhập</button>
+          <button class="btn btn-light btn-lg" (click)="logOut()" *ngIf="userLoaded && isLoggedIn">Đăng Xuất</button>
         </li>
       </ul>
 
@@ -40,7 +40,7 @@
           <h1 class="showcase-title font-weight-bolder">Học Tiếng Anh Miễn Phí</h1>
           <p class="lead mt-4">Một phương pháp học tiếng anh bằng hình thức giải trí, đồng thời trau dồi tất cả những kỹ
             năng.</p>
-          <button class="btn btn-success btn-lg mt-4" id="enroll-button" (click)="navigateToWelcome()">
+          <button *ngIf="userLoaded" class="btn btn-success btn-lg mt-4" id="enroll-button" (click)="getStart()" style="z-index: 1000">
             BẮT ĐẦU
           </button>
         </div>
