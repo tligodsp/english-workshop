@@ -51,11 +51,12 @@ export class LoginPageComponent implements OnInit {
           else {
             user.role = 'member';
           }
-          console.log('first');
+          
         }
         this.authService.updateUserData(user);
         setTimeout(() => {
           if (user.difficultyId === null) {
+            console.log(user);
             this.router.navigateByUrl('/welcome');
           }
           else {
