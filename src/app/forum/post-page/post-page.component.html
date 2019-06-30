@@ -61,7 +61,10 @@
               </span> -->
               <span>
                 <img src="//duolingo-forum-web.duolingo.com/images/juicy-streak.svg" style="height: 30px;"></span>
-              <span class="post-sub" style="color: #afafaf;">{{postAuthor.streak}}</span>
+              <span class="post-sub" style="color: #afafaf; margin-right: 10px">{{postAuthor.streak}}</span>
+              <span>
+                  <img src="https://image.flaticon.com/icons/svg/978/978623.svg" style="height: 25px; margin-right: 5px;"></span>
+                <span class="post-sub" style="color: #afafaf; margin-right: 10px">{{postAuthor.totalExp}}</span>
             </div>
 
             <p class="post-content">{{post.content}}</p>
@@ -128,7 +131,10 @@
                     </span> -->
                 <span>
                   <img src="//duolingo-forum-web.duolingo.com/images/juicy-streak.svg" style="height: 30px;"></span>
-                <span class="post-sub" style="color: #afafaf;">{{getCommentAuthor(comment).streak}}</span>
+                <span class="post-sub" style="color: #afafaf; margin-right: 10px">{{getCommentAuthor(comment).streak}}</span>
+                <span>
+                    <img src="https://image.flaticon.com/icons/svg/978/978623.svg" style="height: 25px; margin-right: 5px;"></span>
+                  <span class="post-sub" style="color: #afafaf; margin-right: 10px">{{getCommentAuthor(comment).totalExp}}</span>
               </div>
 
               <p class="post-content">{{comment.content}}</p>
