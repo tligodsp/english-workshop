@@ -13,6 +13,7 @@ import { ToastrService } from "ngx-toastr";
 import { firestore } from 'firebase/app';
 import Timestamp = firestore.Timestamp;
 import { Comment, UpvoteUser } from '../../models/comment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-list',
@@ -35,6 +36,8 @@ export class PostListComponent implements OnInit {
 
   curUserLoaded = false;
   upvoteLoaded = false;
+
+  user: User;
 
   setPostsAuthors() {
     this.posts.forEach(post => {
@@ -66,7 +69,7 @@ export class PostListComponent implements OnInit {
 
   isPostUpvoted(post: Post): Boolean {
     for (let upvoteUser of post.upvoteUsers) {
-      if (upvoteUser.uid === this.shareDataService.curUser.uid) {
+      if (upvoteUser.uid === this.sharedDataService.curUser.uid) {
         if (upvoteUser.upvote > 0) {
           return true;
         }
@@ -76,7 +79,7 @@ export class PostListComponent implements OnInit {
 
   isPostDownvoted(post: Post): Boolean {
     for (let upvoteUser of post.upvoteUsers) {
-      if (upvoteUser.uid === this.shareDataService.curUser.uid) {
+      if (upvoteUser.uid === this.sharedDataService.curUser.uid) {
         if (upvoteUser.upvote < 0) {
           return true;
         }
@@ -85,44 +88,44 @@ export class PostListComponent implements OnInit {
   }
 
   onUpvote(post: Post) {
-    if (!(this.shareDataService.curUser.role === 'admin' || this.shareDataService.curUser.role === 'member')) {
+    if (!(this.sharedDataService.curUser.role === 'admin' || this.sharedDataService.curUser.role === 'member')) {
       return;
     }
 
     for (let upvoteUser of post.upvoteUsers) {
-      if (upvoteUser.uid === this.shareDataService.curUser.uid) {
+      if (upvoteUser.uid === this.sharedDataService.curUser.uid) {
         if (upvoteUser.upvote > 0) {
           return; //only upvote once
         }
         else if (upvoteUser.upvote < 0) {
-          this.postService.updatePostUpvote(post.id, this.shareDataService.curUser.uid, 0, post.upvote + 1);
+          this.postService.updatePostUpvote(post.id, this.sharedDataService.curUser.uid, 0, post.upvote + 1);
           return;
         }
       }
     }
 
-    this.postService.updatePostUpvote(post.id, this.shareDataService.curUser.uid, 1, post.upvote + 1);
+    this.postService.updatePostUpvote(post.id, this.sharedDataService.curUser.uid, 1, post.upvote + 1);
     
   } 
 
   onDownvote(post: Post) {
-    if (!(this.shareDataService.curUser.role === 'admin' || this.shareDataService.curUser.role === 'member')) {
+    if (!(this.sharedDataService.curUser.role === 'admin' || this.sharedDataService.curUser.role === 'member')) {
       return;
     }
 
     for (let upvoteUser of post.upvoteUsers) {
-      if (upvoteUser.uid === this.shareDataService.curUser.uid) {
+      if (upvoteUser.uid === this.sharedDataService.curUser.uid) {
         if (upvoteUser.upvote < 0) {
           return; //only downvote once
         }
         else if (upvoteUser.upvote > 0) {
-          this.postService.updatePostUpvote(post.id, this.shareDataService.curUser.uid, 0, post.upvote - 1);
+          this.postService.updatePostUpvote(post.id, this.sharedDataService.curUser.uid, 0, post.upvote - 1);
           return;
         }
       }
     }
     
-    this.postService.updatePostUpvote(post.id, this.shareDataService.curUser.uid, -1, post.upvote - 1);
+    this.postService.updatePostUpvote(post.id, this.sharedDataService.curUser.uid, -1, post.upvote - 1);
   }
 
   onPostClick() {
@@ -136,7 +139,7 @@ export class PostListComponent implements OnInit {
     newPost = {
       id: ID(),
       title: this.newPostTitle,
-      authorId: this.shareDataService.curUser.uid,
+      authorId: this.sharedDataService.curUser.uid,
       categoryId: this.newPostCategoryId,
       content: this.newPostContent,
       upvote: 0,
@@ -232,10 +235,22 @@ export class PostListComponent implements OnInit {
     });
   }
 
+  logOut() {
+    // console.log(this.sharedDataService.curUser);
+    this.authService.signOut().then(() => {
+      this.router.navigateByUrl('/showcase');
+    });
+
+  }
+
   constructor(private postService: PostService, private courseService: CourseService, 
-    private userService: UserService, public shareDataService: SharedDataService,
-    private authService: AuthService, private toastrService: ToastrService) {
+    private userService: UserService, public sharedDataService: SharedDataService,
+    private authService: AuthService, private toastrService: ToastrService,
+    private router: Router) {
     this.isWritingPost = false;
+    // this.user = this.sharedDataService.curUser;
+    // console.log(this.user);
+    // this.curUserLoaded = true;
   }
 
   ngOnInit() {
@@ -252,9 +267,17 @@ export class PostListComponent implements OnInit {
       this.courses = courses;
     });
     this.authService.user$.subscribe(user => {
-      this.shareDataService.curUser = user;
-      this.curUserLoaded = true;
+      this.user = user;
+      this.sharedDataService.curUser = user;
+      if (this.user) {
+        this.curUserLoaded = true;
+      }
     });
+    // this.userService.getCurrentUser().subscribe(user => {
+    //   //this.u = user;
+    //   this.sharedDataService.curUser = user;
+      
+    // });
     setTimeout(()=> {
       this.postService.getPostsValueChanges().subscribe((posts: Post[]) => {
         this.posts = posts;
@@ -271,6 +294,8 @@ export class PostListComponent implements OnInit {
             if (!post.upvoteUsers) {
               post.upvoteUsers = [];
             }
+
+            
           });
         });
         this.applyFilter('');

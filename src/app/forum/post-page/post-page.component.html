@@ -14,15 +14,49 @@
       <li class="nav-item mr-2">
         <a class="nav-link text-white" href="/exercise-menu">Các bài học</a>
       </li>
-      <li class="nav-item mr-2">
-        <a class="nav-link text-white" href="/admin/create-data">Tạo bài tập</a>
-      </li>
-      <li class="nav-item mr-2">
-        <a class="nav-link text-white" href="/admin/update-data">Sửa bài tập</a>
-      </li>
-      <li class="nav-item mr-2" custom-nav-active>
+      <li class="nav-item mr-4 custom-nav-active">
         <a class="nav-link text-white" href="/forum">Thảo luận</a>
       </li>
+      <li class="nav-item dropdown mr-2" style="margin-top: -3px;" *ngIf="true">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="{{user.photoURL}}" class="navbar-my-user-photo" alt="Ảnh đại diện" *ngIf="user.photoURL">
+            <img src="https://britz.mcmaster.ca/images/nouserimage.gif/image" class="navbar-my-user-photo"
+              alt="Ảnh đại diện" *ngIf="!user.photoURL">
+          </a>
+          <div class="dropdown-menu" style="left: -120px;" aria-labelledby="navbarDropdownMenuLink">
+            <h4
+              style="color: #666; text-align: center; padding-bottom: 5px; border-bottom: 1px solid #ccc; margin: 0 25px;">
+              Tài khoản</h4>
+            <div style="padding: 0.25rem 1.5rem;">
+              <span>
+                <img src="//duolingo-forum-web.duolingo.com/images/juicy-streak.svg" style="height: 25px; width: auto">
+              </span>
+              <span style="color: rgba(0,0,0,0.5); margin-left: 5px;">{{user.streak}} Streak</span>
+            </div>
+            <div style="padding: 0.25rem 1.5rem;">
+              <span>
+                <img src="https://image.flaticon.com/icons/svg/978/978623.svg"
+                  style="height: 21px; width: auto; margin: 0 1px 0 3px;">
+              </span>
+              <span style="color: rgba(0,0,0,0.5);margin-left: 5px;">{{user.totalExp}} Exp</span>
+            </div>
+  
+            <!-- <div class="dropdown-item">
+                  <span>
+                      <img src="//duolingo-forum-web.duolingo.com/images/juicy-streak.svg" style="height: 25px; width: auto">
+                  </span>
+                <span>{{user.streak}} ngày streak</span></div>
+              <div class="dropdown-item">
+                  <span>
+                      <img src="https://image.flaticon.com/icons/svg/978/978623.svg" style="height: 25px; width: auto">
+                  </span>
+                <span>{{user.totalExp}} exp</span></div> -->
+            <a class="dropdown-item" href="/edit-profile">Chỉnh sửa hồ sơ</a>
+            <button class="dropdown-item">Trợ giúp</button>
+            <button class="dropdown-item" (click)="logOut()">Đăng xuất</button>
+          </div>
+        </li>
     </ul>
   </div>
 </nav>

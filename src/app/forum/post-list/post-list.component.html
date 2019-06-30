@@ -14,15 +14,50 @@
       <li class="nav-item mr-2">
         <a class="nav-link text-white" href="/exercise-menu">Các bài học</a>
       </li>
-      <li class="nav-item mr-2">
-        <a class="nav-link text-white" href="/admin/create-data">Tạo bài tập</a>
-      </li>
-      <li class="nav-item mr-2">
-        <a class="nav-link text-white" href="/admin/update-data">Sửa bài tập</a>
-      </li>
-      <li class="nav-item mr-2" custom-nav-active>
+      <li class="nav-item mr-4 custom-nav-active">
         <a class="nav-link text-white" href="/forum">Thảo luận</a>
       </li>
+      <li class="nav-item dropdown mr-2" style="margin-top: -3px;" *ngIf="true">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" role="button"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="{{user.photoURL}}" class="navbar-my-user-photo" alt="Ảnh đại diện" *ngIf="user.photoURL">
+          <img src="https://britz.mcmaster.ca/images/nouserimage.gif/image" class="navbar-my-user-photo"
+            alt="Ảnh đại diện" *ngIf="!user.photoURL">
+        </a>
+        <div class="dropdown-menu" style="left: -120px;" aria-labelledby="navbarDropdownMenuLink">
+          <h4
+            style="color: #666; text-align: center; padding-bottom: 5px; border-bottom: 1px solid #ccc; margin: 0 25px;">
+            Tài khoản</h4>
+          <div style="padding: 0.25rem 1.5rem;">
+            <span>
+              <img src="//duolingo-forum-web.duolingo.com/images/juicy-streak.svg" style="height: 25px; width: auto">
+            </span>
+            <span style="color: rgba(0,0,0,0.5); margin-left: 5px;">{{user.streak}} Streak</span>
+          </div>
+          <div style="padding: 0.25rem 1.5rem;">
+            <span>
+              <img src="https://image.flaticon.com/icons/svg/978/978623.svg"
+                style="height: 21px; width: auto; margin: 0 1px 0 3px;">
+            </span>
+            <span style="color: rgba(0,0,0,0.5);margin-left: 5px;">{{user.totalExp}} Exp</span>
+          </div>
+
+          <!-- <div class="dropdown-item">
+                <span>
+                    <img src="//duolingo-forum-web.duolingo.com/images/juicy-streak.svg" style="height: 25px; width: auto">
+                </span>
+              <span>{{user.streak}} ngày streak</span></div>
+            <div class="dropdown-item">
+                <span>
+                    <img src="https://image.flaticon.com/icons/svg/978/978623.svg" style="height: 25px; width: auto">
+                </span>
+              <span>{{user.totalExp}} exp</span></div> -->
+          <a class="dropdown-item" href="/edit-profile">Chỉnh sửa hồ sơ</a>
+          <button class="dropdown-item">Trợ giúp</button>
+          <button class="dropdown-item" (click)="logOut()">Đăng xuất</button>
+        </div>
+      </li>
+
     </ul>
   </div>
 </nav>
@@ -35,7 +70,8 @@
         <div class="row align-items-center justify-content-between">
           <h2 class="ml-4" style="font-weight: 700">Thảo luận</h2>
           <button type="button" class="btn btn-primary btn-lg mr-3" (click)="onNewPostClick()"
-          *ngIf="curUserLoaded && (shareDataService.curUser.role === 'admin' || shareDataService.curUser.role === 'member')">Post mới</button>
+            *ngIf="curUserLoaded && (sharedDataService.curUser.role === 'admin' || sharedDataService.curUser.role === 'member')">Post
+            mới</button>
           <!-- <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-primary btn-lg float-right mr-3">Cập
                   nhật</button>
@@ -46,9 +82,7 @@
         <div *ngFor="let post of filteredPosts">
           <div class="m-4 row">
             <div class="col-2 pr-0">
-              <img class="profile-pic"
-                src="{{getPostAuthor(post).photoURL}}"
-                alt="Profile pic">
+              <img class="profile-pic" src="{{getPostAuthor(post).photoURL}}" alt="Profile pic">
             </div>
             <div class="col-10 pl-0">
               <div style="display: inline-block; float: right; height: 30px; padding-right: 5px; color: #aaa">
@@ -59,19 +93,20 @@
 
               </div>
 
-              <div class="post-title" style="margin-right: 50px"><a href="/forum/post/{{post.id}}" style="color: #4b4b4b; text-decoration: none;">{{post.title}}</a>
+              <div class="post-title" style="margin-right: 50px"><a href="/forum/post/{{post.id}}"
+                  style="color: #4b4b4b; text-decoration: none;">{{post.title}}</a>
               </div>
               <div>
                 <span class="post-sub" style="font-size: 16px; font-weight: 600;">{{post.upvote}}</span>
                 <span>
                   <button mat-icon-button style="width: 30px; height: 32px; color: #aaa" (click)="onUpvote(post)"
-                  *ngIf="post.upvoteUsers" [ngStyle]="{'color': isPostUpvoted(post) ? '#1cb0f6' : '#aaa' }">
+                    *ngIf="post.upvoteUsers" [ngStyle]="{'color': isPostUpvoted(post) ? '#1cb0f6' : '#aaa' }">
                     <mat-icon class="mat-18" style="font-size: 20px">thumb_up</mat-icon>
                   </button>
                 </span>
                 <span>
                   <button mat-icon-button style="width: 30px; height: 32px; color: #aaa" (click)="onDownvote(post)"
-                  *ngIf="post.upvoteUsers" [ngStyle]="{'color': isPostDownvoted(post) ? 'tomato' : '#aaa' }">
+                    *ngIf="post.upvoteUsers" [ngStyle]="{'color': isPostDownvoted(post) ? 'tomato' : '#aaa' }">
                     <mat-icon class="mat-18" style="font-size: 20px">thumb_down</mat-icon>
                   </button>
                 </span>
@@ -89,7 +124,8 @@
       </div>
 
       <!-- WRITING POST -->
-      <div class="col-8" *ngIf="isWritingPost && (shareDataService.curUser.role === 'admin' || shareDataService.curUser.role === 'member')">
+      <div class="col-8"
+        *ngIf="isWritingPost && (sharedDataService.curUser.role === 'admin' || sharedDataService.curUser.role === 'member')">
         <div class="row align-items-center justify-content-between">
           <!-- <h2 class="ml-4">POST</h2> -->
           <!-- <mat-select required formControlName="vocabularyCourse" (selectionChange)="newPostCategorySelected($event)">
@@ -113,7 +149,7 @@
         </div>
         <textarea [(ngModel)]="newPostTitle" type="text" class="form-control my-input-field new-post"
           placeholder="Tiêu đề post" style="height: 80px;"></textarea>
-          <textarea [(ngModel)]="newPostContent" type="text" class="form-control my-input-field new-post"
+        <textarea [(ngModel)]="newPostContent" type="text" class="form-control my-input-field new-post"
           placeholder="Nội dung post" style="height: 400px;"></textarea>
       </div>
 

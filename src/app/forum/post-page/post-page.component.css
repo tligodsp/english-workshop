@@ -68,3 +68,14 @@
     margin-top: 10px;
     padding-top: 10px;
 }
+
+
+a.dropdown-toggle::after {
+    display: none !important;
+  }
+  
+  .navbar-my-user-photo {
+    height: 30px;
+    width: 30px;
+    border-radius: 10px;
+  }

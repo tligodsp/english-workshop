@@ -15,6 +15,7 @@ import Timestamp = firestore.Timestamp;
 import { Comment, UpvoteUser } from '../../models/comment';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-page',
@@ -34,6 +35,7 @@ export class PostPageComponent implements OnInit {
   relatedPosts: Post[] = [];
   postAuthor: User;
   // upvoteUsers: UpvoteUser[];
+  user: User;
 
   curUserLoaded = false;
 
@@ -44,7 +46,7 @@ export class PostPageComponent implements OnInit {
   constructor(private postService: PostService, private courseService: CourseService, 
     private userService: UserService, public shareDataService: SharedDataService,
     private authService: AuthService, private toastrService: ToastrService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute, private router: Router) { }
 
   onPostUpvote(post: Post) {
     if (!(this.shareDataService.curUser.role === 'admin' || this.shareDataService.curUser.role === 'member')) {
@@ -247,6 +249,14 @@ export class PostPageComponent implements OnInit {
     }
   }
 
+  logOut() {
+    // console.log(this.sharedDataService.curUser);
+    this.authService.signOut().then(() => {
+      this.router.navigateByUrl('/showcase');
+    });
+
+  }
+
   ngOnInit() {
     this.postId = this.route.snapshot.paramMap.get('id');
 
@@ -258,6 +268,7 @@ export class PostPageComponent implements OnInit {
       this.courses = courses;
     });
     this.authService.user$.subscribe(user => {
+      this.user = user;
       this.shareDataService.curUser = user;
       this.curUserLoaded = true;
     });

@@ -46,7 +46,7 @@ export class ExerciseMenuPageComponent implements OnInit {
       this.user = user;
       this.sharedDataService.curUser = user;
     });
-    this.firebaseService.addStuff();
+    // this.firebaseService.addStuff();
     
     this.exerciseDataService.getVieWords().subscribe(vieWords => {
       this.sharedDataService.vieWords = vieWords;

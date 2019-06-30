@@ -36,4 +36,8 @@ body {
   background-color: white;
 }
 
+.custom-nav-active {
+  border-bottom: #fff solid 3px;
+}
+
 .cdk-global-overlay-wrapper, .cdk-overlay-container { z-index: 9999!important; } 
