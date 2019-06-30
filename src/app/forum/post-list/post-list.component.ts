@@ -211,6 +211,7 @@ export class PostListComponent implements OnInit {
         return course;
       }
     }
+    //post.categoryId = "";
   }
 
   applyFilter(categoryId: string) {

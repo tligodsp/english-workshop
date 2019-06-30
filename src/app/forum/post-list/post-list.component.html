@@ -113,7 +113,7 @@
                 <span class="post-sub">
                   bởi {{getPostAuthor(post).displayName}}
                 </span>
-                <span *ngIf="post.categoryId" class="post-sub">
+                <span *ngIf="getPostCategory(post)" class="post-sub">
                   trong {{getPostCategory(post).title}}
                 </span>
               </div>
