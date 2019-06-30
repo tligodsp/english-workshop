@@ -4,6 +4,7 @@ import { ToastrService } from "ngx-toastr";
 import { User } from '../models/user';
 import { DifficultyService } from '../services/difficulty.service';
 import { Difficulty } from '../models/difficulty';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-edit-profile-page',
@@ -11,7 +12,8 @@ import { Difficulty } from '../models/difficulty';
   styleUrls: ['./edit-profile-page.component.css']
 })
 export class EditProfilePageComponent implements OnInit {
-  user: User = new User();
+  originalUser: User = new User(); // User gốc chưa thay đổi
+  user: User = new User(); // User input đã thay đổi
 
   isValid = true;
 
@@ -28,13 +30,13 @@ export class EditProfilePageComponent implements OnInit {
   // Difficulty tab
   difficulties: Difficulty[] = [];
 
-  constructor(private userService: UserService, private difficultyService: DifficultyService, private toastrService: ToastrService) { }
+  constructor(private userService: UserService, private difficultyService: DifficultyService, private toastrService: ToastrService, private authService: AuthService) { }
 
   ngOnInit() {
     this.userService.getCurrentUser().subscribe(user => {
-      this.user = user;
+      this.originalUser = {...user};
+      this.user = {...user};
 
-      console.log(this.user.photoURL);
     });
 
     this.difficultyService.getDifficulties().subscribe(difficulties => {
@@ -68,24 +70,51 @@ export class EditProfilePageComponent implements OnInit {
     //   return;
     // }
 
-    if (!this.user.difficulty) {
-      this.isValid = false;
-      return;
-    }
+    // if (!this.user.difficulty) {
+    //   this.isValid = false;
+    //   return;
+    // }
 
     this.isValid = true;
   }
 
   saveChanges() {
-    this.checkValid();
-    if (this.isValid === false) {
-      this.toastrService.error('Nhập đủ trường đi má', 'Thất bại', { timeOut: 2000, positionClass: 'toast-bottom-center' });
+    if (this.activeTab === 'account') {
+      this.checkValid();
+      if (this.isValid === false) {
+        this.toastrService.error('Nhập đủ trường đi má', 'Thất bại', { timeOut: 2000, positionClass: 'toast-bottom-center' });
+        return;
+      }
+
+      this.originalUser.displayName = this.user.displayName;
+      this.originalUser.email = this.user.email; // Không cho sửa nhưng cứ để vô cho chắc
+      this.originalUser.photoURL = this.user.photoURL;
+
+      this.userService.updateUserData(this.originalUser).subscribe(response => {
+        this.toastrService.success('Đã lưu thông tin tài khoản', 'Thành công', { timeOut: 2000, positionClass: 'toast-bottom-center' });
+      });
       return;
     }
 
-    this.userService.updateUserData(this.user).subscribe(response => {
-      this.toastrService.success('Đã lưu thông tin tài khoản', 'Thành công', { timeOut: 2000, positionClass: 'toast-bottom-center' });
-    })
+
+    if (this.activeTab === 'password') {
+      this.userService.updateUserPassword(this.currentPassword, this.newPassword);
+      return;
+    }
+
+    if (this.activeTab === 'difficulty') {
+      if (this.user.difficultyId === this.originalUser.difficultyId) {
+        return;
+      }
+
+      this.originalUser.difficulty = {...this.user.difficulty};
+      this.originalUser.difficultyId = this.user.difficultyId;
+
+      this.userService.updateUserData(this.originalUser).subscribe(response => {
+        this.toastrService.success('Đã lưu chế độ huấn luyện', 'Thành công', { timeOut: 2000, positionClass: 'toast-bottom-center' });
+      });
+      return;
+    }
   }
 
   // Account tab
@@ -113,6 +142,10 @@ export class EditProfilePageComponent implements OnInit {
   selectDifficulty(difficulty: Difficulty) {
     this.user.difficulty = difficulty;
     this.user.difficultyId = difficulty.id;
+  }
+
+  signOut() {
+    this.authService.signOut();
   }
 }
 

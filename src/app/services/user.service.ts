@@ -18,4 +18,8 @@ export class UserService {
   updateUserData(user: User) {
     return of(this.firebaseService.updateUserData(user));
   }
+
+  updateUserPassword(oldPassword: string, newPassword: string) {
+    this.authService.updateUserPassword(oldPassword, newPassword);
+  }
 }
