@@ -33,6 +33,8 @@ npm start
 * [ThangNguyen](https://github.com/WillowWisp)
 * [ThangLeHuu](https://github.com/lhthang1998)
 
+## Deployment
+https://english-workshop.firebaseapp.com
 
 ## License
 
